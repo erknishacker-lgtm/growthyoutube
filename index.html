@@ -69,7 +69,7 @@
       --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
       --font: "Roboto", system-ui, -apple-system, "Segoe UI", sans-serif;
       --z-sticky: 40;
-      --z-toast: 60;
+      --z-reward: 70;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -411,43 +411,188 @@
       color: var(--danger);
     }
 
+    /* —— Congratulations (final step) —— */
+    .card.card-congrats {
+      text-align: center;
+      padding-top: 28px;
+      padding-bottom: 22px;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(120% 80% at 50% 0%, oklch(0.78 0.17 155 / 0.18), transparent 55%),
+        var(--surface);
+    }
+
+    .card.card-congrats::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 18%, oklch(0.78 0.17 155 / 0.12), transparent 42%);
+      pointer-events: none;
+    }
+
+    .card.card-congrats > * { position: relative; z-index: 1; }
+
     .verify {
-      width: 72px;
-      height: 72px;
-      margin: 4px auto 16px;
+      width: 88px;
+      height: 88px;
+      margin: 0 auto 14px;
       border-radius: 50%;
       background: var(--gain-soft);
       display: grid;
       place-items: center;
+      box-shadow: 0 0 0 8px oklch(0.78 0.17 155 / 0.08);
+      animation: verifyPop 0.55s var(--ease-out);
     }
 
-    .verify img { width: 40px; height: 40px; }
+    .verify img { width: 48px; height: 48px; }
+
+    @keyframes verifyPop {
+      0% { transform: scale(0.6); opacity: 0; }
+      60% { transform: scale(1.08); opacity: 1; }
+      100% { transform: scale(1); }
+    }
+
+    .congrats-kicker {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin: 0 auto 10px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: oklch(0.78 0.17 155 / 0.14);
+      color: var(--gain);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .card.card-congrats .title {
+      margin-bottom: 6px;
+      font-size: clamp(1.5rem, 5vw, 1.9rem);
+    }
+
+    .congrats-sub {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 0 auto 18px;
+      max-width: 28ch;
+      text-wrap: pretty;
+    }
 
     .final-balance {
       text-align: center;
-      margin: 8px 0 18px;
-      padding: 16px;
-      border-radius: var(--radius-sm);
-      background: var(--gain-soft);
+      margin: 0 0 16px;
+      padding: 18px 16px 16px;
+      border-radius: var(--radius);
+      background: oklch(0.18 0.03 155);
+      box-shadow: inset 0 0 0 1px oklch(0.78 0.17 155 / 0.22);
     }
 
     .final-balance .label {
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--muted);
-      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
     }
 
     .final-balance .value {
-      font-size: 36px;
+      font-size: clamp(2.4rem, 10vw, 3rem);
       font-weight: 900;
       color: var(--gain);
       letter-spacing: -0.03em;
       font-variant-numeric: tabular-nums;
+      line-height: 1;
+      text-shadow: 0 0 28px oklch(0.78 0.17 155 / 0.45);
+    }
+
+    .final-balance .value.is-pop {
+      animation: finalPop 0.55s var(--ease-out);
+    }
+
+    @keyframes finalPop {
+      0% { transform: scale(0.85); }
+      50% { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
+
+    .final-balance .earned-line {
+      margin-top: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      color: oklch(0.82 0.12 155);
+    }
+
+    .done-list {
+      list-style: none;
+      text-align: left;
+      margin: 0 0 18px;
+      padding: 0;
+      display: grid;
+      gap: 8px;
+    }
+
+    .done-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: var(--surface-2);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .done-list li .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--gain);
+      color: oklch(0.16 0.04 155);
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+
+    .next-step-box {
+      margin: 0 0 16px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: oklch(0.58 0.24 25 / 0.1);
+      font-size: 13.5px;
+      color: var(--muted);
+      line-height: 1.45;
+      text-align: left;
+    }
+
+    .next-step-box strong {
+      display: block;
+      color: var(--ink);
+      font-weight: 800;
+      margin-bottom: 2px;
+      font-size: 14px;
+    }
+
+    .card.card-congrats .btn-primary {
+      font-size: 16px;
+      min-height: 58px;
+      gap: 8px;
+    }
+
+    .cta-hint {
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
     }
 
     .footer {
-      margin-top: 22px;
+      margin-top: 18px;
       text-align: center;
       font-size: 12px;
       color: oklch(0.5 0.01 260);
@@ -460,115 +605,175 @@
       text-underline-offset: 2px;
     }
 
-    /* —— Toast —— */
-    .toast {
+    /* —— Reward celebration (fullscreen) —— */
+    .reward-overlay {
       position: fixed;
-      left: 50%;
-      bottom: calc(24px + var(--safe-bottom));
-      transform: translateX(-50%) translateY(120%);
-      z-index: var(--z-toast);
-      min-width: min(320px, calc(100vw - 32px));
-      padding: 14px 16px 16px;
-      border-radius: var(--radius);
-      background: oklch(0.2 0.03 155);
-      box-shadow: 0 10px 28px oklch(0 0 0 / 0.45);
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      inset: 0;
+      z-index: var(--z-reward);
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: oklch(0.1 0.02 155 / 0.82);
       opacity: 0;
+      visibility: hidden;
       pointer-events: none;
-      transition: transform 0.28s var(--ease-out), opacity 0.28s var(--ease-out);
+      transition: opacity 0.22s var(--ease-out), visibility 0.22s;
     }
 
-    .toast.is-on {
-      transform: translateX(-50%) translateY(0);
+    .reward-overlay.is-on {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .reward-overlay .burst {
+      position: absolute;
+      width: min(90vw, 420px);
+      height: min(90vw, 420px);
+      border-radius: 50%;
+      background: radial-gradient(circle, oklch(0.78 0.17 155 / 0.35), transparent 68%);
+      animation: burstPulse 1.2s var(--ease-out) infinite;
+      pointer-events: none;
+    }
+
+    @keyframes burstPulse {
+      0%, 100% { transform: scale(0.92); opacity: 0.85; }
+      50% { transform: scale(1.08); opacity: 1; }
+    }
+
+    .reward-card {
+      position: relative;
+      width: min(360px, 100%);
+      text-align: center;
+      padding: 28px 22px 24px;
+      border-radius: 18px;
+      background: oklch(0.2 0.03 155);
+      box-shadow:
+        0 0 0 1px oklch(0.78 0.17 155 / 0.35),
+        0 20px 50px oklch(0 0 0 / 0.5);
+      transform: scale(0.75) translateY(16px);
+      opacity: 0;
+      transition: transform 0.35s var(--ease-out), opacity 0.35s var(--ease-out);
+    }
+
+    .reward-overlay.is-on .reward-card {
+      transform: scale(1) translateY(0);
       opacity: 1;
     }
 
-    .toast-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: var(--gain);
-      color: oklch(0.18 0.04 155);
-      display: grid;
-      place-items: center;
-      font-weight: 900;
-      flex-shrink: 0;
+    .reward-emoji {
+      font-size: 42px;
+      line-height: 1;
+      margin-bottom: 8px;
+      animation: rewardBounce 0.7s var(--ease-out);
     }
 
-    .toast-body strong {
-      display: block;
-      font-size: 14px;
-      margin-bottom: 2px;
+    @keyframes rewardBounce {
+      0% { transform: scale(0.4) rotate(-12deg); }
+      55% { transform: scale(1.15) rotate(6deg); }
+      100% { transform: scale(1) rotate(0); }
     }
 
-    .toast-body span {
+    .reward-label {
       font-size: 13px;
-      color: var(--gain);
-      font-weight: 700;
-      font-variant-numeric: tabular-nums;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: oklch(0.85 0.1 155);
+      margin-bottom: 6px;
     }
 
-    .toast-bar {
-      position: absolute;
-      left: 12px;
-      right: 12px;
-      bottom: 6px;
-      height: 3px;
-      border-radius: 999px;
-      background: oklch(0.78 0.17 155 / 0.2);
-      overflow: hidden;
-    }
-
-    .toast-bar i {
-      display: block;
-      height: 100%;
-      width: 100%;
-      background: var(--gain);
-      transform-origin: left center;
-    }
-
-    .toast.is-on .toast-bar i {
-      animation: toastBar 1.8s linear forwards;
-    }
-
-    @keyframes toastBar {
-      from { transform: scaleX(1); }
-      to { transform: scaleX(0); }
-    }
-
-    /* Floating +$ chip */
-    .float-chip {
-      position: fixed;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%) scale(0.6);
-      z-index: var(--z-toast);
-      padding: 10px 18px;
-      border-radius: 999px;
-      background: var(--gain);
-      color: oklch(0.16 0.04 155);
+    .reward-amount {
+      font-size: clamp(3rem, 14vw, 3.75rem);
       font-weight: 900;
-      font-size: 22px;
+      color: var(--gain);
+      letter-spacing: -0.04em;
       font-variant-numeric: tabular-nums;
-      opacity: 0;
+      line-height: 1;
+      text-shadow: 0 0 40px oklch(0.78 0.17 155 / 0.55);
+      margin-bottom: 10px;
+    }
+
+    .reward-msg {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .reward-sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .reward-total {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: oklch(0 0 0 / 0.25);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .reward-total strong {
+      color: var(--gain);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Coins flying up */
+    .coins-layer {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
       pointer-events: none;
     }
 
-    .float-chip.is-on {
-      animation: floatGain 0.75s var(--ease-out) forwards;
+    .coin {
+      position: absolute;
+      bottom: 12%;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #ffe566, #f0b429 55%, #c6860a);
+      box-shadow: inset 0 -2px 0 oklch(0.4 0.1 80 / 0.35);
+      font-size: 14px;
+      font-weight: 900;
+      color: oklch(0.35 0.08 80);
+      display: grid;
+      place-items: center;
+      opacity: 0;
     }
 
-    @keyframes floatGain {
-      0% { opacity: 0; transform: translate(-50%, -40%) scale(0.6); }
-      25% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
-      100% { opacity: 0; transform: translate(-50%, -90%) scale(0.9); }
+    .reward-overlay.is-on .coin {
+      animation: coinFly 1.15s var(--ease-out) forwards;
+    }
+
+    @keyframes coinFly {
+      0% { opacity: 0; transform: translateY(20px) scale(0.5) rotate(0deg); }
+      15% { opacity: 1; }
+      100% { opacity: 0; transform: translateY(-70vh) scale(1) rotate(220deg); }
+    }
+
+    /* Header balance glow when paid */
+    .balance-pill.is-glow {
+      box-shadow: 0 0 0 2px oklch(0.78 0.17 155 / 0.55), 0 0 22px oklch(0.78 0.17 155 / 0.35);
+      animation: pillGlow 0.9s var(--ease-out);
+    }
+
+    @keyframes pillGlow {
+      0% { transform: scale(1); }
+      40% { transform: scale(1.06); }
+      100% { transform: scale(1); }
     }
 
     @media (min-width: 520px) {
       .shell { padding-top: 22px; }
       .card { padding: 28px 24px 24px; }
+      .card.card-congrats { padding: 32px 26px 26px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -578,6 +783,7 @@
         transition-duration: 0.01ms !important;
       }
       .btn-primary.is-pulse { animation: none; }
+      .reward-overlay .burst { animation: none; }
     }
   </style>
 </head>
@@ -709,22 +915,36 @@
 
     <!-- Final → VSL -->
     <section class="step" data-step="5" aria-label="Withdraw">
-      <div class="card">
+      <div class="card card-congrats">
         <div class="verify">
-          <img src="images/verify.svg" width="40" height="40" alt="Verified">
+          <img src="images/verify.svg" width="48" height="48" alt="Verified">
         </div>
-        <div class="badge" style="display:flex;justify-content:center;width:fit-content;margin-inline:auto">🎁 Congratulations!</div>
-        <h2 class="title" style="text-align:center">COle</h2>
+        <div class="congrats-kicker">🎁 Congratulations!</div>
+        <h2 class="title">COle</h2>
+        <p class="congrats-sub">All evaluations complete. Your reward is ready to withdraw.</p>
+
         <div class="final-balance">
-          <div class="label" id="resultadov">Your current balance: $ 33.91</div>
+          <div class="label" id="resultadov">Your current balance</div>
           <div class="value" id="finalAmount">$33.91</div>
+          <div class="earned-line" id="earnedLine">You earned <strong>+$180.00</strong> in this session</div>
         </div>
-        <p class="subtitle" style="text-align:center;margin-inline:auto;margin-bottom:20px">
-          To register your bank account and withdraw funds, watch a 4-minute video.
-        </p>
+
+        <ul class="done-list" aria-label="Completed steps">
+          <li><span class="check" aria-hidden="true">✓</span> Profile selected for rewards</li>
+          <li><span class="check" aria-hidden="true">✓</span> 4 video evaluations finished</li>
+          <li><span class="check" aria-hidden="true">✓</span> Balance unlocked for withdrawal</li>
+        </ul>
+
+        <div class="next-step-box">
+          <strong>Last step: 4-minute video</strong>
+          Watch the short tutorial to register your bank account and withdraw your funds.
+        </div>
+
         <a class="btn btn-primary is-pulse" id="vslCta" href="vsl/index.html">
-          WATCH THE VIDEO
+          ▶&nbsp; WATCH THE VIDEO
         </a>
+        <p class="cta-hint">Takes about 4 minutes · Secure withdrawal setup</p>
+
         <div class="footer">
           <a href="#" rel="nofollow">Privacy Policy</a> | <a href="#" rel="nofollow">Terms of Use</a><br>
           All rights reserved.
@@ -733,16 +953,19 @@
     </section>
   </main>
 
-  <div class="toast" id="toast" role="status" aria-live="polite">
-    <div class="toast-icon" aria-hidden="true">✓</div>
-    <div class="toast-body">
-      <strong>Balance Updated</strong>
-      <span id="toastGain">You received: +$45.00</span>
+  <!-- Fullscreen money celebration -->
+  <div class="reward-overlay" id="rewardOverlay" role="status" aria-live="assertive" aria-hidden="true">
+    <div class="burst" aria-hidden="true"></div>
+    <div class="coins-layer" id="coinsLayer" aria-hidden="true"></div>
+    <div class="reward-card">
+      <div class="reward-emoji" aria-hidden="true">💰</div>
+      <div class="reward-label">Money received</div>
+      <div class="reward-amount" id="rewardAmount">+$45.00</div>
+      <div class="reward-msg">Added to your balance</div>
+      <div class="reward-sub">Keep going — more evaluations, more rewards</div>
+      <div class="reward-total">New balance: <strong id="rewardTotal">$78.91</strong></div>
     </div>
-    <div class="toast-bar"><i></i></div>
   </div>
-
-  <div class="float-chip" id="floatChip" aria-hidden="true">+$45</div>
 
   <script src="js/jquery.min.js"></script>
   <script src="js/pretrack.js" defer></script>
@@ -751,30 +974,35 @@
 
   <script>
     (function () {
-      var saldo = 33.91;
+      var START_BALANCE = 33.91;
+      var saldo = START_BALANCE;
       var step = 0;
       var locked = false;
       var totalQuizSteps = 4;
       var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var REWARD_MS = reduceMotion ? 500 : 1600;
 
       var saldoEl = document.getElementById('saldo');
+      var balancePill = document.querySelector('.balance-pill');
       var resultadovEl = document.getElementById('resultadov');
       var finalAmountEl = document.getElementById('finalAmount');
-      var toastEl = document.getElementById('toast');
-      var toastGainEl = document.getElementById('toastGain');
-      var floatChip = document.getElementById('floatChip');
+      var earnedLine = document.getElementById('earnedLine');
+      var rewardOverlay = document.getElementById('rewardOverlay');
+      var rewardAmount = document.getElementById('rewardAmount');
+      var rewardTotal = document.getElementById('rewardTotal');
+      var coinsLayer = document.getElementById('coinsLayer');
       var progressWrap = document.getElementById('progressWrap');
       var progressFill = document.getElementById('progressFill');
       var progressLabel = document.getElementById('progressLabel');
       var progressBar = document.getElementById('progressBar');
       var steps = Array.prototype.slice.call(document.querySelectorAll('.step'));
-      var toastTimer = null;
+      var rewardTimer = null;
 
       function money(n) { return '$' + n.toFixed(2); }
-      function moneySpaced(n) { return '$ ' + n.toFixed(2); }
 
       function animateCount(from, to, el, ms) {
-        if (reduceMotion || !el) {
+        if (!el) return;
+        if (reduceMotion) {
           el.textContent = money(to);
           return;
         }
@@ -782,8 +1010,7 @@
         function frame(now) {
           var t = Math.min(1, (now - start) / ms);
           var eased = 1 - Math.pow(1 - t, 3);
-          var val = from + (to - from) * eased;
-          el.textContent = money(val);
+          el.textContent = money(from + (to - from) * eased);
           if (t < 1) requestAnimationFrame(frame);
           else el.textContent = money(to);
         }
@@ -794,33 +1021,64 @@
         try { sessionStorage.setItem('grow_balance', String(saldo)); } catch (e) {}
       }
 
+      function updateEarnedLine() {
+        if (!earnedLine) return;
+        var gained = Math.max(0, saldo - START_BALANCE);
+        earnedLine.innerHTML = 'You earned <strong>+' + money(gained) + '</strong> in this session';
+      }
+
       function updateBalanceUI(prev) {
         var from = typeof prev === 'number' ? prev : saldo;
-        animateCount(from, saldo, saldoEl, 420);
-        resultadovEl.textContent = 'Your current balance: ' + moneySpaced(saldo);
-        finalAmountEl.textContent = money(saldo);
+        animateCount(from, saldo, saldoEl, 520);
+        if (resultadovEl) resultadovEl.textContent = 'Your current balance';
+        if (finalAmountEl) {
+          animateCount(from, saldo, finalAmountEl, 700);
+          finalAmountEl.classList.remove('is-pop');
+          void finalAmountEl.offsetWidth;
+          finalAmountEl.classList.add('is-pop');
+        }
+        updateEarnedLine();
         saldoEl.classList.remove('is-pulse');
         void saldoEl.offsetWidth;
         saldoEl.classList.add('is-pulse');
+        if (balancePill) {
+          balancePill.classList.remove('is-glow');
+          void balancePill.offsetWidth;
+          balancePill.classList.add('is-glow');
+        }
         persistBalance();
       }
 
-      function showFloat(increment) {
-        floatChip.textContent = '+$' + increment.toFixed(0);
-        floatChip.classList.remove('is-on');
-        void floatChip.offsetWidth;
-        floatChip.classList.add('is-on');
+      function spawnCoins() {
+        if (!coinsLayer || reduceMotion) return;
+        coinsLayer.innerHTML = '';
+        var count = 14;
+        for (var i = 0; i < count; i++) {
+          var c = document.createElement('span');
+          c.className = 'coin';
+          c.textContent = '$';
+          c.style.left = (8 + Math.random() * 84) + '%';
+          c.style.animationDelay = (Math.random() * 0.35) + 's';
+          c.style.animationDuration = (0.9 + Math.random() * 0.5) + 's';
+          coinsLayer.appendChild(c);
+        }
       }
 
-      function showToast(increment) {
-        toastGainEl.textContent = 'You received: +$' + increment.toFixed(2);
-        toastEl.classList.remove('is-on');
-        void toastEl.offsetWidth;
-        toastEl.classList.add('is-on');
-        if (toastTimer) clearTimeout(toastTimer);
-        toastTimer = setTimeout(function () {
-          toastEl.classList.remove('is-on');
-        }, 1800);
+      function showReward(increment, onDone) {
+        rewardAmount.textContent = '+' + money(increment);
+        rewardTotal.textContent = money(saldo);
+        spawnCoins();
+        rewardOverlay.setAttribute('aria-hidden', 'false');
+        rewardOverlay.classList.remove('is-on');
+        void rewardOverlay.offsetWidth;
+        rewardOverlay.classList.add('is-on');
+
+        if (rewardTimer) clearTimeout(rewardTimer);
+        rewardTimer = setTimeout(function () {
+          rewardOverlay.classList.remove('is-on');
+          rewardOverlay.setAttribute('aria-hidden', 'true');
+          if (typeof onDone === 'function') onDone();
+        }, REWARD_MS);
       }
 
       function setProgress(currentQuizIndex) {
@@ -847,11 +1105,19 @@
 
         if (next === 0) setProgress(0);
         else if (next >= 1 && next <= 4) setProgress(next);
-        else setProgress(5);
+        else {
+          setProgress(5);
+          // celebrate final screen balance
+          if (finalAmountEl) {
+            finalAmountEl.classList.remove('is-pop');
+            void finalAmountEl.offsetWidth;
+            finalAmountEl.classList.add('is-pop');
+          }
+          updateEarnedLine();
+        }
 
         locked = false;
 
-        // Focus first control in step for a11y
         var active = document.querySelector('.step.is-active .btn, .step.is-active a.btn');
         if (active) active.focus({ preventScroll: true });
       }
@@ -861,7 +1127,6 @@
         locked = true;
         btn.classList.add('clicado');
 
-        // disable sibling choices on this step
         var parent = btn.closest('.card');
         if (parent) {
           parent.querySelectorAll('[data-next]').forEach(function (b) {
@@ -870,36 +1135,35 @@
         }
 
         var earn = Number(btn.getAttribute('data-earn') || 0);
+        var nextStep = step + 1;
+
         if (earn > 0) {
           var prev = saldo;
           saldo += earn;
           updateBalanceUI(prev);
-          showToast(earn);
-          showFloat(earn);
           if (typeof fbq === 'function') {
             try { fbq('trackCustom', 'QuizAnswer', { value: earn, step: step }); } catch (e) {}
           }
+          // Wait for celebration, then advance
+          showReward(earn, function () { goTo(nextStep); });
+        } else {
+          setTimeout(function () { goTo(nextStep); }, reduceMotion ? 80 : 160);
         }
-
-        var delay = earn > 0 ? (reduceMotion ? 120 : 480) : 100;
-        setTimeout(function () { goTo(step + 1); }, delay);
       }
 
       document.addEventListener('click', function (e) {
         var btn = e.target.closest('[data-next]');
         if (!btn) return;
-        if (btn.tagName === 'A') return; // real navigation to VSL
+        if (btn.tagName === 'A') return;
         e.preventDefault();
         handleAction(btn);
       });
 
-      // Persist query string → VSL
       var vsl = document.getElementById('vslCta');
       if (vsl) {
         var base = 'vsl/index.html';
         var q = window.location.search.replace(/^\?/, '');
-        if (q) vsl.setAttribute('href', base + '?' + q);
-        else vsl.setAttribute('href', base);
+        vsl.setAttribute('href', q ? base + '?' + q : base);
       }
 
       updateBalanceUI();
