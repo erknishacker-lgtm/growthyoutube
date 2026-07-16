@@ -294,6 +294,95 @@
 
     @keyframes spin { to { transform: rotate(360deg); } }
 
+    /* —— Delayed ACCESS CTA (below video) —— */
+    .cta-slot {
+      width: 100%;
+      margin: 0 0 14px;
+      padding: 6px 0 2px;
+      min-height: 0;
+    }
+
+    .cta-slot[hidden] {
+      display: none !important;
+    }
+
+    .access-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      max-width: 760px;
+      margin: 0 auto;
+      height: 72px;
+      background: linear-gradient(180deg, #28df2f 0%, #12c700 100%);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 999px;
+      font-size: clamp(22px, 6.5vw, 30px);
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      border: 3px solid rgba(255, 255, 255, 0.25);
+      box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.35),
+        0 0 20px rgba(18, 199, 0, 0.45),
+        inset 0 2px 0 rgba(255, 255, 255, 0.35);
+      animation: accessPulse 1.15s ease-in-out infinite;
+      transition: transform 0.2s ease, opacity 0.35s var(--ease-out);
+      opacity: 0;
+      transform: translateY(12px) scale(0.96);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .cta-slot.is-visible .access-button {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .access-button:hover {
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    .access-button:active {
+      transform: scale(0.97);
+    }
+
+    .access-button:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 3px;
+    }
+
+    @keyframes accessPulse {
+      0% {
+        box-shadow:
+          0 8px 25px rgba(0, 0, 0, 0.35),
+          0 0 0 0 rgba(18, 199, 0, 0.55),
+          inset 0 2px 0 rgba(255, 255, 255, 0.35);
+      }
+      50% {
+        transform: scale(1.04);
+        box-shadow:
+          0 12px 30px rgba(0, 0, 0, 0.45),
+          0 0 0 18px rgba(18, 199, 0, 0),
+          inset 0 2px 0 rgba(255, 255, 255, 0.35);
+      }
+      100% {
+        box-shadow:
+          0 8px 25px rgba(0, 0, 0, 0.35),
+          0 0 0 0 rgba(18, 199, 0, 0.55),
+          inset 0 2px 0 rgba(255, 255, 255, 0.35);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .access-button {
+        height: 68px;
+        font-size: 24px;
+        max-width: none;
+      }
+    }
+
     .watch-tip {
       display: flex;
       align-items: flex-start;
@@ -468,6 +557,7 @@
         transition-duration: 0.01ms !important;
       }
       .sound-banner .pulse-dot { animation: none; }
+      .access-button { animation: none !important; }
     }
   </style>
 </head>
@@ -516,6 +606,19 @@
           allowfullscreen
         ></iframe>
       </div>
+    </div>
+
+    <!-- CTA: aparece após 12 min 16 s -->
+    <div class="cta-slot" id="delayedCta" hidden>
+      <a
+        id="accessNowBtn"
+        href="https://www.checkout-ds24.com/product/683059/?aff=RamboPublisher&plan=2&hide_plans"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="access-button"
+      >
+        👉 ACCESS NOW!
+      </a>
     </div>
 
     <div class="watch-tip">
@@ -748,6 +851,56 @@
           });
         }, { threshold: [0.4] });
         if (frame) io.observe(frame);
+      }
+
+      // ACCESS NOW after 12 min 16 s (page time)
+      var CTA_DELAY_MS = (12 * 60 + 16) * 1000; // 736000
+      var ctaSlot = document.getElementById('delayedCta');
+      var accessBtn = document.getElementById('accessNowBtn');
+
+      // Keep UTMs / query params on checkout link
+      if (accessBtn && window.location.search) {
+        try {
+          var baseUrl = new URL(accessBtn.getAttribute('href'));
+          var pageParams = new URLSearchParams(window.location.search);
+          pageParams.forEach(function (value, key) {
+            if (!baseUrl.searchParams.has(key)) {
+              baseUrl.searchParams.set(key, value);
+            }
+          });
+          accessBtn.setAttribute('href', baseUrl.toString());
+        } catch (e) {}
+      }
+
+      function revealAccessCta() {
+        if (!ctaSlot) return;
+        ctaSlot.hidden = false;
+        // reflow then animate in
+        void ctaSlot.offsetWidth;
+        ctaSlot.classList.add('is-visible');
+        if (typeof fbq === 'function') {
+          try { fbq('trackCustom', 'CTA_Revealed', { delay_sec: 736 }); } catch (e) {}
+        }
+        // Soft scroll into view so user notices
+        try {
+          ctaSlot.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        } catch (e) {}
+      }
+
+      // Optional: ?cta=now reveals immediately for testing
+      var params = new URLSearchParams(window.location.search);
+      if (params.get('cta') === 'now' || params.get('cta') === '1') {
+        revealAccessCta();
+      } else {
+        setTimeout(revealAccessCta, CTA_DELAY_MS);
+      }
+
+      if (accessBtn) {
+        accessBtn.addEventListener('click', function () {
+          if (typeof fbq === 'function') {
+            try { fbq('track', 'InitiateCheckout'); } catch (e) {}
+          }
+        });
       }
     })();
   </script>
