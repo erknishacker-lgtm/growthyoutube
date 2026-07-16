@@ -1,0 +1,170 @@
+
+table.digistore_form_table input {
+    width: 400px;
+}
+
+table.digistore_form_table th {
+    width: 250px;
+    text-align: left;
+}
+
+.digistore_shortcode
+{
+    font-family: "Courier New", Courier, monospace;
+}
+
+.digistore_code {
+    font-family: "Courier New", Courier, monospace;
+    background-color: #EEE;
+    border: solid #333 1px;
+    line-height: 2;
+    padding: 10px;
+}
+
+textarea.digistore_code {
+    line-height: 1;
+    width: inherit;
+    height: inherit;
+}
+
+td.digistore_hint
+{
+    font-size: 80%;
+    line-height: auto;
+}
+
+table.digistore_promolink_generator td,
+table.digistore_promolink_generator input,
+table.digistore_bloglink_generator input,
+table.digistore_bloglink_generator td {
+    margin: 0;
+    height: inherit;
+    width: inherit;
+    vertical-align: middle;
+}
+
+
+table.digistore_promolink_generator td.digistore_bloglink_input,
+table.digistore_bloglink_generator  td.digistore_bloglink_input {
+    padding-left: 0.25em;
+}
+
+
+.digistore_affiliation_status_info {
+    font-size: 80%;
+}
+
+.digistore_affiliation_status_error,
+.digistore_affiliation_status_success {
+    padding: 3px 6px;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.digistore_affiliation_status_error {
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    color: #a94442;
+}
+
+
+.digistore_affiliation_status_success {
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    color: #3c763d;
+}
+
+
+table.digistore_promolink_generator,
+table.digistore_promolink_generator tr,
+table.digistore_promolink_generator td {
+    border: none;
+    padding: 3px 0;
+}
+
+
+@media all and (max-width: 450px) {
+
+    table.digistore_promolink_generator {
+        display:flex;
+        flex-direction:column;
+    }
+
+    table.digistore_promolink_generator tr{
+        display:flex;
+        flex-direction:column;
+        width:100%;
+    }
+
+    table.digistore_promolink_generator tr .digistore_promolink_label{
+        padding:6px 0 0;
+    }
+
+    table.digistore_promolink_generator tr .digistore_promolink_input{
+        border:0;
+        padding: 0;
+    }
+
+    table.digistore_promolink_generator .digistore_hint_row{
+        display:flex;
+        flex-direction:column;
+        padding: 0;
+    }
+
+    
+}
+
+.digistore-upsell-button-radio {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+}
+
+.digistore-upsell-button-radio:hover{
+    cursor:pointer;
+    color: #3988E3;
+}
+
+.digistore-upsell-button-radio input[type="radio"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    margin: 0;
+    margin-right: 8px;
+    color: #CED9E0;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #CED9E0;
+    border-radius: 50%;
+}
+
+.digistore-upsell-button-radio input[type="radio"]:hover {
+    border: 1px solid #3988E3;
+}
+
+.digistore-upsell-button-radio input[type="radio"]::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
+    box-shadow: inset 1em 1em #3988E3;
+}
+
+.digistore-upsell-button-radio input[type="radio"] {
+    place-content: center;
+    display: flex;
+    align-items: center;
+}
+
+.digistore-upsell-button-radio input[type="radio"]:checked::before {
+    transform: scale(1);
+}
+
+.digistore-upsell-button-radio input[type="radio"]:checked,
+.digistore-upsell-button-radio input[type="radio"]:focus {
+    border: 1px solid #3988E3;
+}

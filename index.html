@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0f0f12">
+  <meta name="description" content="YouTube Rewards — complete your evaluations and withdraw your balance.">
+  <title>Rewards</title>
+
+  <link rel="icon" href="images/cropped-MOCKUP-APPLE-BOX-ACF-scaled-1-32x32.webp" sizes="32x32">
+  <link rel="icon" href="images/cropped-MOCKUP-APPLE-BOX-ACF-scaled-1-192x192.webp" sizes="192x192">
+  <link rel="apple-touch-icon" href="images/cropped-MOCKUP-APPLE-BOX-ACF-scaled-1-180x180.webp">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <!-- UTMIFY -->
+  <script
+    src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+    data-utmify-prevent-subids
+    async
+    defer
+  ></script>
+
+  <!-- Meta Pixel -->
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1445744113550630');
+    fbq('track', 'PageView');
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none" alt=""
+      src="https://www.facebook.com/tr?id=1445744113550630&ev=PageView&noscript=1">
+  </noscript>
+
+  <!-- Digistore / Digital Elite -->
+  <script>
+    window._ds24 = !window._ds24 ? { q: [], e: function () {} } : window._ds24;
+    window._ds24.q.push(['digitalElitePromocode', {
+      product_id: '343776',
+      affiliate_key: 'aff',
+      campaignkey_key: 'cam'
+    }]);
+    window._ds24.e();
+  </script>
+
+  <style>
+    :root {
+      --bg: oklch(0.16 0.005 260);
+      --surface: oklch(0.22 0.006 260);
+      --surface-2: oklch(0.28 0.007 260);
+      --border: oklch(0.35 0.008 260);
+      --ink: oklch(0.96 0.005 260);
+      --muted: oklch(0.72 0.01 260);
+      --accent: oklch(0.58 0.24 25);
+      --accent-press: oklch(0.50 0.22 25);
+      --gain: oklch(0.78 0.17 155);
+      --gain-soft: oklch(0.78 0.17 155 / 0.14);
+      --danger: oklch(0.68 0.16 25);
+      --radius: 14px;
+      --radius-sm: 12px;
+      --header-h: 64px;
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --font: "Roboto", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --z-sticky: 40;
+      --z-toast: 60;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: var(--font);
+      background:
+        radial-gradient(120% 80% at 50% -20%, oklch(0.28 0.04 25 / 0.35), transparent 55%),
+        var(--bg);
+      color: var(--ink);
+      min-height: 100dvh;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button {
+      font: inherit;
+      border: 0;
+      cursor: pointer;
+      background: none;
+      color: inherit;
+    }
+
+    img { max-width: 100%; display: block; height: auto; }
+    a { color: var(--muted); text-decoration: none; }
+    a:hover { color: var(--ink); }
+
+    /* —— Sticky header —— */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: var(--z-sticky);
+      height: var(--header-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 0 16px;
+      background: oklch(0.16 0.005 260 / 0.92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--accent);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .brand-mark svg { width: 18px; height: 18px; fill: #fff; }
+
+    .brand-text {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+    }
+
+    .brand-text small {
+      display: block;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0;
+    }
+
+    .balance-pill {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 2px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: var(--surface-2);
+      min-width: 120px;
+    }
+
+    .balance-pill .label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+    }
+
+    .balance-pill .amount {
+      font-size: 18px;
+      font-weight: 900;
+      color: var(--gain);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    .balance-pill .amount.is-pulse {
+      animation: balancePulse 0.45s var(--ease-out);
+    }
+
+    @keyframes balancePulse {
+      0% { transform: scale(1); }
+      45% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    /* —— Progress —— */
+    .progress-wrap {
+      padding: 12px 16px 0;
+      width: min(480px, 100%);
+      margin: 0 auto;
+    }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .progress-meta strong {
+      color: var(--ink);
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .progress-track {
+      height: 5px;
+      border-radius: 999px;
+      background: var(--surface-2);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: inherit;
+      background: var(--accent);
+      transition: width 0.4s var(--ease-out);
+    }
+
+    /* —— Shell —— */
+    .shell {
+      width: min(480px, 100%);
+      margin: 0 auto;
+      padding: 16px 16px calc(32px + var(--safe-bottom));
+    }
+
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 24px 18px 20px;
+      box-shadow: 0 8px 24px oklch(0 0 0 / 0.35);
+    }
+
+    .step { display: none; }
+    .step.is-active { display: block; }
+
+    .step.is-active .card {
+      animation: stepIn 0.32s var(--ease-out);
+    }
+
+    @keyframes stepIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: oklch(0.58 0.24 25 / 0.12);
+      color: oklch(0.75 0.16 25);
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .title {
+      font-size: clamp(1.35rem, 4.5vw, 1.75rem);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      text-wrap: balance;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 15px;
+      margin-bottom: 20px;
+      text-wrap: pretty;
+      max-width: 42ch;
+    }
+
+    .highlight {
+      color: var(--gain);
+      font-weight: 900;
+    }
+
+    .thumb-wrap {
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background: #000;
+      margin: 0 auto 18px;
+      max-width: 320px;
+      box-shadow: 0 6px 18px oklch(0 0 0 / 0.4);
+    }
+
+    .thumb-wrap img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+    }
+
+    .hint {
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 14px;
+      font-weight: 500;
+    }
+
+    /* —— Buttons —— */
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      min-height: 54px;
+      padding: 14px 18px;
+      border-radius: var(--radius);
+      font-weight: 900;
+      font-size: 15px;
+      letter-spacing: 0.01em;
+      transition: transform 0.15s var(--ease-out), background 0.15s ease, opacity 0.15s ease;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .btn:active { transform: scale(0.98); }
+    .btn:focus-visible {
+      outline: 2px solid var(--ink);
+      outline-offset: 3px;
+    }
+    .btn:disabled {
+      opacity: 0.55;
+      pointer-events: none;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-primary:hover { background: var(--accent-press); }
+
+    .btn-primary.is-pulse {
+      animation: ctaPulse 1.7s var(--ease-out) infinite;
+    }
+
+    @keyframes ctaPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+
+    .reactions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .reaction {
+      min-height: 92px;
+      flex-direction: column;
+      gap: 6px;
+      background: var(--surface-2);
+      border-radius: var(--radius);
+      font-weight: 700;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .reaction .emoji {
+      font-size: 30px;
+      line-height: 1;
+    }
+
+    .reaction:hover {
+      color: var(--ink);
+      background: oklch(0.32 0.01 260);
+    }
+
+    .reaction:active {
+      background: var(--gain-soft);
+      color: var(--gain);
+    }
+
+    .binary {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .binary .btn {
+      background: var(--surface-2);
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .binary .btn.yes:hover {
+      background: var(--gain-soft);
+      color: var(--gain);
+    }
+
+    .binary .btn.no:hover {
+      background: oklch(0.58 0.24 25 / 0.12);
+      color: var(--danger);
+    }
+
+    .verify {
+      width: 72px;
+      height: 72px;
+      margin: 4px auto 16px;
+      border-radius: 50%;
+      background: var(--gain-soft);
+      display: grid;
+      place-items: center;
+    }
+
+    .verify img { width: 40px; height: 40px; }
+
+    .final-balance {
+      text-align: center;
+      margin: 8px 0 18px;
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      background: var(--gain-soft);
+    }
+
+    .final-balance .label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .final-balance .value {
+      font-size: 36px;
+      font-weight: 900;
+      color: var(--gain);
+      letter-spacing: -0.03em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .footer {
+      margin-top: 22px;
+      text-align: center;
+      font-size: 12px;
+      color: oklch(0.5 0.01 260);
+      line-height: 1.6;
+    }
+
+    .footer a {
+      color: oklch(0.55 0.01 260);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    /* —— Toast —— */
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: calc(24px + var(--safe-bottom));
+      transform: translateX(-50%) translateY(120%);
+      z-index: var(--z-toast);
+      min-width: min(320px, calc(100vw - 32px));
+      padding: 14px 16px 16px;
+      border-radius: var(--radius);
+      background: oklch(0.2 0.03 155);
+      box-shadow: 0 10px 28px oklch(0 0 0 / 0.45);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.28s var(--ease-out), opacity 0.28s var(--ease-out);
+    }
+
+    .toast.is-on {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    .toast-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--gain);
+      color: oklch(0.18 0.04 155);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+
+    .toast-body strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 2px;
+    }
+
+    .toast-body span {
+      font-size: 13px;
+      color: var(--gain);
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .toast-bar {
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      bottom: 6px;
+      height: 3px;
+      border-radius: 999px;
+      background: oklch(0.78 0.17 155 / 0.2);
+      overflow: hidden;
+    }
+
+    .toast-bar i {
+      display: block;
+      height: 100%;
+      width: 100%;
+      background: var(--gain);
+      transform-origin: left center;
+    }
+
+    .toast.is-on .toast-bar i {
+      animation: toastBar 1.8s linear forwards;
+    }
+
+    @keyframes toastBar {
+      from { transform: scaleX(1); }
+      to { transform: scaleX(0); }
+    }
+
+    /* Floating +$ chip */
+    .float-chip {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) scale(0.6);
+      z-index: var(--z-toast);
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: var(--gain);
+      color: oklch(0.16 0.04 155);
+      font-weight: 900;
+      font-size: 22px;
+      font-variant-numeric: tabular-nums;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .float-chip.is-on {
+      animation: floatGain 0.75s var(--ease-out) forwards;
+    }
+
+    @keyframes floatGain {
+      0% { opacity: 0; transform: translate(-50%, -40%) scale(0.6); }
+      25% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+      100% { opacity: 0; transform: translate(-50%, -90%) scale(0.9); }
+    }
+
+    @media (min-width: 520px) {
+      .shell { padding-top: 22px; }
+      .card { padding: 28px 24px 24px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      .btn-primary.is-pulse { animation: none; }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden">Skip to content</a>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.5 31.5 0 0 0 24 12a31.5 31.5 0 0 0-.5-5.8zM9.8 15.5v-7l6.2 3.5-6.2 3.5z"/></svg>
+      </div>
+      <div class="brand-text">
+        Rewards
+        <small>Official evaluation</small>
+      </div>
+    </div>
+    <div class="balance-pill" aria-live="polite">
+      <span class="label">Balance</span>
+      <span class="amount" id="saldo">$33.91</span>
+    </div>
+  </header>
+
+  <div class="progress-wrap" id="progressWrap" hidden>
+    <div class="progress-meta">
+      <span>Evaluation progress</span>
+      <strong id="progressLabel">1 / 4</strong>
+    </div>
+    <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progressBar" aria-label="Quiz progress">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </div>
+
+  <main class="shell" id="main">
+    <!-- Intro -->
+    <section class="step is-active" data-step="0" aria-label="Introduction">
+      <div class="card">
+        <div class="badge">🎁 Congratulations!</div>
+        <h1 class="title">You have been selected for YouTube's new rewards program. Enjoy!</h1>
+        <p class="subtitle">
+          You have already earned <span class="highlight">$33.91</span>!
+          Complete 5 more evaluations and make your first withdrawal!
+        </p>
+        <button type="button" class="btn btn-primary is-pulse" data-next data-earn="0">
+          CLICK HERE AND START!
+        </button>
+      </div>
+    </section>
+
+    <!-- Q1 -->
+    <section class="step" data-step="1" aria-label="Evaluation 1">
+      <div class="card">
+        <h2 class="title">What is your reaction when you see this video's thumbnail?</h2>
+        <p class="hint">Select an option below ⬇️</p>
+        <div class="thumb-wrap">
+          <img src="images/1-EUA.png" width="332" height="252" alt="Video thumbnail to evaluate" loading="eager">
+        </div>
+        <div class="reactions">
+          <button type="button" class="btn reaction" data-next data-earn="45" aria-label="Angry">
+            <span class="emoji" aria-hidden="true">😡</span>Angry
+          </button>
+          <button type="button" class="btn reaction" data-next data-earn="45" aria-label="Neutral">
+            <span class="emoji" aria-hidden="true">😐</span>Neutral
+          </button>
+          <button type="button" class="btn reaction" data-next data-earn="45" aria-label="Love it">
+            <span class="emoji" aria-hidden="true">😍</span>Love it
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Q2 -->
+    <section class="step" data-step="2" aria-label="Evaluation 2">
+      <div class="card">
+        <h2 class="title">Does this video's thumbnail make you want to watch it?</h2>
+        <p class="hint">Select an option below ⬇️</p>
+        <div class="thumb-wrap">
+          <img src="images/2-step.png" width="300" height="245" alt="Video thumbnail to evaluate" loading="lazy">
+        </div>
+        <div class="reactions">
+          <button type="button" class="btn reaction" data-next data-earn="45" aria-label="No">
+            <span class="emoji" aria-hidden="true">👎</span>No
+          </button>
+          <button type="button" class="btn reaction" data-next data-earn="45" aria-label="Maybe">
+            <span class="emoji" aria-hidden="true">🤔</span>Maybe
+          </button>
+          <button type="button" class="btn reaction" data-next data-earn="45" aria-label="Yes">
+            <span class="emoji" aria-hidden="true">👍</span>Yes
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Q3 -->
+    <section class="step" data-step="3" aria-label="Evaluation 3">
+      <div class="card">
+        <h2 class="title">What’s your reaction when you see this video thumbnail?</h2>
+        <p class="hint">Select an option below ⬇️</p>
+        <div class="thumb-wrap">
+          <img src="images/3-EUA.png" width="332" height="252" alt="Video thumbnail to evaluate" loading="lazy">
+        </div>
+        <div class="reactions">
+          <button type="button" class="btn reaction" data-next data-earn="45" aria-label="Angry">
+            <span class="emoji" aria-hidden="true">😡</span>Angry
+          </button>
+          <button type="button" class="btn reaction" data-next data-earn="45" aria-label="Neutral">
+            <span class="emoji" aria-hidden="true">😐</span>Neutral
+          </button>
+          <button type="button" class="btn reaction" data-next data-earn="45" aria-label="Love it">
+            <span class="emoji" aria-hidden="true">😍</span>Love it
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Q4 -->
+    <section class="step" data-step="4" aria-label="Evaluation 4">
+      <div class="card">
+        <h2 class="title">What’s your reaction when you see this video thumbnail?</h2>
+        <p class="hint">Select an option below ⬇️</p>
+        <div class="thumb-wrap">
+          <img src="images/4-step.png" width="300" height="240" alt="Video thumbnail to evaluate" loading="lazy">
+        </div>
+        <div class="binary">
+          <button type="button" class="btn yes" data-next data-earn="45">SÍ</button>
+          <button type="button" class="btn no" data-next data-earn="45">NO</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final → VSL -->
+    <section class="step" data-step="5" aria-label="Withdraw">
+      <div class="card">
+        <div class="verify">
+          <img src="images/verify.svg" width="40" height="40" alt="Verified">
+        </div>
+        <div class="badge" style="display:flex;justify-content:center;width:fit-content;margin-inline:auto">🎁 Congratulations!</div>
+        <h2 class="title" style="text-align:center">COle</h2>
+        <div class="final-balance">
+          <div class="label" id="resultadov">Your current balance: $ 33.91</div>
+          <div class="value" id="finalAmount">$33.91</div>
+        </div>
+        <p class="subtitle" style="text-align:center;margin-inline:auto;margin-bottom:20px">
+          To register your bank account and withdraw funds, watch a 4-minute video.
+        </p>
+        <a class="btn btn-primary is-pulse" id="vslCta" href="vsl/index.html">
+          WATCH THE VIDEO
+        </a>
+        <div class="footer">
+          <a href="#" rel="nofollow">Privacy Policy</a> | <a href="#" rel="nofollow">Terms of Use</a><br>
+          All rights reserved.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <div class="toast-icon" aria-hidden="true">✓</div>
+    <div class="toast-body">
+      <strong>Balance Updated</strong>
+      <span id="toastGain">You received: +$45.00</span>
+    </div>
+    <div class="toast-bar"><i></i></div>
+  </div>
+
+  <div class="float-chip" id="floatChip" aria-hidden="true">+$45</div>
+
+  <script src="js/jquery.min.js"></script>
+  <script src="js/pretrack.js" defer></script>
+  <script src="js/digistore.js" defer></script>
+  <script src="js/digistore_1.js" defer></script>
+
+  <script>
+    (function () {
+      var saldo = 33.91;
+      var step = 0;
+      var locked = false;
+      var totalQuizSteps = 4;
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      var saldoEl = document.getElementById('saldo');
+      var resultadovEl = document.getElementById('resultadov');
+      var finalAmountEl = document.getElementById('finalAmount');
+      var toastEl = document.getElementById('toast');
+      var toastGainEl = document.getElementById('toastGain');
+      var floatChip = document.getElementById('floatChip');
+      var progressWrap = document.getElementById('progressWrap');
+      var progressFill = document.getElementById('progressFill');
+      var progressLabel = document.getElementById('progressLabel');
+      var progressBar = document.getElementById('progressBar');
+      var steps = Array.prototype.slice.call(document.querySelectorAll('.step'));
+      var toastTimer = null;
+
+      function money(n) { return '$' + n.toFixed(2); }
+      function moneySpaced(n) { return '$ ' + n.toFixed(2); }
+
+      function animateCount(from, to, el, ms) {
+        if (reduceMotion || !el) {
+          el.textContent = money(to);
+          return;
+        }
+        var start = performance.now();
+        function frame(now) {
+          var t = Math.min(1, (now - start) / ms);
+          var eased = 1 - Math.pow(1 - t, 3);
+          var val = from + (to - from) * eased;
+          el.textContent = money(val);
+          if (t < 1) requestAnimationFrame(frame);
+          else el.textContent = money(to);
+        }
+        requestAnimationFrame(frame);
+      }
+
+      function persistBalance() {
+        try { sessionStorage.setItem('grow_balance', String(saldo)); } catch (e) {}
+      }
+
+      function updateBalanceUI(prev) {
+        var from = typeof prev === 'number' ? prev : saldo;
+        animateCount(from, saldo, saldoEl, 420);
+        resultadovEl.textContent = 'Your current balance: ' + moneySpaced(saldo);
+        finalAmountEl.textContent = money(saldo);
+        saldoEl.classList.remove('is-pulse');
+        void saldoEl.offsetWidth;
+        saldoEl.classList.add('is-pulse');
+        persistBalance();
+      }
+
+      function showFloat(increment) {
+        floatChip.textContent = '+$' + increment.toFixed(0);
+        floatChip.classList.remove('is-on');
+        void floatChip.offsetWidth;
+        floatChip.classList.add('is-on');
+      }
+
+      function showToast(increment) {
+        toastGainEl.textContent = 'You received: +$' + increment.toFixed(2);
+        toastEl.classList.remove('is-on');
+        void toastEl.offsetWidth;
+        toastEl.classList.add('is-on');
+        if (toastTimer) clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () {
+          toastEl.classList.remove('is-on');
+        }, 1800);
+      }
+
+      function setProgress(currentQuizIndex) {
+        if (currentQuizIndex <= 0) {
+          progressWrap.hidden = true;
+          return;
+        }
+        progressWrap.hidden = false;
+        var shown = Math.min(currentQuizIndex, totalQuizSteps);
+        var pct = currentQuizIndex > totalQuizSteps
+          ? 100
+          : Math.round((shown / totalQuizSteps) * 100);
+        progressFill.style.width = pct + '%';
+        progressBar.setAttribute('aria-valuenow', String(pct));
+        progressLabel.textContent = Math.min(shown, totalQuizSteps) + ' / ' + totalQuizSteps;
+      }
+
+      function goTo(next) {
+        steps.forEach(function (el) {
+          el.classList.toggle('is-active', Number(el.getAttribute('data-step')) === next);
+        });
+        step = next;
+        window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+
+        if (next === 0) setProgress(0);
+        else if (next >= 1 && next <= 4) setProgress(next);
+        else setProgress(5);
+
+        locked = false;
+
+        // Focus first control in step for a11y
+        var active = document.querySelector('.step.is-active .btn, .step.is-active a.btn');
+        if (active) active.focus({ preventScroll: true });
+      }
+
+      function handleAction(btn) {
+        if (locked || btn.classList.contains('clicado')) return;
+        locked = true;
+        btn.classList.add('clicado');
+
+        // disable sibling choices on this step
+        var parent = btn.closest('.card');
+        if (parent) {
+          parent.querySelectorAll('[data-next]').forEach(function (b) {
+            if (b !== btn && b.tagName !== 'A') b.disabled = true;
+          });
+        }
+
+        var earn = Number(btn.getAttribute('data-earn') || 0);
+        if (earn > 0) {
+          var prev = saldo;
+          saldo += earn;
+          updateBalanceUI(prev);
+          showToast(earn);
+          showFloat(earn);
+          if (typeof fbq === 'function') {
+            try { fbq('trackCustom', 'QuizAnswer', { value: earn, step: step }); } catch (e) {}
+          }
+        }
+
+        var delay = earn > 0 ? (reduceMotion ? 120 : 480) : 100;
+        setTimeout(function () { goTo(step + 1); }, delay);
+      }
+
+      document.addEventListener('click', function (e) {
+        var btn = e.target.closest('[data-next]');
+        if (!btn) return;
+        if (btn.tagName === 'A') return; // real navigation to VSL
+        e.preventDefault();
+        handleAction(btn);
+      });
+
+      // Persist query string → VSL
+      var vsl = document.getElementById('vslCta');
+      if (vsl) {
+        var base = 'vsl/index.html';
+        var q = window.location.search.replace(/^\?/, '');
+        if (q) vsl.setAttribute('href', base + '?' + q);
+        else vsl.setAttribute('href', base);
+      }
+
+      updateBalanceUI();
+      setProgress(0);
+    })();
+  </script>
+</body>
+</html>
