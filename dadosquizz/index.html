@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0f0f12">
+  <title>Dados do Quiz — Painel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f0f12;
+      --surface: #18181c;
+      --surface-2: #222228;
+      --border: #32323a;
+      --ink: #f2f2f4;
+      --muted: #a8a8b0;
+      --accent: #e10600;
+      --gain: #3ddc84;
+      --warn: #f5a524;
+      --danger: #ff6b6b;
+      --radius: 14px;
+      --font: "Roboto", system-ui, sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100dvh;
+      line-height: 1.45;
+      -webkit-font-smoothing: antialiased;
+    }
+    button, input { font: inherit; }
+    a { color: var(--gain); }
+
+    /* Gate */
+    .gate {
+      min-height: 100dvh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background:
+        radial-gradient(80% 50% at 50% 0%, rgba(225, 6, 0, 0.18), transparent 55%),
+        var(--bg);
+    }
+    .gate-card {
+      width: min(400px, 100%);
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 28px 22px;
+      box-shadow: 0 12px 40px rgba(0,0,0,.4);
+    }
+    .gate-card h1 {
+      font-size: 1.35rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+    .gate-card p {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+    .gate-card label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .gate-card input {
+      width: 100%;
+      height: 48px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      color: var(--ink);
+      padding: 0 14px;
+      margin-bottom: 12px;
+    }
+    .gate-card input:focus {
+      outline: 2px solid var(--accent);
+      outline-offset: 1px;
+    }
+    .gate-error {
+      color: var(--danger);
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      min-height: 1.2em;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      height: 48px;
+      border: 0;
+      border-radius: 12px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .btn:hover { filter: brightness(1.05); }
+    .btn-ghost {
+      background: var(--surface-2);
+      color: var(--ink);
+      border: 1px solid var(--border);
+    }
+    .btn-sm {
+      width: auto;
+      height: 38px;
+      padding: 0 14px;
+      font-size: 13px;
+    }
+
+    /* App */
+    .app { display: none; }
+    .app.is-on { display: block; }
+    .top {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 18px;
+      background: rgba(15,15,18,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .top h1 {
+      font-size: 1.05rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+    .top h1 span {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+    .top-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .shell {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 18px 16px 48px;
+    }
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .kpi {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 14px;
+    }
+    .kpi .lbl {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 6px;
+    }
+    .kpi .val {
+      font-size: 1.6rem;
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.03em;
+    }
+    .kpi .val.good { color: var(--gain); }
+    .kpi .val.warn { color: var(--warn); }
+    .kpi .val.bad { color: var(--danger); }
+
+    .panel {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+    .panel h2 {
+      font-size: 15px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+    .panel .sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .funnel-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 72px 64px;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .funnel-meta {
+      min-width: 0;
+    }
+    .funnel-meta .name {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .bar-track {
+      height: 10px;
+      border-radius: 999px;
+      background: var(--surface-2);
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #12c700, var(--gain));
+      width: 0%;
+      transition: width 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .bar-fill.drop {
+      background: linear-gradient(90deg, #e10600, #f5a524);
+    }
+    .funnel-count {
+      text-align: right;
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+      font-size: 14px;
+    }
+    .funnel-rate {
+      text-align: right;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+    }
+    .funnel-rate.bad { color: var(--danger); }
+    .funnel-rate.good { color: var(--gain); }
+
+    .drop-list {
+      list-style: none;
+      display: grid;
+      gap: 8px;
+    }
+    .drop-list li {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: var(--surface-2);
+      font-size: 13px;
+    }
+    .drop-list .loss {
+      font-weight: 900;
+      color: var(--danger);
+      white-space: nowrap;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    @media (min-width: 800px) {
+      .grid-2 { grid-template-columns: 1fr 1fr; }
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    th, td {
+      text-align: left;
+      padding: 8px 6px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    th {
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .mono { font-variant-numeric: tabular-nums; }
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(61, 220, 132, 0.12);
+      color: var(--gain);
+      font-weight: 700;
+      font-size: 11px;
+    }
+    .status {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+    .status.error { color: var(--danger); }
+    .note {
+      font-size: 12px;
+      color: var(--muted);
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: var(--surface-2);
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="gate" id="gate">
+    <form class="gate-card" id="loginForm" autocomplete="off">
+      <h1>Dados do Quiz</h1>
+      <p>Painel de funil — etapas, cliques e queda até a VSL.</p>
+      <label for="password">Senha</label>
+      <input id="password" name="password" type="password" placeholder="Digite a senha" required autofocus>
+      <div class="gate-error" id="gateError" aria-live="polite"></div>
+      <button class="btn" type="submit">Entrar</button>
+    </form>
+  </div>
+
+  <div class="app" id="app">
+    <header class="top">
+      <h1>
+        Funil do Quiz
+        <span>growthyoutube · multi-usuário (contadores) + log local</span>
+      </h1>
+      <div class="top-actions">
+        <button type="button" class="btn btn-ghost btn-sm" id="btnRefresh">Atualizar</button>
+        <button type="button" class="btn btn-ghost btn-sm" id="btnExport">Exportar JSON</button>
+        <button type="button" class="btn btn-ghost btn-sm" id="btnClearLocal">Limpar log local</button>
+        <button type="button" class="btn btn-ghost btn-sm" id="btnLogout">Sair</button>
+      </div>
+    </header>
+
+    <main class="shell">
+      <section class="kpis" id="kpis">
+        <div class="kpi"><div class="lbl">Aberturas quiz</div><div class="val" id="kpiQuiz">—</div></div>
+        <div class="kpi"><div class="lbl">Chegaram no final</div><div class="val good" id="kpiFinal">—</div></div>
+        <div class="kpi"><div class="lbl">Clicaram VSL</div><div class="val good" id="kpiVslClick">—</div></div>
+        <div class="kpi"><div class="lbl">Abriram VSL</div><div class="val good" id="kpiVslPage">—</div></div>
+        <div class="kpi"><div class="lbl">Quiz → VSL</div><div class="val" id="kpiConv">—</div></div>
+        <div class="kpi"><div class="lbl">Maior queda</div><div class="val warn" id="kpiDrop">—</div></div>
+      </section>
+
+      <section class="panel">
+        <h2>Funil por etapa</h2>
+        <p class="sub">Cada barra = quantas pessoas passaram por esse ponto. A % é em relação à etapa anterior (queda entre passos).</p>
+        <div id="funnelBars"></div>
+        <p class="status" id="funnelStatus">Carregando contadores…</p>
+      </section>
+
+      <div class="grid-2">
+        <section class="panel">
+          <h2>Onde o lead trava</h2>
+          <p class="sub">Maiores perdas entre uma etapa e a seguinte.</p>
+          <ul class="drop-list" id="dropList"></ul>
+        </section>
+        <section class="panel">
+          <h2>Respostas dos botões</h2>
+          <p class="sub">Qual reação o pessoal mais clica (agregado).</p>
+          <div id="answerBars"></div>
+        </section>
+      </div>
+
+      <section class="panel">
+        <h2>Log local (este navegador)</h2>
+        <p class="sub">Últimos eventos gravados neste aparelho — útil para testar. Os totais do funil vêm da nuvem (todos os visitantes).</p>
+        <div style="overflow-x:auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Quando</th>
+                <th>Evento</th>
+                <th>Etapa</th>
+                <th>Resposta</th>
+                <th>Sessão</th>
+              </tr>
+            </thead>
+            <tbody id="localBody"></tbody>
+          </table>
+        </div>
+        <p class="note">
+          <strong>Como ler:</strong> se muita gente “Viu avaliação 2” e pouca “Respondeu avaliação 2”, o problema é a etapa 2.
+          Se muitos chegam no Congratulations e poucos clicam WATCH THE VIDEO, o CTA final trava.
+          Se clicam o vídeo mas poucos “Abriram VSL”, o link ou o redirect falha.
+        </p>
+      </section>
+    </main>
+  </div>
+
+  <script src="../js/funnel-analytics.js"></script>
+  <script>
+    (function () {
+      var PASS = 'Dados@2026';
+      var AUTH_KEY = 'grow_dadosquizz_auth';
+      var gate = document.getElementById('gate');
+      var app = document.getElementById('app');
+      var form = document.getElementById('loginForm');
+      var gateError = document.getElementById('gateError');
+      var passwordInput = document.getElementById('password');
+
+      function isAuthed() {
+        try { return sessionStorage.getItem(AUTH_KEY) === '1'; } catch (e) { return false; }
+      }
+      function setAuthed(on) {
+        try {
+          if (on) sessionStorage.setItem(AUTH_KEY, '1');
+          else sessionStorage.removeItem(AUTH_KEY);
+        } catch (e) {}
+      }
+      function showApp() {
+        gate.style.display = 'none';
+        app.classList.add('is-on');
+        loadDashboard();
+      }
+      function showGate() {
+        app.classList.remove('is-on');
+        gate.style.display = 'grid';
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (passwordInput.value === PASS) {
+          setAuthed(true);
+          gateError.textContent = '';
+          showApp();
+        } else {
+          gateError.textContent = 'Senha incorreta.';
+          passwordInput.select();
+        }
+      });
+
+      document.getElementById('btnLogout').addEventListener('click', function () {
+        setAuthed(false);
+        showGate();
+      });
+      document.getElementById('btnRefresh').addEventListener('click', loadDashboard);
+      document.getElementById('btnClearLocal').addEventListener('click', function () {
+        if (!confirm('Limpar o log local deste navegador?')) return;
+        GrowFunnel.clearLocalEvents();
+        renderLocal();
+      });
+      document.getElementById('btnExport').addEventListener('click', function () {
+        var data = {
+          exportedAt: new Date().toISOString(),
+          localEvents: GrowFunnel.getLocalEvents(),
+          note: 'Contadores multi-usuário estão no CounterAPI namespace growthyoutube_funnel'
+        };
+        var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'quiz-funnel-' + Date.now() + '.json';
+        a.click();
+        URL.revokeObjectURL(a.href);
+      });
+
+      function pct(part, whole) {
+        if (!whole) return null;
+        return Math.round((part / whole) * 1000) / 10;
+      }
+
+      function renderLocal() {
+        var rows = GrowFunnel.getLocalEvents().slice().reverse().slice(0, 80);
+        var body = document.getElementById('localBody');
+        if (!rows.length) {
+          body.innerHTML = '<tr><td colspan="5" style="color:var(--muted)">Nenhum evento local ainda. Abra o quiz e clique nas etapas.</td></tr>';
+          return;
+        }
+        body.innerHTML = rows.map(function (r) {
+          var when = r.iso ? r.iso.replace('T', ' ').slice(0, 19) : '—';
+          return '<tr>' +
+            '<td class="mono">' + when + '</td>' +
+            '<td><span class="tag">' + (r.event || '') + '</span></td>' +
+            '<td class="mono">' + (r.step != null ? r.step : '—') + '</td>' +
+            '<td>' + (r.answer || r.label || '—') + '</td>' +
+            '<td class="mono" style="max-width:90px;overflow:hidden;text-overflow:ellipsis">' + (r.sessionId || '').slice(-10) + '</td>' +
+            '</tr>';
+        }).join('');
+      }
+
+      function loadDashboard() {
+        var funnel = GrowFunnel.FUNNEL;
+        var answerKeys = GrowFunnel.ANSWER_KEYS;
+        var status = document.getElementById('funnelStatus');
+        status.textContent = 'Carregando contadores multi-usuário…';
+        status.className = 'status';
+
+        var names = funnel.map(function (f) { return f.key; })
+          .concat(answerKeys.map(function (a) { return a.key; }));
+
+        GrowFunnel.fetchMany(names).then(function (rows) {
+          var map = {};
+          rows.forEach(function (r) { map[r.name] = r.count; });
+
+          var counts = funnel.map(function (f) {
+            return { key: f.key, label: f.label, count: map[f.key] || 0 };
+          });
+
+          var max = Math.max.apply(null, counts.map(function (c) { return c.count; }).concat([1]));
+          var html = '';
+          var drops = [];
+
+          counts.forEach(function (c, i) {
+            var prev = i === 0 ? c.count : counts[i - 1].count;
+            var rate = i === 0 ? 100 : pct(c.count, prev);
+            var lost = i === 0 ? 0 : Math.max(0, prev - c.count);
+            if (i > 0 && prev > 0) {
+              drops.push({
+                from: counts[i - 1].label,
+                to: c.label,
+                lost: lost,
+                rate: rate,
+                lossPct: pct(lost, prev)
+              });
+            }
+            var w = Math.max(2, Math.round((c.count / max) * 100));
+            var rateClass = rate == null ? '' : (rate < 60 ? 'bad' : rate >= 85 ? 'good' : '');
+            var barClass = rate != null && rate < 60 && i > 0 ? 'drop' : '';
+            html += '<div class="funnel-row">' +
+              '<div class="funnel-meta">' +
+                '<div class="name">' + c.label + '</div>' +
+                '<div class="bar-track"><div class="bar-fill ' + barClass + '" style="width:' + w + '%"></div></div>' +
+              '</div>' +
+              '<div class="funnel-count">' + c.count + '</div>' +
+              '<div class="funnel-rate ' + rateClass + '">' + (i === 0 ? 'base' : (rate != null ? rate + '%' : '—')) + '</div>' +
+            '</div>';
+          });
+          document.getElementById('funnelBars').innerHTML = html;
+
+          // KPIs
+          var quiz = map.quiz_pageview || 0;
+          var final = map.step_view_5 || 0;
+          var vslClick = map.vsl_click || 0;
+          var vslPage = map.vsl_pageview || 0;
+          document.getElementById('kpiQuiz').textContent = quiz;
+          document.getElementById('kpiFinal').textContent = final;
+          document.getElementById('kpiVslClick').textContent = vslClick;
+          document.getElementById('kpiVslPage').textContent = vslPage;
+          var conv = pct(vslPage || vslClick, quiz);
+          var convEl = document.getElementById('kpiConv');
+          convEl.textContent = conv != null ? conv + '%' : '—';
+          convEl.className = 'val ' + (conv != null && conv < 20 ? 'bad' : conv != null && conv >= 40 ? 'good' : 'warn');
+
+          drops.sort(function (a, b) { return (b.lossPct || 0) - (a.lossPct || 0); });
+          var worst = drops[0];
+          document.getElementById('kpiDrop').textContent = worst && worst.lossPct
+            ? worst.lossPct + '%'
+            : '—';
+
+          var dropHtml = drops.slice(0, 6).map(function (d) {
+            return '<li><span>' + d.from + ' → ' + d.to + '</span>' +
+              '<span class="loss">-' + d.lost + ' (' + (d.lossPct != null ? d.lossPct : '—') + '%)</span></li>';
+          }).join('');
+          document.getElementById('dropList').innerHTML = dropHtml || '<li>Sem dados de queda ainda.</li>';
+
+          // Answers
+          var aMax = Math.max.apply(null, answerKeys.map(function (a) { return map[a.key] || 0 }).concat([1]));
+          document.getElementById('answerBars').innerHTML = answerKeys.map(function (a) {
+            var c = map[a.key] || 0;
+            var w = Math.max(2, Math.round((c / aMax) * 100));
+            return '<div class="funnel-row">' +
+              '<div class="funnel-meta"><div class="name">' + a.label + '</div>' +
+              '<div class="bar-track"><div class="bar-fill" style="width:' + w + '%"></div></div></div>' +
+              '<div class="funnel-count">' + c + '</div><div class="funnel-rate"></div></div>';
+          }).join('');
+
+          status.textContent = 'Atualizado · ' + new Date().toLocaleString('pt-BR') + ' · namespace: growthyoutube_funnel';
+        }).catch(function () {
+          status.textContent = 'Falha ao carregar contadores online. Log local ainda funciona.';
+          status.className = 'status error';
+        });
+
+        renderLocal();
+      }
+
+      if (isAuthed()) showApp();
+    })();
+  </script>
+</body>
+</html>

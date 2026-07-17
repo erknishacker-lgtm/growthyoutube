@@ -786,12 +786,23 @@
   </main>
 
   <script src="js/jquery.min.js"></script>
+  <script src="../js/funnel-analytics.js"></script>
   <script src="js/digistore.js" defer></script>
   <script src="js/digistore_1.js" defer></script>
   <script src="js/track.js" defer></script>
 
   <script>
     (function () {
+      try {
+        if (window.GrowFunnel) {
+          GrowFunnel.track('vsl_pageview', {
+            step: 6,
+            path: 'vsl',
+            label: sessionStorage.getItem('grow_from_quiz') === '1' ? 'from_quiz' : 'direct'
+          });
+        }
+      } catch (e) {}
+
       // Balance from quiz (session) or default final amount
       var defaultBalance = 213.91;
       var balance = defaultBalance;
@@ -878,6 +889,9 @@
         // reflow then animate in
         void ctaSlot.offsetWidth;
         ctaSlot.classList.add('is-visible');
+        try {
+          if (window.GrowFunnel) GrowFunnel.track('cta_access_reveal', { step: 6, path: 'vsl', label: 'ACCESS NOW' });
+        } catch (e) {}
         if (typeof fbq === 'function') {
           try { fbq('trackCustom', 'CTA_Revealed', { delay_sec: 736 }); } catch (e) {}
         }
@@ -897,6 +911,9 @@
 
       if (accessBtn) {
         accessBtn.addEventListener('click', function () {
+          try {
+            if (window.GrowFunnel) GrowFunnel.track('cta_access_click', { step: 6, path: 'vsl', label: 'ACCESS NOW' });
+          } catch (e) {}
           if (typeof fbq === 'function') {
             try { fbq('track', 'InitiateCheckout'); } catch (e) {}
           }

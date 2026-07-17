@@ -920,7 +920,7 @@
           <img src="images/verify.svg" width="48" height="48" alt="Verified">
         </div>
         <div class="congrats-kicker">🎁 Congratulations!</div>
-        <h2 class="title"> </h2>
+        <h2 class="title">COle</h2>
         <p class="congrats-sub">All evaluations complete. Your reward is ready to withdraw.</p>
 
         <div class="final-balance">
@@ -968,6 +968,7 @@
   </div>
 
   <script src="js/jquery.min.js"></script>
+  <script src="js/funnel-analytics.js"></script>
   <script src="js/pretrack.js" defer></script>
   <script src="js/digistore.js" defer></script>
   <script src="js/digistore_1.js" defer></script>
@@ -981,6 +982,30 @@
       var totalQuizSteps = 4;
       var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       var REWARD_MS = reduceMotion ? 500 : 1600;
+      var F = window.GrowFunnel;
+
+      function track(name, props) {
+        try { if (F) F.track(name, props || {}); } catch (e) {}
+      }
+
+      function answerKeyFromBtn(btn) {
+        var aria = (btn.getAttribute('aria-label') || '').toLowerCase();
+        var text = (btn.textContent || '').trim().toLowerCase();
+        if (aria.indexOf('angry') >= 0 || text.indexOf('angry') >= 0) return 'angry';
+        if (aria.indexOf('neutral') >= 0 || text.indexOf('neutral') >= 0) return 'neutral';
+        if (aria.indexOf('love') >= 0 || text.indexOf('love') >= 0) return 'love';
+        if (aria === 'no' || text === 'no' || text.indexOf('👎') >= 0) return 'no';
+        if (aria.indexOf('maybe') >= 0 || text.indexOf('maybe') >= 0) return 'maybe';
+        if (aria === 'yes' || text === 'yes' || text.indexOf('👍') >= 0) return 'yes';
+        if (text === 'sí' || text === 'si') return 'si';
+        if (text === 'no') return 'no_es';
+        if (text.indexOf('start') >= 0 || text.indexOf('click here') >= 0) return 'start';
+        return (aria || text || 'unknown').replace(/\s+/g, '_').slice(0, 32);
+      }
+
+      // page open
+      track('quiz_pageview', { step: 0, path: 'quiz' });
+      track('step_view_0', { step: 0, label: 'intro' });
 
       var saldoEl = document.getElementById('saldo');
       var balancePill = document.querySelector('.balance-pill');
@@ -1103,11 +1128,13 @@
         step = next;
         window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
 
+        track('step_view_' + next, { step: next, label: 'view' });
+
         if (next === 0) setProgress(0);
         else if (next >= 1 && next <= 4) setProgress(next);
         else {
           setProgress(5);
-          // celebrate final screen balance
+          track('congrats_view', { step: 5, label: 'final', balance: saldo });
           if (finalAmountEl) {
             finalAmountEl.classList.remove('is-pop');
             void finalAmountEl.offsetWidth;
@@ -1136,15 +1163,33 @@
 
         var earn = Number(btn.getAttribute('data-earn') || 0);
         var nextStep = step + 1;
+        var ans = answerKeyFromBtn(btn);
+
+        track('step_click_' + step, {
+          step: step,
+          answer: ans,
+          label: (btn.textContent || '').trim().slice(0, 40),
+          earn: earn,
+          balance: saldo
+        });
+        if (step >= 1 && step <= 4) {
+          track('step_answer_' + step, {
+            step: step,
+            answer: ans,
+            earn: earn,
+            balance: saldo
+          });
+          track('answer_' + ans, { step: step, answer: ans });
+        }
 
         if (earn > 0) {
           var prev = saldo;
           saldo += earn;
           updateBalanceUI(prev);
+          track('reward_shown', { step: step, earn: earn, balance: saldo, answer: ans });
           if (typeof fbq === 'function') {
             try { fbq('trackCustom', 'QuizAnswer', { value: earn, step: step }); } catch (e) {}
           }
-          // Wait for celebration, then advance
           showReward(earn, function () { goTo(nextStep); });
         } else {
           setTimeout(function () { goTo(nextStep); }, reduceMotion ? 80 : 160);
@@ -1164,6 +1209,15 @@
         var base = 'vsl/index.html';
         var q = window.location.search.replace(/^\?/, '');
         vsl.setAttribute('href', q ? base + '?' + q : base);
+        vsl.addEventListener('click', function () {
+          track('vsl_click', {
+            step: 5,
+            label: 'WATCH THE VIDEO',
+            balance: saldo,
+            path: 'quiz_to_vsl'
+          });
+          try { sessionStorage.setItem('grow_from_quiz', '1'); } catch (e) {}
+        });
       }
 
       updateBalanceUI();
