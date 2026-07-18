@@ -205,6 +205,23 @@
     return 'once_' + eventName;
   }
 
+  function dayKey(ts) {
+    var d = new Date(ts || Date.now());
+    var y = d.getUTCFullYear();
+    var m = String(d.getUTCMonth() + 1).padStart(2, '0');
+    var day = String(d.getUTCDate()).padStart(2, '0');
+    return y + '-' + m + '-' + day;
+  }
+
+  function hourKey(ts) {
+    var d = new Date(ts || Date.now());
+    var y = d.getUTCFullYear();
+    var m = String(d.getUTCMonth() + 1).padStart(2, '0');
+    var day = String(d.getUTCDate()).padStart(2, '0');
+    var h = String(d.getUTCHours()).padStart(2, '0');
+    return y + '-' + m + '-' + day + 'T' + h;
+  }
+
   /**
    * track(eventName, props)
    * props.once === true → só 1x por sessão (ideal para pageviews)
@@ -255,11 +272,30 @@
       writeLocal(arr);
       upsertVisitor(payload);
 
-      // Multi-user counters
+      // Multi-user counters (total + por dia + por hora UTC)
+      var dk = dayKey(payload.ts);
+      var hk = hourKey(payload.ts);
       bumpCounter(eventName);
+      bumpCounter(eventName + '_' + dk);
+      bumpCounter(eventName + '_h_' + hk.replace(/[-:T]/g, ''));
       if (props.step != null) bumpCounter('step_' + props.step + '_' + eventName);
       if (props.answer) bumpCounter('answer_' + props.answer);
       if (props.path) bumpCounter(props.path);
+
+      // Região multi-usuário (quando geo já estiver disponível)
+      if (payload.country_code) {
+        bumpCounter('country_' + String(payload.country_code).toLowerCase());
+        bumpCounter('country_' + String(payload.country_code).toLowerCase() + '_' + dk);
+      }
+      if (payload.region) {
+        var reg = safeKey(payload.region).slice(0, 24);
+        bumpCounter('region_' + reg);
+        bumpCounter('region_' + reg + '_' + dk);
+      }
+      if (payload.city) {
+        var city = safeKey(payload.city).slice(0, 24);
+        bumpCounter('city_' + city);
+      }
 
       // Meta
       try {
@@ -299,7 +335,6 @@
 
     fetchGeo().then(function (g) {
       if (!g) return;
-      // Atualiza o último evento da mesma sessão+event se ainda for o mesmo
       var arr = readLocal();
       for (var i = arr.length - 1; i >= 0; i--) {
         if (arr[i].sessionId === sessionId && arr[i].event === eventName && !arr[i].ip) {
@@ -310,12 +345,148 @@
           arr[i].country_code = g.country_code;
           writeLocal(arr);
           upsertVisitor(arr[i]);
+          // contadores de região (só quando geo chega)
+          var dk = dayKey(arr[i].ts);
+          if (g.country_code) {
+            bumpCounter('country_' + String(g.country_code).toLowerCase());
+            bumpCounter('country_' + String(g.country_code).toLowerCase() + '_' + dk);
+          }
+          if (g.region) {
+            var reg = safeKey(g.region).slice(0, 24);
+            bumpCounter('region_' + reg);
+            bumpCounter('region_' + reg + '_' + dk);
+          }
+          if (g.city) bumpCounter('city_' + safeKey(g.city).slice(0, 24));
           break;
         }
       }
     });
 
     return base;
+  }
+
+  /** Filtra eventos locais por janela de tempo */
+  function filterEvents(opts) {
+    opts = opts || {};
+    var all = readLocal();
+    var now = Date.now();
+    var from = opts.from != null ? opts.from : 0;
+    var to = opts.to != null ? opts.to : now;
+    if (opts.hours != null) {
+      from = now - Number(opts.hours) * 3600 * 1000;
+      to = now;
+    }
+    if (opts.day) {
+      // day = 'YYYY-MM-DD' em UTC
+      from = Date.parse(opts.day + 'T00:00:00.000Z');
+      to = Date.parse(opts.day + 'T23:59:59.999Z');
+    }
+    return all.filter(function (e) {
+      var t = e.ts || Date.parse(e.iso) || 0;
+      return t >= from && t <= to;
+    });
+  }
+
+  /** Análise de funil a partir de eventos locais (por sessão → etapa máxima) */
+  function analyzeDropoff(events) {
+    var order = [
+      'pressell_view',
+      'pressell_continue',
+      'quiz_from_pressell',
+      'quiz_pageview',
+      'step_view_0',
+      'step_click_0',
+      'step_view_1',
+      'step_answer_1',
+      'step_view_2',
+      'step_answer_2',
+      'step_view_3',
+      'step_answer_3',
+      'step_view_4',
+      'step_answer_4',
+      'step_view_5',
+      'vsl_click',
+      'vsl_pageview'
+    ];
+    var labels = {};
+    (api.FUNNEL || []).forEach(function (f) { labels[f.key] = f.label; });
+
+    var sessions = {};
+    events.forEach(function (e) {
+      var sid = e.sessionId || 'unknown';
+      if (!sessions[sid]) sessions[sid] = { maxIdx: -1, events: {}, geo: {} };
+      var idx = order.indexOf(e.event);
+      if (idx > sessions[sid].maxIdx) sessions[sid].maxIdx = idx;
+      sessions[sid].events[e.event] = true;
+      if (e.country_code || e.region || e.city || e.ip) {
+        sessions[sid].geo = {
+          ip: e.ip || sessions[sid].geo.ip,
+          city: e.city || sessions[sid].geo.city,
+          region: e.region || sessions[sid].geo.region,
+          country: e.country || sessions[sid].geo.country,
+          country_code: e.country_code || sessions[sid].geo.country_code
+        };
+      }
+    });
+
+    var reached = order.map(function () { return 0; });
+    var stoppedAt = order.map(function () { return 0; });
+    var sidList = Object.keys(sessions);
+    sidList.forEach(function (sid) {
+      var max = sessions[sid].maxIdx;
+      if (max < 0) return;
+      for (var i = 0; i <= max; i++) reached[i] += 1;
+      stoppedAt[max] += 1;
+    });
+
+    var steps = order.map(function (key, i) {
+      var count = reached[i];
+      var prev = i === 0 ? count : reached[i - 1];
+      var drop = i === 0 ? 0 : Math.max(0, prev - count);
+      var dropPct = prev > 0 && i > 0 ? Math.round((drop / prev) * 1000) / 10 : 0;
+      return {
+        key: key,
+        label: labels[key] || key,
+        count: count,
+        drop: drop,
+        dropPct: dropPct,
+        stoppedHere: stoppedAt[i]
+      };
+    });
+
+    // Maior queda
+    var worst = null;
+    steps.forEach(function (s, i) {
+      if (i === 0) return;
+      if (!worst || s.dropPct > worst.dropPct) worst = s;
+    });
+
+    // Regiões
+    var byRegion = {};
+    var byCountry = {};
+    sidList.forEach(function (sid) {
+      var g = sessions[sid].geo || {};
+      var r = g.region || 'Desconhecida';
+      var c = g.country_code || g.country || '??';
+      byRegion[r] = (byRegion[r] || 0) + 1;
+      byCountry[c] = (byCountry[c] || 0) + 1;
+    });
+
+    return {
+      sessions: sidList.length,
+      steps: steps,
+      worstDrop: worst,
+      byRegion: byRegion,
+      byCountry: byCountry,
+      sessionDetails: sidList.map(function (sid) {
+        return {
+          sessionId: sid,
+          maxStep: order[sessions[sid].maxIdx] || null,
+          maxLabel: labels[order[sessions[sid].maxIdx]] || order[sessions[sid].maxIdx] || null,
+          geo: sessions[sid].geo
+        };
+      })
+    };
   }
 
   // Warm geo early
@@ -328,6 +499,9 @@
     getSessionId: getSessionId,
     getLocalEvents: readLocal,
     getVisitors: readVisitors,
+    filterEvents: filterEvents,
+    analyzeDropoff: analyzeDropoff,
+    dayKey: dayKey,
     clearLocalEvents: function () {
       try {
         localStorage.removeItem(LOCAL_KEY);

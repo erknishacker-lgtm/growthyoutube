@@ -33,18 +33,16 @@
       line-height: 1.45;
       -webkit-font-smoothing: antialiased;
     }
-    button, input { font: inherit; }
+    button, input, select { font: inherit; color: inherit; }
     a { color: var(--gain); }
+    code { font-size: 0.9em; color: var(--warn); }
 
-    /* Gate */
     .gate {
       min-height: 100dvh;
       display: grid;
       place-items: center;
       padding: 24px;
-      background:
-        radial-gradient(80% 50% at 50% 0%, rgba(225, 6, 0, 0.18), transparent 55%),
-        var(--bg);
+      background: radial-gradient(80% 50% at 50% 0%, rgba(225,6,0,.18), transparent 55%), var(--bg);
     }
     .gate-card {
       width: min(400px, 100%);
@@ -53,282 +51,176 @@
       padding: 28px 22px;
       box-shadow: 0 12px 40px rgba(0,0,0,.4);
     }
-    .gate-card h1 {
-      font-size: 1.35rem;
-      font-weight: 900;
-      letter-spacing: -0.02em;
-      margin-bottom: 6px;
-    }
-    .gate-card p {
-      color: var(--muted);
-      font-size: 14px;
-      margin-bottom: 18px;
-    }
+    .gate-card h1 { font-size: 1.35rem; font-weight: 900; letter-spacing: -0.02em; margin-bottom: 6px; }
+    .gate-card p { color: var(--muted); font-size: 14px; margin-bottom: 18px; }
     .gate-card label {
-      display: block;
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--muted);
-      margin-bottom: 6px;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
+      display: block; font-size: 12px; font-weight: 700; color: var(--muted);
+      margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.04em;
     }
     .gate-card input {
-      width: 100%;
-      height: 48px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      background: var(--surface-2);
-      color: var(--ink);
-      padding: 0 14px;
-      margin-bottom: 12px;
+      width: 100%; height: 48px; border-radius: 12px; border: 1px solid var(--border);
+      background: var(--surface-2); padding: 0 14px; margin-bottom: 12px;
     }
-    .gate-card input:focus {
-      outline: 2px solid var(--accent);
-      outline-offset: 1px;
-    }
-    .gate-error {
-      color: var(--danger);
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 10px;
-      min-height: 1.2em;
-    }
+    .gate-card input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+    .gate-error { color: var(--danger); font-size: 13px; font-weight: 600; margin-bottom: 10px; min-height: 1.2em; }
+
     .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      width: 100%;
-      height: 48px;
-      border: 0;
-      border-radius: 12px;
-      background: var(--accent);
-      color: #fff;
-      font-weight: 800;
-      cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; height: 48px; border: 0; border-radius: 12px;
+      background: var(--accent); color: #fff; font-weight: 800; cursor: pointer;
     }
     .btn:hover { filter: brightness(1.05); }
     .btn-ghost {
-      background: var(--surface-2);
-      color: var(--ink);
-      border: 1px solid var(--border);
+      background: var(--surface-2); color: var(--ink); border: 1px solid var(--border);
     }
-    .btn-sm {
-      width: auto;
-      height: 38px;
-      padding: 0 14px;
-      font-size: 13px;
-    }
+    .btn-sm { width: auto; height: 36px; padding: 0 12px; font-size: 12px; }
 
-    /* App */
     .app { display: none; }
     .app.is-on { display: block; }
+
     .top {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 14px 18px;
-      background: rgba(15,15,18,.92);
-      backdrop-filter: blur(12px);
+      position: sticky; top: 0; z-index: 20;
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+      gap: 12px; padding: 14px 18px;
+      background: rgba(15,15,18,.94); backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
     }
-    .top h1 {
-      font-size: 1.05rem;
-      font-weight: 900;
-      letter-spacing: -0.02em;
-    }
-    .top h1 span {
-      display: block;
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--muted);
-    }
+    .top h1 { font-size: 1.05rem; font-weight: 900; letter-spacing: -0.02em; }
+    .top h1 span { display: block; font-size: 12px; font-weight: 500; color: var(--muted); }
     .top-actions { display: flex; flex-wrap: wrap; gap: 8px; }
-    .shell {
-      width: min(1100px, 100%);
-      margin: 0 auto;
-      padding: 18px 16px 48px;
+
+    .shell { width: min(1180px, 100%); margin: 0 auto; padding: 16px 16px 48px; }
+
+    .filters {
+      display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+      margin-bottom: 16px; padding: 12px; background: var(--surface);
+      border-radius: var(--radius);
     }
+    .filters label { font-size: 12px; font-weight: 700; color: var(--muted); margin-right: 4px; }
+    .chip {
+      border: 1px solid var(--border); background: var(--surface-2);
+      color: var(--ink); border-radius: 999px; padding: 7px 12px;
+      font-size: 12px; font-weight: 700; cursor: pointer;
+    }
+    .chip.is-on {
+      background: rgba(225,6,0,.15); border-color: rgba(225,6,0,.45); color: #ff8a80;
+    }
+    .filters input[type="date"] {
+      height: 34px; border-radius: 10px; border: 1px solid var(--border);
+      background: var(--surface-2); padding: 0 10px; font-size: 12px;
+    }
+
     .kpis {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 10px;
-      margin-bottom: 18px;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px; margin-bottom: 14px;
     }
     .kpi {
-      background: var(--surface);
-      border-radius: 12px;
-      padding: 14px;
+      background: var(--surface); border-radius: 12px; padding: 14px;
     }
     .kpi .lbl {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      margin-bottom: 6px;
+      font-size: 11px; font-weight: 700; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px;
     }
     .kpi .val {
-      font-size: 1.6rem;
-      font-weight: 900;
-      font-variant-numeric: tabular-nums;
+      font-size: 1.5rem; font-weight: 900; font-variant-numeric: tabular-nums;
       letter-spacing: -0.03em;
     }
     .kpi .val.good { color: var(--gain); }
     .kpi .val.warn { color: var(--warn); }
     .kpi .val.bad { color: var(--danger); }
+    .kpi .sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
 
     .panel {
-      background: var(--surface);
-      border-radius: var(--radius);
-      padding: 16px;
-      margin-bottom: 14px;
+      background: var(--surface); border-radius: var(--radius);
+      padding: 16px; margin-bottom: 14px;
     }
-    .panel h2 {
-      font-size: 15px;
-      font-weight: 800;
-      margin-bottom: 4px;
+    .panel h2 { font-size: 15px; font-weight: 800; margin-bottom: 4px; }
+    .panel .sub { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
+
+    .grid-2 {
+      display: grid; grid-template-columns: 1fr; gap: 14px;
     }
-    .panel .sub {
-      font-size: 13px;
-      color: var(--muted);
-      margin-bottom: 14px;
+    @media (min-width: 900px) {
+      .grid-2 { grid-template-columns: 1.2fr 0.8fr; }
     }
+
     .funnel-row {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 72px 64px;
-      gap: 10px;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-    .funnel-meta {
-      min-width: 0;
+      display: grid; grid-template-columns: minmax(0,1fr) 56px 70px 64px;
+      gap: 8px; align-items: center; margin-bottom: 10px;
     }
     .funnel-meta .name {
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 4px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      font-size: 12.5px; font-weight: 700; margin-bottom: 4px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
     .bar-track {
-      height: 10px;
-      border-radius: 999px;
-      background: var(--surface-2);
-      overflow: hidden;
+      height: 10px; border-radius: 999px; background: var(--surface-2); overflow: hidden;
     }
     .bar-fill {
-      height: 100%;
-      border-radius: inherit;
+      height: 100%; border-radius: inherit;
       background: linear-gradient(90deg, #12c700, var(--gain));
-      width: 0%;
-      transition: width 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+      width: 0%; transition: width .4s cubic-bezier(.16,1,.3,1);
     }
-    .bar-fill.drop {
-      background: linear-gradient(90deg, #e10600, #f5a524);
-    }
-    .funnel-count {
-      text-align: right;
-      font-weight: 900;
-      font-variant-numeric: tabular-nums;
-      font-size: 14px;
-    }
-    .funnel-rate {
-      text-align: right;
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--muted);
-      font-variant-numeric: tabular-nums;
+    .bar-fill.drop { background: linear-gradient(90deg, #e10600, #f5a524); }
+    .bar-fill.worst { background: linear-gradient(90deg, #ff1744, #ff6b6b); box-shadow: 0 0 12px rgba(255,23,68,.35); }
+    .funnel-count, .funnel-rate, .funnel-stop {
+      text-align: right; font-weight: 800; font-variant-numeric: tabular-nums; font-size: 12px;
     }
     .funnel-rate.bad { color: var(--danger); }
     .funnel-rate.good { color: var(--gain); }
+    .funnel-stop { color: var(--warn); font-size: 11px; }
 
-    .drop-list {
-      list-style: none;
-      display: grid;
-      gap: 8px;
+    .alert {
+      padding: 12px 14px; border-radius: 12px; margin-bottom: 14px;
+      background: rgba(255,107,107,.1); border: 1px solid rgba(255,107,107,.25);
+      font-size: 13px; font-weight: 600; line-height: 1.45;
     }
+    .alert strong { color: var(--danger); }
+    .alert.ok {
+      background: rgba(61,220,132,.08); border-color: rgba(61,220,132,.22);
+    }
+    .alert.ok strong { color: var(--gain); }
+
+    .drop-list { list-style: none; display: grid; gap: 8px; }
     .drop-list li {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 10px 12px;
-      border-radius: 10px;
-      background: var(--surface-2);
-      font-size: 13px;
+      display: flex; justify-content: space-between; gap: 12px;
+      padding: 10px 12px; border-radius: 10px; background: var(--surface-2); font-size: 12.5px;
     }
-    .drop-list .loss {
-      font-weight: 900;
-      color: var(--danger);
-      white-space: nowrap;
-    }
+    .drop-list .loss { font-weight: 900; color: var(--danger); white-space: nowrap; }
 
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
-    }
-    @media (min-width: 800px) {
-      .grid-2 { grid-template-columns: 1fr 1fr; }
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 12px;
-    }
+    table { width: 100%; border-collapse: collapse; font-size: 12px; }
     th, td {
-      text-align: left;
-      padding: 8px 6px;
-      border-bottom: 1px solid var(--border);
-      vertical-align: top;
+      text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--border); vertical-align: top;
     }
     th {
-      color: var(--muted);
-      font-weight: 700;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
+      color: var(--muted); font-weight: 700; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.04em;
     }
     .mono { font-variant-numeric: tabular-nums; }
     .tag {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 999px;
-      background: rgba(61, 220, 132, 0.12);
-      color: var(--gain);
-      font-weight: 700;
-      font-size: 11px;
+      display: inline-block; padding: 2px 8px; border-radius: 999px;
+      background: rgba(61,220,132,.12); color: var(--gain); font-weight: 700; font-size: 11px;
     }
-    .status {
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 8px;
-    }
+    .tag.warn { background: rgba(245,165,36,.12); color: var(--warn); }
+    .tag.bad { background: rgba(255,107,107,.12); color: var(--danger); }
+    .status { font-size: 12px; color: var(--muted); margin-top: 8px; }
     .status.error { color: var(--danger); }
     .note {
-      font-size: 12px;
-      color: var(--muted);
-      padding: 10px 12px;
-      border-radius: 10px;
-      background: var(--surface-2);
-      margin-top: 10px;
-      line-height: 1.5;
+      font-size: 12px; color: var(--muted); padding: 10px 12px; border-radius: 10px;
+      background: var(--surface-2); margin-top: 10px; line-height: 1.5;
     }
+    .region-row {
+      display: grid; grid-template-columns: 1fr 48px 1fr; gap: 8px; align-items: center;
+      margin-bottom: 8px; font-size: 12.5px;
+    }
+    .region-row .name { font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   </style>
 </head>
 <body>
   <div class="gate" id="gate">
     <form class="gate-card" id="loginForm" autocomplete="off">
       <h1>Dados do Quiz</h1>
-      <p>Painel de funil — etapas, cliques e queda até a VSL.</p>
+      <p>Funil, gargalos, região e filtros por tempo.</p>
       <label for="password">Senha</label>
       <input id="password" name="password" type="password" placeholder="Digite a senha" required autofocus>
       <div class="gate-error" id="gateError" aria-live="polite"></div>
@@ -339,8 +231,8 @@
   <div class="app" id="app">
     <header class="top">
       <h1>
-        Funil do Quiz
-        <span>growthyoutube · multi-usuário (contadores) + log local</span>
+        Painel do funil
+        <span id="filterLabel">Filtro: últimas 24 horas</span>
       </h1>
       <div class="top-actions">
         <button type="button" class="btn btn-ghost btn-sm" id="btnRefresh">Atualizar</button>
@@ -351,61 +243,88 @@
     </header>
 
     <main class="shell">
-      <section class="panel" style="margin-bottom:14px">
-        <h2>Pressell → Quiz</h2>
-        <p class="sub">Taxa de quem chegou em <code>/asuhdwa</code> e passou para a página principal.</p>
-        <section class="kpis" style="margin-bottom:0">
-          <div class="kpi"><div class="lbl">Visitas pressell</div><div class="val" id="kpiPressell">—</div></div>
-          <div class="kpi"><div class="lbl">Clicou CONTINUE</div><div class="val good" id="kpiPressellCont">—</div></div>
-          <div class="kpi"><div class="lbl">Chegou no quiz (via pressell)</div><div class="val good" id="kpiFromPressell">—</div></div>
-          <div class="kpi"><div class="lbl">Pressell → CONTINUE</div><div class="val" id="kpiRateCont">—</div></div>
-          <div class="kpi"><div class="lbl">Pressell → Quiz</div><div class="val" id="kpiRateQuiz">—</div></div>
-          <div class="kpi"><div class="lbl">Leave / recusou</div><div class="val warn" id="kpiDecline">—</div></div>
-        </section>
-      </section>
+      <div class="filters" id="filters">
+        <label>Período</label>
+        <button type="button" class="chip" data-filter="1h">1h</button>
+        <button type="button" class="chip" data-filter="6h">6h</button>
+        <button type="button" class="chip is-on" data-filter="24h">24h</button>
+        <button type="button" class="chip" data-filter="7d">7 dias</button>
+        <button type="button" class="chip" data-filter="today">Hoje (UTC)</button>
+        <button type="button" class="chip" data-filter="all">Tudo</button>
+        <input type="date" id="dayPick" title="Dia específico (UTC)">
+        <button type="button" class="chip" id="btnDay">Aplicar dia</button>
+      </div>
 
-      <section class="kpis" id="kpis">
-        <div class="kpi"><div class="lbl">Aberturas quiz (total)</div><div class="val" id="kpiQuiz">—</div></div>
-        <div class="kpi"><div class="lbl">Chegaram no final</div><div class="val good" id="kpiFinal">—</div></div>
-        <div class="kpi"><div class="lbl">Clicaram VSL</div><div class="val good" id="kpiVslClick">—</div></div>
-        <div class="kpi"><div class="lbl">Abriram VSL</div><div class="val good" id="kpiVslPage">—</div></div>
-        <div class="kpi"><div class="lbl">Quiz → VSL</div><div class="val" id="kpiConv">—</div></div>
-        <div class="kpi"><div class="lbl">Maior queda</div><div class="val warn" id="kpiDrop">—</div></div>
-      </section>
+      <div class="alert" id="bottleneckAlert">Analisando onde o lead para…</div>
 
-      <section class="panel">
-        <h2>Funil por etapa</h2>
-        <p class="sub">Cada barra = quantas pessoas passaram por esse ponto (todos os visitantes, contadores online). A % é em relação à etapa anterior.</p>
-        <div id="funnelBars"></div>
-        <p class="status" id="funnelStatus">Carregando contadores…</p>
+      <section class="kpis">
+        <div class="kpi"><div class="lbl">Sessões no período</div><div class="val" id="kpiSessions">—</div><div class="sub" id="kpiSessionsSub">filtrado</div></div>
+        <div class="kpi"><div class="lbl">Pressell</div><div class="val" id="kpiPressell">—</div><div class="sub">visitas</div></div>
+        <div class="kpi"><div class="lbl">CONTINUE</div><div class="val good" id="kpiContinue">—</div><div class="sub" id="kpiContinueRate">—</div></div>
+        <div class="kpi"><div class="lbl">Quiz via pressell</div><div class="val good" id="kpiToQuiz">—</div><div class="sub" id="kpiToQuizRate">—</div></div>
+        <div class="kpi"><div class="lbl">Chegou no final do quiz</div><div class="val" id="kpiFinal">—</div><div class="sub" id="kpiFinalRate">—</div></div>
+        <div class="kpi"><div class="lbl">Abriu VSL</div><div class="val" id="kpiVsl">—</div><div class="sub" id="kpiVslRate">—</div></div>
       </section>
 
       <div class="grid-2">
         <section class="panel">
-          <h2>Onde o lead trava</h2>
-          <p class="sub">Maiores perdas entre uma etapa e a seguinte.</p>
-          <ul class="drop-list" id="dropList"></ul>
+          <h2>Onde o lead para</h2>
+          <p class="sub">
+            Contagem por sessão no período filtrado.
+            <strong>Parou aqui</strong> = última etapa que a pessoa alcançou.
+            <strong>Queda %</strong> = perda em relação à etapa anterior.
+          </p>
+          <div class="funnel-row" style="opacity:.6;margin-bottom:6px">
+            <div class="funnel-meta"><div class="name">Etapa</div></div>
+            <div class="funnel-count">N</div>
+            <div class="funnel-rate">Queda</div>
+            <div class="funnel-stop">Parou</div>
+          </div>
+          <div id="funnelBars"></div>
+          <p class="status" id="funnelStatus">—</p>
         </section>
-        <section class="panel">
-          <h2>Respostas dos botões</h2>
-          <p class="sub">Qual reação o pessoal mais clica (agregado).</p>
-          <div id="answerBars"></div>
-        </section>
+
+        <div>
+          <section class="panel">
+            <h2>Maiores gargalos</h2>
+            <p class="sub">Maiores perdas entre etapas no período.</p>
+            <ul class="drop-list" id="dropList"></ul>
+          </section>
+
+          <section class="panel">
+            <h2>Região de quem acessa</h2>
+            <p class="sub">Por sessão (estado/região e país) no período filtrado.</p>
+            <div id="regionBars"></div>
+            <div id="countryBars" style="margin-top:14px"></div>
+          </section>
+        </div>
       </div>
 
       <section class="panel">
-        <h2>Visitantes (IP + localização)</h2>
-        <p class="sub">Sessões capturadas neste navegador (com IP/cidade quando a API responder). Totais multi-usuário estão nos contadores acima.</p>
+        <h2>Totais online (todos os visitantes)</h2>
+        <p class="sub">Contadores globais (CounterAPI). Use o filtro de dia UTC para ver o dia específico online.</p>
+        <div class="kpis" style="margin-bottom:0">
+          <div class="kpi"><div class="lbl">Pressell (online)</div><div class="val" id="onPressell">—</div></div>
+          <div class="kpi"><div class="lbl">CONTINUE (online)</div><div class="val good" id="onContinue">—</div></div>
+          <div class="kpi"><div class="lbl">Quiz via pressell</div><div class="val good" id="onFrom">—</div></div>
+          <div class="kpi"><div class="lbl">Quiz total</div><div class="val" id="onQuiz">—</div></div>
+          <div class="kpi"><div class="lbl">VSL</div><div class="val" id="onVsl">—</div></div>
+          <div class="kpi"><div class="lbl">Pressell→Quiz online</div><div class="val" id="onRate">—</div></div>
+        </div>
+        <p class="status" id="onlineStatus">—</p>
+      </section>
+
+      <section class="panel">
+        <h2>Visitantes no período</h2>
+        <p class="sub">IP, região e até onde cada sessão chegou.</p>
         <div style="overflow-x:auto">
           <table>
             <thead>
               <tr>
-                <th>Último acesso</th>
+                <th>Sessão</th>
                 <th>IP</th>
-                <th>Local</th>
-                <th>Pressell</th>
-                <th>Quiz</th>
-                <th>Últimos eventos</th>
+                <th>Cidade / Região / País</th>
+                <th>Parou em</th>
               </tr>
             </thead>
             <tbody id="visitorsBody"></tbody>
@@ -414,8 +333,8 @@
       </section>
 
       <section class="panel">
-        <h2>Log de eventos (este navegador)</h2>
-        <p class="sub">Últimos eventos com IP/local. Abra a pressell e o quiz em abas de teste para encher o log.</p>
+        <h2>Log de eventos</h2>
+        <p class="sub">Eventos brutos no período (com IP/local quando capturado).</p>
         <div style="overflow-x:auto">
           <table>
             <thead>
@@ -423,18 +342,17 @@
                 <th>Quando</th>
                 <th>Evento</th>
                 <th>IP</th>
-                <th>Cidade / País</th>
-                <th>Sessão</th>
+                <th>Local</th>
               </tr>
             </thead>
             <tbody id="localBody"></tbody>
           </table>
         </div>
         <p class="note">
-          <strong>Como ler:</strong><br>
-          • <strong>Pressell → CONTINUE</strong> baixo = botão ou copy da pressell travando.<br>
-          • <strong>CONTINUE alto, Quiz via pressell baixo</strong> = problema no redirect/link.<br>
-          • Totais de funil (barras) contam <strong>todos os visitantes</strong> (CounterAPI). IP/local é capturado no aparelho de cada lead e fica no log local; use Exportar JSON para baixar.
+          <strong>Como ler:</strong> se a maior queda é <em>pressell_view → pressell_continue</em>, o botão CONTINUE não está convertendo.
+          Se é <em>step_view_X → step_answer_X</em>, a avaliação X trava o lead.
+          Se é <em>step_view_5 → vsl_click</em>, o CTA do vídeo final falha.
+          Região/IP vêm da API de geolocalização no navegador do visitante.
         </p>
       </section>
     </main>
@@ -445,6 +363,8 @@
     (function () {
       var PASS = 'Dados@2026';
       var AUTH_KEY = 'grow_dadosquizz_auth';
+      var filterState = { type: '24h', hours: 24, day: null };
+
       var gate = document.getElementById('gate');
       var app = document.getElementById('app');
       var form = document.getElementById('loginForm');
@@ -483,28 +403,55 @@
       });
 
       document.getElementById('btnLogout').addEventListener('click', function () {
-        setAuthed(false);
-        showGate();
+        setAuthed(false); showGate();
       });
       document.getElementById('btnRefresh').addEventListener('click', loadDashboard);
       document.getElementById('btnClearLocal').addEventListener('click', function () {
-        if (!confirm('Limpar o log local deste navegador?')) return;
+        if (!confirm('Limpar log local deste navegador?')) return;
         GrowFunnel.clearLocalEvents();
-        renderLocal();
+        loadDashboard();
       });
       document.getElementById('btnExport').addEventListener('click', function () {
-        var data = {
+        var events = getFilteredEvents();
+        var analysis = GrowFunnel.analyzeDropoff(events);
+        var blob = new Blob([JSON.stringify({
           exportedAt: new Date().toISOString(),
-          localEvents: GrowFunnel.getLocalEvents(),
-          visitors: GrowFunnel.getVisitors ? GrowFunnel.getVisitors() : [],
-          note: 'Contadores multi-usuário: CounterAPI namespace growthyoutube_funnel. IP/local no log local de cada aparelho.'
-        };
-        var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+          filter: filterState,
+          events: events,
+          analysis: analysis,
+          visitors: GrowFunnel.getVisitors ? GrowFunnel.getVisitors() : []
+        }, null, 2)], { type: 'application/json' });
         var a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = 'quiz-funnel-' + Date.now() + '.json';
+        a.download = 'funnel-' + Date.now() + '.json';
         a.click();
         URL.revokeObjectURL(a.href);
+      });
+
+      // Filtros
+      document.querySelectorAll('.chip[data-filter]').forEach(function (chip) {
+        chip.addEventListener('click', function () {
+          document.querySelectorAll('.chip[data-filter]').forEach(function (c) { c.classList.remove('is-on'); });
+          chip.classList.add('is-on');
+          var f = chip.getAttribute('data-filter');
+          if (f === '1h') filterState = { type: '1h', hours: 1, day: null };
+          else if (f === '6h') filterState = { type: '6h', hours: 6, day: null };
+          else if (f === '24h') filterState = { type: '24h', hours: 24, day: null };
+          else if (f === '7d') filterState = { type: '7d', hours: 24 * 7, day: null };
+          else if (f === 'today') {
+            var day = GrowFunnel.dayKey ? GrowFunnel.dayKey(Date.now()) : new Date().toISOString().slice(0, 10);
+            filterState = { type: 'today', hours: null, day: day };
+          } else if (f === 'all') filterState = { type: 'all', hours: null, day: null };
+          loadDashboard();
+        });
+      });
+
+      document.getElementById('btnDay').addEventListener('click', function () {
+        var v = document.getElementById('dayPick').value;
+        if (!v) return;
+        document.querySelectorAll('.chip[data-filter]').forEach(function (c) { c.classList.remove('is-on'); });
+        filterState = { type: 'day', hours: null, day: v };
+        loadDashboard();
       });
 
       function pct(part, whole) {
@@ -514,170 +461,223 @@
 
       function esc(s) {
         return String(s == null ? '' : s)
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-          .replace(/"/g, '&quot;');
+          .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
       }
 
-      function renderLocal() {
-        var rows = GrowFunnel.getLocalEvents().slice().reverse().slice(0, 100);
-        var body = document.getElementById('localBody');
-        if (!rows.length) {
-          body.innerHTML = '<tr><td colspan="5" style="color:var(--muted)">Nenhum evento ainda. Abra /asuhdwa e o quiz em outra aba para gerar dados.</td></tr>';
-          return;
-        }
-        body.innerHTML = rows.map(function (r) {
-          var when = r.iso ? r.iso.replace('T', ' ').slice(0, 19) : '—';
-          var loc = [r.city, r.region, r.country_code || r.country].filter(Boolean).join(', ') || '—';
-          return '<tr>' +
-            '<td class="mono">' + esc(when) + '</td>' +
-            '<td><span class="tag">' + esc(r.event || '') + '</span></td>' +
-            '<td class="mono">' + esc(r.ip || '…') + '</td>' +
-            '<td>' + esc(loc) + '</td>' +
-            '<td class="mono" style="max-width:90px;overflow:hidden;text-overflow:ellipsis">' + esc((r.sessionId || '').slice(-10)) + '</td>' +
-            '</tr>';
-        }).join('');
+      function filterLabel() {
+        if (filterState.type === 'all') return 'Filtro: todos os dados locais';
+        if (filterState.day) return 'Filtro: dia ' + filterState.day + ' (UTC)';
+        if (filterState.hours) return 'Filtro: últimas ' + filterState.hours + ' hora(s)';
+        return 'Filtro ativo';
       }
 
-      function renderVisitors() {
-        var list = (GrowFunnel.getVisitors ? GrowFunnel.getVisitors() : []).slice().reverse().slice(0, 80);
-        var body = document.getElementById('visitorsBody');
-        if (!body) return;
-        if (!list.length) {
-          body.innerHTML = '<tr><td colspan="6" style="color:var(--muted)">Nenhuma sessão local ainda.</td></tr>';
+      function getFilteredEvents() {
+        if (filterState.type === 'all') return GrowFunnel.getLocalEvents();
+        if (filterState.day) return GrowFunnel.filterEvents({ day: filterState.day });
+        if (filterState.hours) return GrowFunnel.filterEvents({ hours: filterState.hours });
+        return GrowFunnel.getLocalEvents();
+      }
+
+      function countEvent(events, name) {
+        return events.filter(function (e) { return e.event === name; }).length;
+      }
+
+      function renderRegionBars(map, title, container) {
+        var entries = Object.keys(map).map(function (k) {
+          return { name: k, count: map[k] };
+        }).sort(function (a, b) { return b.count - a.count; }).slice(0, 12);
+        if (!entries.length) {
+          container.innerHTML = '<p style="color:var(--muted);font-size:13px">Sem dados de região no período.</p>';
           return;
         }
-        body.innerHTML = list.map(function (v) {
-          var when = v.lastSeen ? String(v.lastSeen).replace('T', ' ').slice(0, 19) : '—';
-          var loc = [v.city, v.region, v.country_code || v.country].filter(Boolean).join(', ') || '—';
-          var press = v.continuedPressell ? 'CONTINUE ✓' : (v.fromPressell ? 'viu' : '—');
-          var quiz = v.reachedQuiz ? 'sim ✓' : '—';
-          var ev = (v.events || []).slice(-6).join(' → ');
-          return '<tr>' +
-            '<td class="mono">' + esc(when) + '</td>' +
-            '<td class="mono">' + esc(v.ip || '…') + '</td>' +
-            '<td>' + esc(loc) + '</td>' +
-            '<td>' + esc(press) + '</td>' +
-            '<td>' + esc(quiz) + '</td>' +
-            '<td style="font-size:11px;color:var(--muted)">' + esc(ev) + '</td>' +
-            '</tr>';
-        }).join('');
+        var max = entries[0].count || 1;
+        var html = '<div style="font-size:12px;font-weight:800;margin-bottom:8px;color:var(--muted)">' + esc(title) + '</div>';
+        entries.forEach(function (e) {
+          var w = Math.max(4, Math.round((e.count / max) * 100));
+          html += '<div class="region-row">' +
+            '<div class="name">' + esc(e.name) + '</div>' +
+            '<div class="mono" style="text-align:right;font-weight:800">' + e.count + '</div>' +
+            '<div class="bar-track"><div class="bar-fill" style="width:' + w + '%"></div></div>' +
+          '</div>';
+        });
+        container.innerHTML = html;
       }
 
       function loadDashboard() {
-        var funnel = GrowFunnel.FUNNEL;
-        var answerKeys = GrowFunnel.ANSWER_KEYS;
+        document.getElementById('filterLabel').textContent = filterLabel();
+        var events = getFilteredEvents();
+        var analysis = GrowFunnel.analyzeDropoff(events);
         var status = document.getElementById('funnelStatus');
-        status.textContent = 'Carregando contadores multi-usuário…';
-        status.className = 'status';
 
-        var names = funnel.map(function (f) { return f.key; })
-          .concat(answerKeys.map(function (a) { return a.key; }))
-          .concat(['pressell_decline']);
+        // KPIs do período (local sessions)
+        document.getElementById('kpiSessions').textContent = analysis.sessions;
+        var pView = countEvent(events, 'pressell_view');
+        var pCont = countEvent(events, 'pressell_continue');
+        var pFrom = countEvent(events, 'quiz_from_pressell');
+        // fallback: se não tem quiz_from_pressell mas tem pressell_continue + quiz
+        var quiz = countEvent(events, 'quiz_pageview');
+        var final = countEvent(events, 'step_view_5');
+        var vsl = countEvent(events, 'vsl_pageview');
 
-        GrowFunnel.fetchMany(names).then(function (rows) {
+        // Prefer session-based counts from analysis steps
+        var stepMap = {};
+        analysis.steps.forEach(function (s) { stepMap[s.key] = s.count; });
+        pView = stepMap.pressell_view != null ? stepMap.pressell_view : pView;
+        pCont = stepMap.pressell_continue != null ? stepMap.pressell_continue : pCont;
+        pFrom = stepMap.quiz_from_pressell != null ? stepMap.quiz_from_pressell : pFrom;
+        quiz = stepMap.quiz_pageview != null ? stepMap.quiz_pageview : quiz;
+        final = stepMap.step_view_5 != null ? stepMap.step_view_5 : final;
+        vsl = stepMap.vsl_pageview != null ? stepMap.vsl_pageview : vsl;
+
+        document.getElementById('kpiPressell').textContent = pView;
+        document.getElementById('kpiContinue').textContent = pCont;
+        document.getElementById('kpiToQuiz').textContent = pFrom || quiz;
+        document.getElementById('kpiFinal').textContent = final;
+        document.getElementById('kpiVsl').textContent = vsl;
+
+        var rCont = pct(pCont, pView);
+        var rQuiz = pct(pFrom || quiz, pView);
+        var rFinal = pct(final, quiz || pFrom || pView);
+        var rVsl = pct(vsl, quiz || pFrom || pView);
+        document.getElementById('kpiContinueRate').textContent = rCont != null ? rCont + '% da pressell' : '—';
+        document.getElementById('kpiToQuizRate').textContent = rQuiz != null ? rQuiz + '% da pressell' : '—';
+        document.getElementById('kpiFinalRate').textContent = rFinal != null ? rFinal + '% do quiz' : '—';
+        document.getElementById('kpiVslRate').textContent = rVsl != null ? rVsl + '% do quiz' : '—';
+
+        // Bottleneck alert
+        var alert = document.getElementById('bottleneckAlert');
+        if (analysis.worstDrop && analysis.worstDrop.drop > 0) {
+          alert.className = 'alert';
+          alert.innerHTML = '<strong>Maior freio no funil:</strong> ' +
+            esc(analysis.worstDrop.label) +
+            ' — perda de <strong>' + analysis.worstDrop.drop + '</strong> sessões (' +
+            analysis.worstDrop.dropPct + '%). ' +
+            'É aqui que o lead mais para de avançar no período filtrado.';
+        } else if (analysis.sessions === 0) {
+          alert.className = 'alert';
+          alert.innerHTML = '<strong>Sem sessões no período.</strong> Abra <code>/asuhdwa</code>, clique CONTINUE e percorra o quiz para gerar dados. Depois clique Atualizar.';
+        } else {
+          alert.className = 'alert ok';
+          alert.innerHTML = '<strong>Sem queda crítica</strong> no período — o funil está fluindo nas sessões capturadas.';
+        }
+
+        // Funnel bars
+        var max = 1;
+        analysis.steps.forEach(function (s) { if (s.count > max) max = s.count; });
+        var worstKey = analysis.worstDrop ? analysis.worstDrop.key : null;
+        var html = '';
+        analysis.steps.forEach(function (s, i) {
+          var w = Math.max(2, Math.round((s.count / max) * 100));
+          var rateClass = s.dropPct >= 40 ? 'bad' : s.dropPct <= 15 ? 'good' : '';
+          var barClass = s.key === worstKey ? 'worst' : (s.dropPct >= 40 ? 'drop' : '');
+          html += '<div class="funnel-row">' +
+            '<div class="funnel-meta"><div class="name">' + esc(s.label) + '</div>' +
+            '<div class="bar-track"><div class="bar-fill ' + barClass + '" style="width:' + w + '%"></div></div></div>' +
+            '<div class="funnel-count">' + s.count + '</div>' +
+            '<div class="funnel-rate ' + rateClass + '">' + (i === 0 ? 'base' : ('-' + s.dropPct + '%')) + '</div>' +
+            '<div class="funnel-stop">' + (s.stoppedHere ? s.stoppedHere : '—') + '</div>' +
+          '</div>';
+        });
+        document.getElementById('funnelBars').innerHTML = html || '<p style="color:var(--muted)">Sem dados.</p>';
+        status.textContent = analysis.sessions + ' sessão(ões) · ' + events.length + ' evento(s) no período';
+
+        // Drop list
+        var drops = analysis.steps
+          .filter(function (s, i) { return i > 0 && s.drop > 0; })
+          .sort(function (a, b) { return b.dropPct - a.dropPct; })
+          .slice(0, 8);
+        document.getElementById('dropList').innerHTML = drops.length
+          ? drops.map(function (d) {
+              return '<li><span>' + esc(d.label) + '</span><span class="loss">-' + d.drop + ' (' + d.dropPct + '%)</span></li>';
+            }).join('')
+          : '<li>Sem quedas no período.</li>';
+
+        // Regions
+        renderRegionBars(analysis.byRegion, 'Por estado / região', document.getElementById('regionBars'));
+        renderRegionBars(analysis.byCountry, 'Por país', document.getElementById('countryBars'));
+
+        // Visitors table
+        var vBody = document.getElementById('visitorsBody');
+        var details = (analysis.sessionDetails || []).slice().reverse().slice(0, 100);
+        if (!details.length) {
+          vBody.innerHTML = '<tr><td colspan="4" style="color:var(--muted)">Nenhuma sessão no período.</td></tr>';
+        } else {
+          vBody.innerHTML = details.map(function (v) {
+            var g = v.geo || {};
+            var loc = [g.city, g.region, g.country_code || g.country].filter(Boolean).join(', ') || '—';
+            return '<tr>' +
+              '<td class="mono">' + esc((v.sessionId || '').slice(-12)) + '</td>' +
+              '<td class="mono">' + esc(g.ip || '…') + '</td>' +
+              '<td>' + esc(loc) + '</td>' +
+              '<td><span class="tag warn">' + esc(v.maxLabel || v.maxStep || '—') + '</span></td>' +
+            '</tr>';
+          }).join('');
+        }
+
+        // Event log
+        var rows = events.slice().reverse().slice(0, 120);
+        var body = document.getElementById('localBody');
+        if (!rows.length) {
+          body.innerHTML = '<tr><td colspan="4" style="color:var(--muted)">Sem eventos no período.</td></tr>';
+        } else {
+          body.innerHTML = rows.map(function (r) {
+            var when = r.iso ? r.iso.replace('T', ' ').slice(0, 19) : '—';
+            var loc = [r.city, r.region, r.country_code || r.country].filter(Boolean).join(', ') || '—';
+            return '<tr>' +
+              '<td class="mono">' + esc(when) + '</td>' +
+              '<td><span class="tag">' + esc(r.event || '') + '</span></td>' +
+              '<td class="mono">' + esc(r.ip || '…') + '</td>' +
+              '<td>' + esc(loc) + '</td>' +
+            '</tr>';
+          }).join('');
+        }
+
+        // Online multi-user counters (all-time or selected day)
+        var day = filterState.day || (filterState.type === 'today' ? (GrowFunnel.dayKey && GrowFunnel.dayKey(Date.now())) : null);
+        var suffix = day ? '_' + day : '';
+        var onlineKeys = [
+          'pressell_view' + suffix,
+          'pressell_continue' + suffix,
+          'quiz_from_pressell' + suffix,
+          'quiz_pageview' + suffix,
+          'vsl_pageview' + suffix,
+          // all-time also if day filter
+          'pressell_view', 'pressell_continue', 'quiz_from_pressell', 'quiz_pageview', 'vsl_pageview'
+        ];
+        // unique
+        onlineKeys = onlineKeys.filter(function (k, i, a) { return a.indexOf(k) === i; });
+
+        var onlineStatus = document.getElementById('onlineStatus');
+        onlineStatus.textContent = 'Carregando contadores online…';
+        GrowFunnel.fetchMany(onlineKeys).then(function (rows) {
           var map = {};
           rows.forEach(function (r) { map[r.name] = r.count; });
-
-          var counts = funnel.map(function (f) {
-            return { key: f.key, label: f.label, count: map[f.key] || 0 };
-          });
-
-          var max = Math.max.apply(null, counts.map(function (c) { return c.count; }).concat([1]));
-          var html = '';
-          var drops = [];
-
-          counts.forEach(function (c, i) {
-            var prev = i === 0 ? c.count : counts[i - 1].count;
-            var rate = i === 0 ? 100 : pct(c.count, prev);
-            var lost = i === 0 ? 0 : Math.max(0, prev - c.count);
-            if (i > 0 && prev > 0) {
-              drops.push({
-                from: counts[i - 1].label,
-                to: c.label,
-                lost: lost,
-                rate: rate,
-                lossPct: pct(lost, prev)
-              });
-            }
-            var w = Math.max(2, Math.round((c.count / max) * 100));
-            var rateClass = rate == null ? '' : (rate < 60 ? 'bad' : rate >= 85 ? 'good' : '');
-            var barClass = rate != null && rate < 60 && i > 0 ? 'drop' : '';
-            html += '<div class="funnel-row">' +
-              '<div class="funnel-meta">' +
-                '<div class="name">' + c.label + '</div>' +
-                '<div class="bar-track"><div class="bar-fill ' + barClass + '" style="width:' + w + '%"></div></div>' +
-              '</div>' +
-              '<div class="funnel-count">' + c.count + '</div>' +
-              '<div class="funnel-rate ' + rateClass + '">' + (i === 0 ? 'base' : (rate != null ? rate + '%' : '—')) + '</div>' +
-            '</div>';
-          });
-          document.getElementById('funnelBars').innerHTML = html;
-
-          // Pressell KPIs (multi-usuário)
-          var pView = map.pressell_view || 0;
-          var pCont = map.pressell_continue || 0;
-          var pFrom = map.quiz_from_pressell || 0;
-          var pDec = map.pressell_decline || 0;
-          document.getElementById('kpiPressell').textContent = pView;
-          document.getElementById('kpiPressellCont').textContent = pCont;
-          document.getElementById('kpiFromPressell').textContent = pFrom;
-          document.getElementById('kpiDecline').textContent = pDec;
-
-          var rateCont = pct(pCont, pView);
-          var rateQuiz = pct(pFrom, pView);
-          var elCont = document.getElementById('kpiRateCont');
-          var elQuiz = document.getElementById('kpiRateQuiz');
-          elCont.textContent = rateCont != null ? rateCont + '%' : '—';
-          elQuiz.textContent = rateQuiz != null ? rateQuiz + '%' : '—';
-          elCont.className = 'val ' + (rateCont != null && rateCont < 40 ? 'bad' : rateCont != null && rateCont >= 60 ? 'good' : 'warn');
-          elQuiz.className = 'val ' + (rateQuiz != null && rateQuiz < 35 ? 'bad' : rateQuiz != null && rateQuiz >= 55 ? 'good' : 'warn');
-
-          // Quiz / VSL KPIs
-          var quiz = map.quiz_pageview || 0;
-          var final = map.step_view_5 || 0;
-          var vslClick = map.vsl_click || 0;
-          var vslPage = map.vsl_pageview || 0;
-          document.getElementById('kpiQuiz').textContent = quiz;
-          document.getElementById('kpiFinal').textContent = final;
-          document.getElementById('kpiVslClick').textContent = vslClick;
-          document.getElementById('kpiVslPage').textContent = vslPage;
-          var conv = pct(vslPage || vslClick, quiz);
-          var convEl = document.getElementById('kpiConv');
-          convEl.textContent = conv != null ? conv + '%' : '—';
-          convEl.className = 'val ' + (conv != null && conv < 20 ? 'bad' : conv != null && conv >= 40 ? 'good' : 'warn');
-
-          drops.sort(function (a, b) { return (b.lossPct || 0) - (a.lossPct || 0); });
-          var worst = drops[0];
-          document.getElementById('kpiDrop').textContent = worst && worst.lossPct
-            ? worst.lossPct + '%'
-            : '—';
-
-          var dropHtml = drops.slice(0, 8).map(function (d) {
-            return '<li><span>' + d.from + ' → ' + d.to + '</span>' +
-              '<span class="loss">-' + d.lost + ' (' + (d.lossPct != null ? d.lossPct : '—') + '%)</span></li>';
-          }).join('');
-          document.getElementById('dropList').innerHTML = dropHtml || '<li>Sem dados de queda ainda.</li>';
-
-          var aMax = Math.max.apply(null, answerKeys.map(function (a) { return map[a.key] || 0 }).concat([1]));
-          document.getElementById('answerBars').innerHTML = answerKeys.map(function (a) {
-            var c = map[a.key] || 0;
-            var w = Math.max(2, Math.round((c / aMax) * 100));
-            return '<div class="funnel-row">' +
-              '<div class="funnel-meta"><div class="name">' + a.label + '</div>' +
-              '<div class="bar-track"><div class="bar-fill" style="width:' + w + '%"></div></div></div>' +
-              '<div class="funnel-count">' + c + '</div><div class="funnel-rate"></div></div>';
-          }).join('');
-
-          status.textContent = 'Atualizado · ' + new Date().toLocaleString('pt-BR') + ' · contadores online (todos os visitantes)';
+          function pick(base) {
+            if (day && map[base + '_' + day] != null) return map[base + '_' + day] || 0;
+            return map[base] || 0;
+          }
+          var op = pick('pressell_view');
+          var oc = pick('pressell_continue');
+          var of = pick('quiz_from_pressell');
+          var oq = pick('quiz_pageview');
+          var ov = pick('vsl_pageview');
+          document.getElementById('onPressell').textContent = op;
+          document.getElementById('onContinue').textContent = oc;
+          document.getElementById('onFrom').textContent = of;
+          document.getElementById('onQuiz').textContent = oq;
+          document.getElementById('onVsl').textContent = ov;
+          var orate = pct(of || oc, op);
+          var el = document.getElementById('onRate');
+          el.textContent = orate != null ? orate + '%' : '—';
+          el.className = 'val ' + (orate != null && orate < 35 ? 'bad' : orate != null && orate >= 55 ? 'good' : 'warn');
+          onlineStatus.textContent = day
+            ? 'Online filtrado pelo dia UTC ' + day + ' (quando houver contadores diários). Totais sem sufixo = acumulado geral.'
+            : 'Online = acumulado de todos os visitantes (CounterAPI). Para filtrar dia online, use "Hoje" ou um dia no calendário.';
         }).catch(function () {
-          status.textContent = 'Falha ao carregar contadores online. Log local ainda funciona.';
-          status.className = 'status error';
+          onlineStatus.textContent = 'Falha ao carregar contadores online.';
+          onlineStatus.className = 'status error';
         });
-
-        renderLocal();
-        renderVisitors();
       }
 
       if (isAuthed()) showApp();
