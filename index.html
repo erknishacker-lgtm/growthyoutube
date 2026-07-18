@@ -73,18 +73,34 @@
         s.parentNode.insertBefore(a, s);
       };
       ttq.load("D9CQB03C77U79CKF37LG");
+      ttq.load("D9DH4K3C77U7PB56UPEG"); // Louzada (7858) — Renda Extra Digistore24
       ttq.page();
     }(window, document, "ttq");
   </script>
 
-  <!-- UTMIFY TikTok Pixel -->
+  <!-- TikTok Events API access token (Louzada 7858) -->
   <script>
-    window.tikTokPixelId = "6a59a6700690ebfc75658b03";
-    var a = document.createElement("script");
-    a.setAttribute("async", "");
-    a.setAttribute("defer", "");
-    a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel-tiktok.js");
-    document.head.appendChild(a);
+    window.tikTokAccessToken = "33471f3fc4ddc3f0a201b840a9aadc14118d59e9";
+  </script>
+
+  <!-- UTMIFY TikTok — ambos os pixels (sequencial para não sobrescrever o ID) -->
+  <script>
+    (function () {
+      var ids = ["6a5b1402b9810de7c650e59c", "6a59a6700690ebfc75658b03"];
+      var i = 0;
+      function next() {
+        if (i >= ids.length) return;
+        var pixelId = ids[i++];
+        window.tikTokPixelId = pixelId;
+        var s = document.createElement("script");
+        s.async = true;
+        s.src = "https://cdn.utmify.com.br/scripts/pixel/pixel-tiktok.js?p=" + encodeURIComponent(pixelId) + "&t=" + Date.now();
+        s.onload = next;
+        s.onerror = next;
+        document.head.appendChild(s);
+      }
+      next();
+    })();
   </script>
 
   <!-- Digistore / Digital Elite -->
