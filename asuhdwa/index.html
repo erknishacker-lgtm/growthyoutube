@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#ffffff" />
-  <meta name="robots" content="noindex, nofollow" />
-  <title>Continue?</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0f0f12">
+  <meta name="description" content="Continue to the next step.">
+  <title>Continue</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" href="../images/cropped-MOCKUP-APPLE-BOX-ACF-scaled-1-32x32.webp" sizes="32x32">
+  <link rel="icon" href="../images/cropped-MOCKUP-APPLE-BOX-ACF-scaled-1-192x192.webp" sizes="192x192">
+  <link rel="apple-touch-icon" href="../images/cropped-MOCKUP-APPLE-BOX-ACF-scaled-1-180x180.webp">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
 
   <!-- UTMIFY -->
   <script
@@ -30,6 +34,10 @@
     fbq('init', '1445744113550630');
     fbq('track', 'PageView');
   </script>
+  <noscript>
+    <img height="1" width="1" style="display:none" alt=""
+      src="https://www.facebook.com/tr?id=1445744113550630&ev=PageView&noscript=1">
+  </noscript>
 
   <!-- TikTok Pixel -->
   <script>
@@ -37,7 +45,9 @@
       w.TiktokAnalyticsObject = t;
       var ttq = w[t] = w[t] || [];
       ttq.methods = ["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"];
-      ttq.setAndDefer = function (t, e) { t[e] = function () { t.push([e].concat(Array.prototype.slice.call(arguments, 0))); }; };
+      ttq.setAndDefer = function (t, e) {
+        t[e] = function () { t.push([e].concat(Array.prototype.slice.call(arguments, 0))); };
+      };
       for (var i = 0; i < ttq.methods.length; i++) ttq.setAndDefer(ttq, ttq.methods[i]);
       ttq.instance = function (t) {
         for (var e = ttq._i[t] || [], n = 0; n < ttq.methods.length; n++) ttq.setAndDefer(e, ttq.methods[n]);
@@ -62,560 +72,411 @@
   <!-- UTMIFY TikTok -->
   <script>
     window.tikTokPixelId = "6a59a6700690ebfc75658b03";
-    var tikTokScript = document.createElement("script");
-    tikTokScript.setAttribute("async", "");
-    tikTokScript.setAttribute("defer", "");
-    tikTokScript.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel-tiktok.js");
-    document.head.appendChild(tikTokScript);
+    var a = document.createElement("script");
+    a.setAttribute("async", "");
+    a.setAttribute("defer", "");
+    a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel-tiktok.js");
+    document.head.appendChild(a);
   </script>
 
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Digistore -->
   <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ["Inter", "system-ui", "-apple-system", "Segoe UI", "sans-serif"],
-          },
-        },
-      },
-    };
+    window._ds24 = !window._ds24 ? { q: [], e: function () {} } : window._ds24;
+    window._ds24.q.push(['digitalElitePromocode', {
+      product_id: '343776',
+      affiliate_key: 'aff',
+      campaignkey_key: 'cam'
+    }]);
+    window._ds24.e();
   </script>
+
   <style>
     :root {
-      --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --bg: oklch(0.16 0.005 260);
+      --surface: oklch(0.22 0.006 260);
+      --surface-2: oklch(0.28 0.007 260);
+      --border: oklch(0.35 0.008 260);
+      --ink: oklch(0.96 0.005 260);
+      --muted: oklch(0.72 0.01 260);
+      --accent: oklch(0.58 0.24 25);
+      --accent-press: oklch(0.50 0.22 25);
+      --radius: 14px;
+      --header-h: 64px;
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --font: "Roboto", system-ui, -apple-system, "Segoe UI", sans-serif;
     }
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-text-size-adjust: 100%; }
+
+    body {
+      font-family: var(--font);
+      background:
+        radial-gradient(120% 80% at 50% -20%, oklch(0.28 0.04 25 / 0.28), transparent 55%),
+        var(--bg);
+      color: var(--ink);
+      min-height: 100dvh;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
     }
-    .animate-blink {
-      animation: blink 1s step-end infinite;
+
+    button {
+      font: inherit;
+      border: 0;
+      cursor: pointer;
+      background: none;
+      color: inherit;
     }
-    html, body, #root { min-height: 100%; }
+
+    a { color: inherit; text-decoration: none; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      height: var(--header-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 0 16px;
+      background: oklch(0.16 0.005 260 / 0.92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--accent);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .brand-mark svg { width: 18px; height: 18px; fill: #fff; }
+
+    .brand-text {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-text small {
+      display: block;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .status-pill {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--surface-2);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .status-pill i {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #3ddc84;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+
+    .shell {
+      width: min(480px, 100%);
+      margin: 0 auto;
+      padding: 22px 16px calc(36px + var(--safe-bottom));
+    }
+
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 28px 20px 24px;
+      box-shadow: 0 8px 24px oklch(0 0 0 / 0.35);
+      animation: stepIn 0.35s var(--ease-out);
+      text-align: center;
+    }
+
+    @keyframes stepIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: oklch(0.58 0.24 25 / 0.12);
+      color: oklch(0.78 0.12 25);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      margin-bottom: 16px;
+    }
+
+    .title {
+      font-size: clamp(1.4rem, 5vw, 1.75rem);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      text-wrap: balance;
+      margin-bottom: 12px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 15px;
+      margin: 0 auto 22px;
+      max-width: 32ch;
+      text-wrap: pretty;
+    }
+
+    .instruction {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin: 0 auto 16px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: oklch(0.58 0.24 25 / 0.1);
+      border: 1px solid oklch(0.58 0.24 25 / 0.18);
+      max-width: 100%;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .instruction .arrow {
+      color: var(--accent);
+      font-size: 16px;
+      animation: bounceY 1.1s var(--ease-out) infinite;
+    }
+
+    @keyframes bounceY {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(3px); }
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      min-height: 58px;
+      padding: 16px 18px;
+      border-radius: var(--radius);
+      font-weight: 900;
+      font-size: 16px;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      transition: transform 0.15s var(--ease-out), background 0.15s ease;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    .btn:active { transform: scale(0.98); }
+    .btn:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 3px;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 8px 28px oklch(0.58 0.24 25 / 0.38);
+    }
+
+    .btn-primary:hover { background: var(--accent-press); }
+
+    .btn-primary.is-pulse {
+      animation: ctaPulse 1.55s var(--ease-out) infinite;
+    }
+
+    @keyframes ctaPulse {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 8px 28px oklch(0.58 0.24 25 / 0.38);
+      }
+      50% {
+        transform: scale(1.025);
+        box-shadow: 0 12px 34px oklch(0.58 0.24 25 / 0.52);
+      }
+    }
+
+    .cta-hint {
+      margin-top: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .cta-hint strong {
+      color: var(--ink);
+      font-weight: 800;
+    }
+
+    .decline-wrap {
+      margin-top: 20px;
+    }
+
+    .btn-ghost {
+      font-size: 12px;
+      font-weight: 500;
+      color: oklch(0.48 0.01 260);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      opacity: 0.7;
+    }
+
+    .btn-ghost:hover { opacity: 1; }
+
+    .decline-msg {
+      display: none;
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: var(--surface-2);
+      font-size: 13px;
+      color: var(--muted);
+      text-align: left;
+      line-height: 1.45;
+    }
+
+    .decline-msg.is-on { display: block; }
+
+    .decline-msg button {
+      margin-top: 8px;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--ink);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .footer {
+      margin-top: 22px;
+      font-size: 12px;
+      color: oklch(0.48 0.01 260);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      .btn-primary.is-pulse,
+      .instruction .arrow { animation: none; }
+    }
   </style>
 </head>
-<body class="bg-white">
-  <div id="root"></div>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.5 31.5 0 0 0 24 12a31.5 31.5 0 0 0-.5-5.8zM9.8 15.5v-7l6.2 3.5-6.2 3.5z"/></svg>
+      </div>
+      <div class="brand-text">
+        Continue
+        <small>Secure session</small>
+      </div>
+    </div>
+    <div class="status-pill" aria-label="Connection status">
+      <i aria-hidden="true"></i>Ready
+    </div>
+  </header>
 
-  <!-- React 18 + ReactDOM + Framer Motion (UMD) -->
-  <script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/framer-motion@11.15.0/dist/framer-motion.js"></script>
+  <main class="shell">
+    <section class="card" aria-label="Continue">
+      <div class="badge">You’re in the right place</div>
+      <h1 class="title">Continue to the next step</h1>
+      <p class="subtitle">
+        Your session is ready. Tap the button below to keep going.
+      </p>
+
+      <div class="instruction" role="note">
+        <span class="arrow" aria-hidden="true">↓</span>
+        Tap CONTINUE to proceed
+      </div>
+
+      <a class="btn btn-primary is-pulse" id="continueBtn" href="../index.html">
+        CONTINUE →
+      </a>
+      <p class="cta-hint">Please press <strong>CONTINUE</strong> to move forward</p>
+
+      <div class="decline-wrap">
+        <button type="button" class="btn-ghost" id="declineBtn">
+          Leave this page
+        </button>
+        <div class="decline-msg" id="declineMsg" role="status">
+          If you want to keep going, press the red <strong>CONTINUE</strong> button above.
+          <br>
+          <button type="button" id="retryBtn">Continue →</button>
+        </div>
+      </div>
+
+      <div class="footer">All rights reserved.</div>
+    </section>
+  </main>
 
   <script>
     (function () {
-      var h = React.createElement;
-      var useState = React.useState;
-      var useEffect = React.useEffect;
-      var useRef = React.useRef;
-      var useCallback = React.useCallback;
-      var motion = window.Motion ? window.Motion.motion : null;
-      var AnimatePresence = window.Motion ? window.Motion.AnimatePresence : null;
+      var continueBtn = document.getElementById("continueBtn");
+      var declineBtn = document.getElementById("declineBtn");
+      var declineMsg = document.getElementById("declineMsg");
+      var retryBtn = document.getElementById("retryBtn");
 
-      // Fallback se Motion UMD expuser em outro global
-      if (!motion && window.framerMotion) {
-        motion = window.framerMotion.motion;
-        AnimatePresence = window.framerMotion.AnimatePresence;
-      }
+      var q = window.location.search || "";
+      if (q) continueBtn.setAttribute("href", "../index.html" + q);
 
-      function useTypewriter(text, speed, startDelay) {
-        speed = speed == null ? 38 : speed;
-        startDelay = startDelay == null ? 600 : startDelay;
-        var _a = useState("");
-        var displayed = _a[0];
-        var setDisplayed = _a[1];
-        var _b = useState(false);
-        var done = _b[0];
-        var setDone = _b[1];
-
-        useEffect(function () {
-          var intervalId = null;
-          var cancelled = false;
-          setDisplayed("");
-          setDone(false);
-          var i = 0;
-
-          var startId = setTimeout(function () {
-            if (cancelled) return;
-            intervalId = setInterval(function () {
-              i += 1;
-              setDisplayed(text.slice(0, i));
-              if (i >= text.length) {
-                clearInterval(intervalId);
-                setDone(true);
-              }
-            }, speed);
-          }, startDelay);
-
-          return function () {
-            cancelled = true;
-            clearTimeout(startId);
-            if (intervalId) clearInterval(intervalId);
-          };
-        }, [text, speed, startDelay]);
-
-        return { displayed: displayed, done: done };
-      }
-
-      function mainQuizUrl() {
-        return "../index.html" + (window.location.search || "");
-      }
-
-      function track(name, props) {
+      function track(name) {
         try {
-          if (typeof fbq === "function") fbq("trackCustom", name, props || {});
+          if (typeof fbq === "function") fbq("trackCustom", name, { page: "asuhdwa" });
         } catch (e) {}
         try {
           if (window.ttq && typeof window.ttq.track === "function") window.ttq.track(name);
         } catch (e) {}
       }
 
-      function CheckIcon() {
-        return h(
-          "svg",
-          {
-            xmlns: "http://www.w3.org/2000/svg",
-            width: 18,
-            height: 18,
-            viewBox: "0 0 24 24",
-            fill: "none",
-            stroke: "currentColor",
-            strokeWidth: 2.5,
-            strokeLinecap: "round",
-            strokeLinejoin: "round",
-            "aria-hidden": "true",
-          },
-          h("path", { d: "M20 6 9 17l-5-5" })
-        );
+      function goNext(e) {
+        if (e) e.preventDefault();
+        track("Presell_Continue");
+        continueBtn.textContent = "LOADING…";
+        continueBtn.style.pointerEvents = "none";
+        window.location.href = continueBtn.getAttribute("href") || "../index.html";
       }
 
-      function ArrowIcon(cls) {
-        return h(
-          "svg",
-          {
-            xmlns: "http://www.w3.org/2000/svg",
-            width: 16,
-            height: 16,
-            viewBox: "0 0 24 24",
-            fill: "none",
-            stroke: "currentColor",
-            strokeWidth: 2,
-            strokeLinecap: "round",
-            strokeLinejoin: "round",
-            className: cls || "",
-            "aria-hidden": "true",
-          },
-          h("path", { d: "M5 12h14" }),
-          h("path", { d: "m12 5 7 7-7 7" })
-        );
-      }
+      continueBtn.addEventListener("click", goNext);
 
-      function M(tag) {
-        // motion.div etc. se disponível; senão div/button estático
-        if (motion && motion[tag]) return motion[tag];
-        return tag;
-      }
+      declineBtn.addEventListener("click", function () {
+        track("Presell_Decline");
+        declineMsg.classList.add("is-on");
+        continueBtn.scrollIntoView({ behavior: "smooth", block: "center" });
+      });
 
-      function App() {
-        var headline = "do you want\nto continue?";
-        var tw = useTypewriter(headline, 38, 600);
-        var _c = useState(null);
-        var choice = _c[0];
-        var setChoice = _c[1];
-        var _d = useState(false);
-        var leaving = _d[0];
-        var setLeaving = _d[1];
-        var videoRef = useRef(null);
-        var prevX = useRef(null);
-        var targetTime = useRef(0);
-
-        useEffect(function () {
-          var video = videoRef.current;
-          if (!video) return;
-
-          function onSeeked() {
-            if (Math.abs(video.currentTime - targetTime.current) > 0.04) {
-              try { video.currentTime = targetTime.current; } catch (e) {}
-            }
-          }
-
-          function onMove(e) {
-            if (window.innerWidth < 1024) return;
-            if (!video.duration || isNaN(video.duration)) return;
-            var x = e.clientX;
-            if (prevX.current == null) {
-              prevX.current = x;
-              return;
-            }
-            var delta = x - prevX.current;
-            prevX.current = x;
-            var next =
-              targetTime.current + (delta / window.innerWidth) * 0.8 * video.duration;
-            targetTime.current = Math.max(0, Math.min(video.duration, next));
-            try { video.currentTime = targetTime.current; } catch (err) {}
-          }
-
-          function setupMobile() {
-            if (window.innerWidth < 1024) {
-              video.autoplay = true;
-              video.loop = true;
-              video.muted = true;
-              video.play().catch(function () {});
-            } else {
-              video.pause();
-              video.autoplay = false;
-            }
-          }
-
-          video.addEventListener("seeked", onSeeked);
-          window.addEventListener("mousemove", onMove, { passive: true });
-          setupMobile();
-          window.addEventListener("resize", setupMobile);
-
-          return function () {
-            video.removeEventListener("seeked", onSeeked);
-            window.removeEventListener("mousemove", onMove);
-            window.removeEventListener("resize", setupMobile);
-          };
-        }, []);
-
-        var onProceed = useCallback(function () {
-          setChoice("yes");
-          track("Presell_Proceed", { path: "asuhdwa" });
-          setLeaving(true);
-          setTimeout(function () {
-            window.location.href = mainQuizUrl();
-          }, 420);
-        }, []);
-
-        var onDecline = useCallback(function () {
-          setChoice("no");
-          track("Presell_Decline", { path: "asuhdwa" });
-        }, []);
-
-        var MotionDiv = M("div");
-        var MotionButton = M("button");
-        var MotionP = M("p");
-
-        var cursor = !tw.done
-          ? h("span", {
-              className:
-                "inline-block w-[2px] h-[1.1em] bg-black align-middle ml-[2px] animate-blink",
-              "aria-hidden": "true",
-            })
-          : null;
-
-        var yesActive = choice === "yes" || leaving;
-        var noActive = choice === "no";
-
-        var statusNode = null;
-        if (choice === null) {
-          statusNode = h(
-            MotionP,
-            {
-              key: "hint",
-              initial: motion ? { opacity: 0 } : undefined,
-              animate: motion ? { opacity: 0.5 } : undefined,
-              exit: motion ? { opacity: 0 } : undefined,
-              className: "italic text-xs text-[#5A635A]",
-              style: !motion ? { opacity: 0.5 } : undefined,
-            },
-            "Tap an option to continue."
-          );
-        } else if (choice === "yes") {
-          statusNode = h(
-            MotionDiv,
-            {
-              key: "yes-banner",
-              initial: motion ? { opacity: 0, height: 0 } : undefined,
-              animate: motion ? { opacity: 1, height: "auto" } : undefined,
-              exit: motion ? { opacity: 0, height: 0 } : undefined,
-              transition: motion
-                ? { type: "spring", stiffness: 260, damping: 26 }
-                : undefined,
-              className: "overflow-hidden",
-            },
-            h(
-              "div",
-              {
-                className:
-                  "bg-[#FAFBF9] border border-[#EAECE9] rounded-2xl px-5 py-4 flex flex-row items-center justify-between gap-4",
-              },
-              h(
-                "p",
-                { className: "text-sm text-[#1C2E1E] font-medium" },
-                "Great — opening the next step…"
-              ),
-              h(
-                "span",
-                {
-                  className:
-                    "text-[#4D6D47] uppercase text-xs font-semibold tracking-wider flex items-center gap-1 shrink-0",
-                },
-                "Let's go ",
-                ArrowIcon("w-3.5 h-3.5")
-              )
-            )
-          );
-        } else if (choice === "no") {
-          statusNode = h(
-            MotionDiv,
-            {
-              key: "no-banner",
-              initial: motion ? { opacity: 0, height: 0 } : undefined,
-              animate: motion ? { opacity: 1, height: "auto" } : undefined,
-              exit: motion ? { opacity: 0, height: 0 } : undefined,
-              transition: motion
-                ? { type: "spring", stiffness: 260, damping: 26 }
-                : undefined,
-              className: "overflow-hidden",
-            },
-            h(
-              "div",
-              {
-                className:
-                  "bg-[#FAFBF9] border border-[#EAECE9] rounded-2xl px-5 py-4",
-              },
-              h(
-                "p",
-                { className: "text-sm text-[#5A635A] mb-3" },
-                "No problem. If you change your mind, you can continue anytime."
-              ),
-              h(
-                "button",
-                {
-                  type: "button",
-                  onClick: onProceed,
-                  className:
-                    "text-[#4D6D47] uppercase text-xs font-semibold tracking-wider underline underline-offset-2 hover:opacity-70 transition-opacity",
-                },
-                "Change your mind and continue"
-              )
-            )
-          );
-        }
-
-        return h(
-          "div",
-          {
-            className:
-              "relative bg-white text-neutral-900 font-sans selection:bg-[#EAECE9] selection:text-[#1C2E1E] antialiased overflow-x-hidden flex flex-col lg:block lg:min-h-screen",
-          },
-          // Video background
-          h(
-            "div",
-            {
-              className:
-                "order-last lg:order-none relative lg:absolute lg:inset-0 lg:z-0 overflow-hidden pointer-events-none w-full aspect-[16/10] md:aspect-video lg:aspect-auto lg:h-full bg-neutral-50 lg:bg-transparent opacity-[0.18] lg:opacity-[0.12]",
-            },
-            h(
-              "video",
-              {
-                ref: videoRef,
-                muted: true,
-                playsInline: true,
-                preload: "auto",
-                className:
-                  "w-full h-full object-cover object-right lg:object-right-bottom",
-              },
-              h("source", {
-                src: "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260601_110537_3a579fa0-7bbc-4d94-9d25-0e816c7840f5.mp4",
-                type: "video/mp4",
-              })
-            ),
-            h("div", {
-              className:
-                "absolute inset-0 bg-gradient-to-b from-white via-white/80 to-white lg:bg-gradient-to-r lg:from-white lg:via-white/90 lg:to-white/40",
-            })
-          ),
-          // Header
-          h(
-            "header",
-            {
-              className:
-                "fixed top-0 inset-x-0 z-10 px-5 sm:px-8 py-4 sm:py-5 flex flex-row justify-between items-center bg-transparent",
-            },
-            h(
-              "div",
-              { className: "flex flex-row items-center gap-2 select-none" },
-              h(
-                "span",
-                {
-                  className:
-                    "text-[18px] sm:text-[20px] tracking-tight text-black font-medium",
-                },
-                "Rewards"
-              ),
-              h(
-                "span",
-                {
-                  className: "text-[20px] text-black/40 leading-none",
-                  "aria-hidden": "true",
-                },
-                "\u2733"
-              )
-            ),
-            h(
-              "span",
-              {
-                className:
-                  "text-xs sm:text-sm text-[#738273] font-medium tracking-wide",
-              },
-              "step 0"
-            )
-          ),
-          // Content
-          h(
-            "div",
-            {
-              className:
-                "relative z-10 flex flex-col order-first lg:order-none w-full bg-white/90 lg:bg-transparent pb-8 lg:pb-0 lg:min-h-screen",
-            },
-            h(
-              "main",
-              {
-                id: "spade-hero",
-                className:
-                  "w-full max-w-7xl mx-auto px-6 pt-24 sm:pt-28 pb-12 flex-1 flex flex-col justify-center",
-              },
-              h(
-                "div",
-                { className: "max-w-xl lg:max-w-2xl" },
-                h(
-                  MotionDiv,
-                  {
-                    initial: motion ? { opacity: 0, y: 20 } : undefined,
-                    animate: motion ? { opacity: 1, y: 0 } : undefined,
-                    transition: motion ? { duration: 0.6 } : undefined,
-                  },
-                  h(
-                    "h1",
-                    {
-                      className:
-                        "text-5xl md:text-6xl lg:text-[76px] font-normal tracking-tight text-black leading-[1.08] mb-8 select-none w-full whitespace-pre-wrap",
-                    },
-                    tw.displayed,
-                    cursor
-                  )
-                ),
-                h(
-                  MotionDiv,
-                  {
-                    initial: motion ? { opacity: 0, y: 16 } : undefined,
-                    animate: motion ? { opacity: 1, y: 0 } : undefined,
-                    transition: motion
-                      ? { duration: 0.55, delay: 0.1 }
-                      : undefined,
-                  },
-                  h(
-                    "p",
-                    {
-                      className:
-                        "text-lg md:text-xl text-[#5A635A] leading-relaxed font-normal mb-12 max-w-2xl",
-                    },
-                    "You've been selected for the next step.",
-                    h("br", { className: "hidden sm:block" }),
-                    " Do you want to continue or stop here?"
-                  )
-                ),
-                h(
-                  MotionDiv,
-                  {
-                    initial: motion ? { opacity: 0, y: 16 } : undefined,
-                    animate: motion ? { opacity: 1, y: 0 } : undefined,
-                    transition: motion
-                      ? { duration: 0.55, delay: 0.2 }
-                      : undefined,
-                  },
-                  h(
-                    "h2",
-                    {
-                      className:
-                        "text-2xl font-medium tracking-tight mb-2 text-black",
-                    },
-                    "What would you prefer?"
-                  ),
-                  h(
-                    "p",
-                    { className: "opacity-85 text-[#738273] mb-8 text-[15px]" },
-                    "Choose one option"
-                  ),
-                  h(
-                    "div",
-                    {
-                      className:
-                        "flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4",
-                    },
-                    // Continue
-                    h(
-                      MotionButton,
-                      {
-                        type: "button",
-                        whileTap: motion ? { scale: 0.98 } : undefined,
-                        onClick: onProceed,
-                        disabled: leaving,
-                        className: [
-                          "group relative min-h-[56px] px-7 py-4 rounded-full text-[16px] sm:text-[17px] font-medium tracking-tight transition-all duration-200",
-                          "flex items-center justify-center gap-2.5",
-                          yesActive
-                            ? "bg-[#1C2E1E] text-white shadow-md shadow-emerald-950/10"
-                            : "bg-[#1C2E1E] text-white hover:opacity-90 shadow-sm",
-                        ].join(" "),
-                      },
-                      yesActive ? h(CheckIcon) : null,
-                      "Continue",
-                      ArrowIcon(
-                        "w-4 h-4 opacity-70 group-hover:translate-x-0.5 transition-transform"
-                      )
-                    ),
-                    // Do not continue
-                    h(
-                      MotionButton,
-                      {
-                        type: "button",
-                        whileTap: motion ? { scale: 0.98 } : undefined,
-                        onClick: onDecline,
-                        disabled: leaving,
-                        className: [
-                          "min-h-[56px] px-7 py-4 rounded-full text-[16px] sm:text-[17px] font-medium tracking-tight transition-all duration-200",
-                          "flex items-center justify-center gap-2.5 border",
-                          noActive
-                            ? "bg-[#1C2E1E] text-white border-transparent shadow-md shadow-emerald-950/5"
-                            : "bg-white text-[#1C2E1E] border-[#E8EBE8] hover:bg-[#F1F3F1]/55",
-                        ].join(" "),
-                      },
-                      noActive ? h(CheckIcon) : null,
-                      "Do not continue"
-                    )
-                  ),
-                  h(
-                    "div",
-                    { className: "mt-8 min-h-[72px]" },
-                    AnimatePresence
-                      ? h(AnimatePresence, { mode: "wait" }, statusNode)
-                      : statusNode
-                  )
-                )
-              )
-            ),
-            h(
-              "footer",
-              {
-                className:
-                  "px-6 pb-8 text-center lg:text-left max-w-7xl mx-auto w-full",
-              },
-              h(
-                "p",
-                { className: "text-[11px] text-neutral-400 tracking-wide" },
-                "All rights reserved."
-              )
-            )
-          )
-        );
-      }
-
-      ReactDOM.createRoot(document.getElementById("root")).render(h(App));
+      retryBtn.addEventListener("click", goNext);
+      track("Presell_View");
     })();
   </script>
 </body>
