@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -218,7 +218,7 @@
       }
 
       function App() {
-        var headline = "você quer\ncontinuar?";
+        var headline = "do you want\nto continue?";
         var tw = useTypewriter(headline, 38, 600);
         var _c = useState(null);
         var choice = _c[0];
@@ -321,7 +321,7 @@
               className: "italic text-xs text-[#5A635A]",
               style: !motion ? { opacity: 0.5 } : undefined,
             },
-            "Toque em uma opção para continuar."
+            "Tap an option to continue."
           );
         } else if (choice === "yes") {
           statusNode = h(
@@ -345,7 +345,7 @@
               h(
                 "p",
                 { className: "text-sm text-[#1C2E1E] font-medium" },
-                "Perfeito — abrindo a próxima etapa…"
+                "Great — opening the next step…"
               ),
               h(
                 "span",
@@ -380,7 +380,7 @@
               h(
                 "p",
                 { className: "text-sm text-[#5A635A] mb-3" },
-                "Tudo bem. Se mudar de ideia, você pode prosseguir a qualquer momento."
+                "No problem. If you change your mind, you can continue anytime."
               ),
               h(
                 "button",
@@ -390,7 +390,7 @@
                   className:
                     "text-[#4D6D47] uppercase text-xs font-semibold tracking-wider underline underline-offset-2 hover:opacity-70 transition-opacity",
                 },
-                "Mudar de ideia e prosseguir"
+                "Change your mind and continue"
               )
             )
           );
@@ -514,9 +514,9 @@
                       className:
                         "text-lg md:text-xl text-[#5A635A] leading-relaxed font-normal mb-12 max-w-2xl",
                     },
-                    "Você foi selecionado para a próxima etapa.",
+                    "You've been selected for the next step.",
                     h("br", { className: "hidden sm:block" }),
-                    " Deseja prosseguir ou encerrar por aqui?"
+                    " Do you want to continue or stop here?"
                   )
                 ),
                 h(
@@ -534,12 +534,12 @@
                       className:
                         "text-2xl font-medium tracking-tight mb-2 text-black",
                     },
-                    "O que você prefere?"
+                    "What would you prefer?"
                   ),
                   h(
                     "p",
                     { className: "opacity-85 text-[#738273] mb-8 text-[15px]" },
-                    "Escolha uma opção"
+                    "Choose one option"
                   ),
                   h(
                     "div",
@@ -547,7 +547,7 @@
                       className:
                         "flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4",
                     },
-                    // Prosseguir
+                    // Continue
                     h(
                       MotionButton,
                       {
@@ -564,12 +564,12 @@
                         ].join(" "),
                       },
                       yesActive ? h(CheckIcon) : null,
-                      "Prosseguir",
+                      "Continue",
                       ArrowIcon(
                         "w-4 h-4 opacity-70 group-hover:translate-x-0.5 transition-transform"
                       )
                     ),
-                    // Não prosseguir
+                    // Do not continue
                     h(
                       MotionButton,
                       {
@@ -586,7 +586,7 @@
                         ].join(" "),
                       },
                       noActive ? h(CheckIcon) : null,
-                      "Não prosseguir"
+                      "Do not continue"
                     )
                   ),
                   h(
