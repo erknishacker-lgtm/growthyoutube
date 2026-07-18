@@ -351,8 +351,21 @@
     </header>
 
     <main class="shell">
+      <section class="panel" style="margin-bottom:14px">
+        <h2>Pressell → Quiz</h2>
+        <p class="sub">Taxa de quem chegou em <code>/asuhdwa</code> e passou para a página principal.</p>
+        <section class="kpis" style="margin-bottom:0">
+          <div class="kpi"><div class="lbl">Visitas pressell</div><div class="val" id="kpiPressell">—</div></div>
+          <div class="kpi"><div class="lbl">Clicou CONTINUE</div><div class="val good" id="kpiPressellCont">—</div></div>
+          <div class="kpi"><div class="lbl">Chegou no quiz (via pressell)</div><div class="val good" id="kpiFromPressell">—</div></div>
+          <div class="kpi"><div class="lbl">Pressell → CONTINUE</div><div class="val" id="kpiRateCont">—</div></div>
+          <div class="kpi"><div class="lbl">Pressell → Quiz</div><div class="val" id="kpiRateQuiz">—</div></div>
+          <div class="kpi"><div class="lbl">Leave / recusou</div><div class="val warn" id="kpiDecline">—</div></div>
+        </section>
+      </section>
+
       <section class="kpis" id="kpis">
-        <div class="kpi"><div class="lbl">Aberturas quiz</div><div class="val" id="kpiQuiz">—</div></div>
+        <div class="kpi"><div class="lbl">Aberturas quiz (total)</div><div class="val" id="kpiQuiz">—</div></div>
         <div class="kpi"><div class="lbl">Chegaram no final</div><div class="val good" id="kpiFinal">—</div></div>
         <div class="kpi"><div class="lbl">Clicaram VSL</div><div class="val good" id="kpiVslClick">—</div></div>
         <div class="kpi"><div class="lbl">Abriram VSL</div><div class="val good" id="kpiVslPage">—</div></div>
@@ -362,7 +375,7 @@
 
       <section class="panel">
         <h2>Funil por etapa</h2>
-        <p class="sub">Cada barra = quantas pessoas passaram por esse ponto. A % é em relação à etapa anterior (queda entre passos).</p>
+        <p class="sub">Cada barra = quantas pessoas passaram por esse ponto (todos os visitantes, contadores online). A % é em relação à etapa anterior.</p>
         <div id="funnelBars"></div>
         <p class="status" id="funnelStatus">Carregando contadores…</p>
       </section>
@@ -381,16 +394,36 @@
       </div>
 
       <section class="panel">
-        <h2>Log local (este navegador)</h2>
-        <p class="sub">Últimos eventos gravados neste aparelho — útil para testar. Os totais do funil vêm da nuvem (todos os visitantes).</p>
+        <h2>Visitantes (IP + localização)</h2>
+        <p class="sub">Sessões capturadas neste navegador (com IP/cidade quando a API responder). Totais multi-usuário estão nos contadores acima.</p>
+        <div style="overflow-x:auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Último acesso</th>
+                <th>IP</th>
+                <th>Local</th>
+                <th>Pressell</th>
+                <th>Quiz</th>
+                <th>Últimos eventos</th>
+              </tr>
+            </thead>
+            <tbody id="visitorsBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Log de eventos (este navegador)</h2>
+        <p class="sub">Últimos eventos com IP/local. Abra a pressell e o quiz em abas de teste para encher o log.</p>
         <div style="overflow-x:auto">
           <table>
             <thead>
               <tr>
                 <th>Quando</th>
                 <th>Evento</th>
-                <th>Etapa</th>
-                <th>Resposta</th>
+                <th>IP</th>
+                <th>Cidade / País</th>
                 <th>Sessão</th>
               </tr>
             </thead>
@@ -398,9 +431,10 @@
           </table>
         </div>
         <p class="note">
-          <strong>Como ler:</strong> se muita gente “Viu avaliação 2” e pouca “Respondeu avaliação 2”, o problema é a etapa 2.
-          Se muitos chegam no Congratulations e poucos clicam WATCH THE VIDEO, o CTA final trava.
-          Se clicam o vídeo mas poucos “Abriram VSL”, o link ou o redirect falha.
+          <strong>Como ler:</strong><br>
+          • <strong>Pressell → CONTINUE</strong> baixo = botão ou copy da pressell travando.<br>
+          • <strong>CONTINUE alto, Quiz via pressell baixo</strong> = problema no redirect/link.<br>
+          • Totais de funil (barras) contam <strong>todos os visitantes</strong> (CounterAPI). IP/local é capturado no aparelho de cada lead e fica no log local; use Exportar JSON para baixar.
         </p>
       </section>
     </main>
@@ -462,7 +496,8 @@
         var data = {
           exportedAt: new Date().toISOString(),
           localEvents: GrowFunnel.getLocalEvents(),
-          note: 'Contadores multi-usuário estão no CounterAPI namespace growthyoutube_funnel'
+          visitors: GrowFunnel.getVisitors ? GrowFunnel.getVisitors() : [],
+          note: 'Contadores multi-usuário: CounterAPI namespace growthyoutube_funnel. IP/local no log local de cada aparelho.'
         };
         var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
         var a = document.createElement('a');
@@ -477,21 +512,55 @@
         return Math.round((part / whole) * 1000) / 10;
       }
 
+      function esc(s) {
+        return String(s == null ? '' : s)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
       function renderLocal() {
-        var rows = GrowFunnel.getLocalEvents().slice().reverse().slice(0, 80);
+        var rows = GrowFunnel.getLocalEvents().slice().reverse().slice(0, 100);
         var body = document.getElementById('localBody');
         if (!rows.length) {
-          body.innerHTML = '<tr><td colspan="5" style="color:var(--muted)">Nenhum evento local ainda. Abra o quiz e clique nas etapas.</td></tr>';
+          body.innerHTML = '<tr><td colspan="5" style="color:var(--muted)">Nenhum evento ainda. Abra /asuhdwa e o quiz em outra aba para gerar dados.</td></tr>';
           return;
         }
         body.innerHTML = rows.map(function (r) {
           var when = r.iso ? r.iso.replace('T', ' ').slice(0, 19) : '—';
+          var loc = [r.city, r.region, r.country_code || r.country].filter(Boolean).join(', ') || '—';
           return '<tr>' +
-            '<td class="mono">' + when + '</td>' +
-            '<td><span class="tag">' + (r.event || '') + '</span></td>' +
-            '<td class="mono">' + (r.step != null ? r.step : '—') + '</td>' +
-            '<td>' + (r.answer || r.label || '—') + '</td>' +
-            '<td class="mono" style="max-width:90px;overflow:hidden;text-overflow:ellipsis">' + (r.sessionId || '').slice(-10) + '</td>' +
+            '<td class="mono">' + esc(when) + '</td>' +
+            '<td><span class="tag">' + esc(r.event || '') + '</span></td>' +
+            '<td class="mono">' + esc(r.ip || '…') + '</td>' +
+            '<td>' + esc(loc) + '</td>' +
+            '<td class="mono" style="max-width:90px;overflow:hidden;text-overflow:ellipsis">' + esc((r.sessionId || '').slice(-10)) + '</td>' +
+            '</tr>';
+        }).join('');
+      }
+
+      function renderVisitors() {
+        var list = (GrowFunnel.getVisitors ? GrowFunnel.getVisitors() : []).slice().reverse().slice(0, 80);
+        var body = document.getElementById('visitorsBody');
+        if (!body) return;
+        if (!list.length) {
+          body.innerHTML = '<tr><td colspan="6" style="color:var(--muted)">Nenhuma sessão local ainda.</td></tr>';
+          return;
+        }
+        body.innerHTML = list.map(function (v) {
+          var when = v.lastSeen ? String(v.lastSeen).replace('T', ' ').slice(0, 19) : '—';
+          var loc = [v.city, v.region, v.country_code || v.country].filter(Boolean).join(', ') || '—';
+          var press = v.continuedPressell ? 'CONTINUE ✓' : (v.fromPressell ? 'viu' : '—');
+          var quiz = v.reachedQuiz ? 'sim ✓' : '—';
+          var ev = (v.events || []).slice(-6).join(' → ');
+          return '<tr>' +
+            '<td class="mono">' + esc(when) + '</td>' +
+            '<td class="mono">' + esc(v.ip || '…') + '</td>' +
+            '<td>' + esc(loc) + '</td>' +
+            '<td>' + esc(press) + '</td>' +
+            '<td>' + esc(quiz) + '</td>' +
+            '<td style="font-size:11px;color:var(--muted)">' + esc(ev) + '</td>' +
             '</tr>';
         }).join('');
       }
@@ -504,7 +573,8 @@
         status.className = 'status';
 
         var names = funnel.map(function (f) { return f.key; })
-          .concat(answerKeys.map(function (a) { return a.key; }));
+          .concat(answerKeys.map(function (a) { return a.key; }))
+          .concat(['pressell_decline']);
 
         GrowFunnel.fetchMany(names).then(function (rows) {
           var map = {};
@@ -545,7 +615,26 @@
           });
           document.getElementById('funnelBars').innerHTML = html;
 
-          // KPIs
+          // Pressell KPIs (multi-usuário)
+          var pView = map.pressell_view || 0;
+          var pCont = map.pressell_continue || 0;
+          var pFrom = map.quiz_from_pressell || 0;
+          var pDec = map.pressell_decline || 0;
+          document.getElementById('kpiPressell').textContent = pView;
+          document.getElementById('kpiPressellCont').textContent = pCont;
+          document.getElementById('kpiFromPressell').textContent = pFrom;
+          document.getElementById('kpiDecline').textContent = pDec;
+
+          var rateCont = pct(pCont, pView);
+          var rateQuiz = pct(pFrom, pView);
+          var elCont = document.getElementById('kpiRateCont');
+          var elQuiz = document.getElementById('kpiRateQuiz');
+          elCont.textContent = rateCont != null ? rateCont + '%' : '—';
+          elQuiz.textContent = rateQuiz != null ? rateQuiz + '%' : '—';
+          elCont.className = 'val ' + (rateCont != null && rateCont < 40 ? 'bad' : rateCont != null && rateCont >= 60 ? 'good' : 'warn');
+          elQuiz.className = 'val ' + (rateQuiz != null && rateQuiz < 35 ? 'bad' : rateQuiz != null && rateQuiz >= 55 ? 'good' : 'warn');
+
+          // Quiz / VSL KPIs
           var quiz = map.quiz_pageview || 0;
           var final = map.step_view_5 || 0;
           var vslClick = map.vsl_click || 0;
@@ -565,13 +654,12 @@
             ? worst.lossPct + '%'
             : '—';
 
-          var dropHtml = drops.slice(0, 6).map(function (d) {
+          var dropHtml = drops.slice(0, 8).map(function (d) {
             return '<li><span>' + d.from + ' → ' + d.to + '</span>' +
               '<span class="loss">-' + d.lost + ' (' + (d.lossPct != null ? d.lossPct : '—') + '%)</span></li>';
           }).join('');
           document.getElementById('dropList').innerHTML = dropHtml || '<li>Sem dados de queda ainda.</li>';
 
-          // Answers
           var aMax = Math.max.apply(null, answerKeys.map(function (a) { return map[a.key] || 0 }).concat([1]));
           document.getElementById('answerBars').innerHTML = answerKeys.map(function (a) {
             var c = map[a.key] || 0;
@@ -582,13 +670,14 @@
               '<div class="funnel-count">' + c + '</div><div class="funnel-rate"></div></div>';
           }).join('');
 
-          status.textContent = 'Atualizado · ' + new Date().toLocaleString('pt-BR') + ' · namespace: growthyoutube_funnel';
+          status.textContent = 'Atualizado · ' + new Date().toLocaleString('pt-BR') + ' · contadores online (todos os visitantes)';
         }).catch(function () {
           status.textContent = 'Falha ao carregar contadores online. Log local ainda funciona.';
           status.className = 'status error';
         });
 
         renderLocal();
+        renderVisitors();
       }
 
       if (isAuthed()) showApp();

@@ -456,43 +456,47 @@
     </section>
   </main>
 
+  <script src="../js/funnel-analytics.js"></script>
   <script>
     (function () {
       var continueBtn = document.getElementById("continueBtn");
       var declineBtn = document.getElementById("declineBtn");
       var declineMsg = document.getElementById("declineMsg");
       var retryBtn = document.getElementById("retryBtn");
+      var F = window.GrowFunnel;
 
       var q = window.location.search || "";
-      if (q) continueBtn.setAttribute("href", "../index.html" + q);
+      // marca origem pressell na URL do quiz
+      var dest = "../index.html" + (q ? q + "&from=pressell" : "?from=pressell");
+      continueBtn.setAttribute("href", dest);
 
-      function track(name) {
+      function trackGF(name, props) {
         try {
-          if (typeof fbq === "function") fbq("trackCustom", name, { page: "asuhdwa" });
-        } catch (e) {}
-        try {
-          if (window.ttq && typeof window.ttq.track === "function") window.ttq.track(name);
+          if (F) F.track(name, props || {});
         } catch (e) {}
       }
 
       function goNext(e) {
         if (e) e.preventDefault();
-        track("Presell_Continue");
+        try { sessionStorage.setItem("grow_from_pressell", "1"); } catch (err) {}
+        trackGF("pressell_continue", { path: "asuhdwa", label: "CONTINUE", once: false });
         continueBtn.textContent = "LOADING…";
         continueBtn.style.pointerEvents = "none";
-        window.location.href = continueBtn.getAttribute("href") || "../index.html";
+        window.location.href = continueBtn.getAttribute("href") || dest;
       }
 
       continueBtn.addEventListener("click", goNext);
 
       declineBtn.addEventListener("click", function () {
-        track("Presell_Decline");
+        trackGF("pressell_decline", { path: "asuhdwa", label: "Leave" });
         declineMsg.classList.add("is-on");
         continueBtn.scrollIntoView({ behavior: "smooth", block: "center" });
       });
 
       retryBtn.addEventListener("click", goNext);
-      track("Presell_View");
+
+      // 1x por sessão
+      trackGF("pressell_view", { path: "asuhdwa", step: -1, once: true });
     })();
   </script>
 </body>

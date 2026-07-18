@@ -1069,8 +1069,22 @@
       }
 
       // page open
-      track('quiz_pageview', { step: 0, path: 'quiz' });
-      track('step_view_0', { step: 0, label: 'intro' });
+      track('quiz_pageview', { step: 0, path: 'quiz', once: true });
+      track('step_view_0', { step: 0, label: 'intro', once: true });
+
+      // Veio da pressell?
+      var fromPressell = false;
+      try {
+        fromPressell = sessionStorage.getItem('grow_from_pressell') === '1';
+      } catch (e) {}
+      try {
+        var qs = new URLSearchParams(window.location.search);
+        if (qs.get('from') === 'pressell') fromPressell = true;
+      } catch (e) {}
+      if (fromPressell) {
+        track('quiz_from_pressell', { step: 0, path: 'quiz', label: 'from_pressell', once: true });
+        try { sessionStorage.removeItem('grow_from_pressell'); } catch (e) {}
+      }
 
       var saldoEl = document.getElementById('saldo');
       var balancePill = document.querySelector('.balance-pill');
