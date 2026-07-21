@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f5f5f7">
+  <meta name="description" content="Continue to the next step.">
+  <title>Continue</title>
+
+  <link rel="icon" href="../../images/cropped-MOCKUP-APPLE-BOX-ACF-scaled-1-32x32.webp" sizes="32x32">
+  <link rel="icon" href="../../images/cropped-MOCKUP-APPLE-BOX-ACF-scaled-1-192x192.webp" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../images/cropped-MOCKUP-APPLE-BOX-ACF-scaled-1-180x180.webp">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <!-- UTMIFY -->
+  <script
+    src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+    data-utmify-prevent-xcod-sck
+    data-utmify-prevent-subids
+    async
+    defer
+  ></script>
+
+  <!-- Meta Pixel (principal + Iago) -->
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1445744113550630');
+    fbq('init', '1361964272730091'); // Iago Rambo
+    fbq('track', 'PageView');
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none" alt=""
+      src="https://www.facebook.com/tr?id=1445744113550630&ev=PageView&noscript=1">
+    <img height="1" width="1" style="display:none" alt=""
+      src="https://www.facebook.com/tr?id=1361964272730091&ev=PageView&noscript=1">
+  </noscript>
+
+  <!-- TikTok Pixel -->
+  <script>
+    !function (w, d, t) {
+      w.TiktokAnalyticsObject = t;
+      var ttq = w[t] = w[t] || [];
+      ttq.methods = ["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"];
+      ttq.setAndDefer = function (t, e) {
+        t[e] = function () { t.push([e].concat(Array.prototype.slice.call(arguments, 0))); };
+      };
+      for (var i = 0; i < ttq.methods.length; i++) ttq.setAndDefer(ttq, ttq.methods[i]);
+      ttq.instance = function (t) {
+        for (var e = ttq._i[t] || [], n = 0; n < ttq.methods.length; n++) ttq.setAndDefer(e, ttq.methods[n]);
+        return e;
+      };
+      ttq.load = function (e, n) {
+        var r = "https://analytics.tiktok.com/i18n/pixel/events.js";
+        ttq._i = ttq._i || {}; ttq._i[e] = []; ttq._i[e]._u = r;
+        ttq._t = ttq._t || {}; ttq._t[e] = +new Date();
+        ttq._o = ttq._o || {}; ttq._o[e] = n || {};
+        var a = document.createElement("script");
+        a.type = "text/javascript"; a.async = true;
+        a.src = r + "?sdkid=" + e + "&lib=" + t;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(a, s);
+      };
+      ttq.load("D9CQB03C77U79CKF37LG");
+      ttq.load("D9DH4K3C77U7PB56UPEG"); // Louzada (7858) — Renda Extra Digistore24
+      ttq.page();
+    }(window, document, "ttq");
+  </script>
+
+  <!-- TikTok Events API access token (Louzada 7858) -->
+  <script>
+    window.tikTokAccessToken = "33471f3fc4ddc3f0a201b840a9aadc14118d59e9";
+  </script>
+
+  <!-- UTMIFY TikTok — ambos os pixels (sequencial para não sobrescrever o ID) -->
+  <script>
+    (function () {
+      var ids = ["6a5b1402b9810de7c650e59c", "6a59a6700690ebfc75658b03"];
+      var i = 0;
+      function next() {
+        if (i >= ids.length) return;
+        var pixelId = ids[i++];
+        window.tikTokPixelId = pixelId;
+        var s = document.createElement("script");
+        s.async = true;
+        s.src = "https://cdn.utmify.com.br/scripts/pixel/pixel-tiktok.js?p=" + encodeURIComponent(pixelId) + "&t=" + Date.now();
+        s.onload = next;
+        s.onerror = next;
+        document.head.appendChild(s);
+      }
+      next();
+    })();
+  </script>
+
+  <!-- Digistore -->
+  <script>
+    window._ds24 = !window._ds24 ? { q: [], e: function () {} } : window._ds24;
+    window._ds24.q.push(['digitalElitePromocode', {
+      product_id: '343776',
+      affiliate_key: 'aff',
+      campaignkey_key: 'cam'
+    }]);
+    window._ds24.e();
+  </script>
+
+  <style>
+    :root {
+      --bg: oklch(0.985 0.004 260);
+      --surface: oklch(1 0 0);
+      --surface-2: oklch(0.96 0.006 260);
+      --border: oklch(0.88 0.01 260);
+      --ink: oklch(0.18 0.01 260);
+      --muted: oklch(0.42 0.015 260);
+      --accent: oklch(0.55 0.24 25);
+      --accent-press: oklch(0.48 0.22 25);
+      --radius: 14px;
+      --header-h: 64px;
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --font: "Roboto", system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-text-size-adjust: 100%; }
+
+    body {
+      font-family: var(--font);
+      background:
+        radial-gradient(120% 80% at 50% -20%, oklch(0.92 0.04 25 / 0.55), transparent 55%),
+        var(--bg);
+      color: var(--ink);
+      min-height: 100dvh;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button {
+      font: inherit;
+      border: 0;
+      cursor: pointer;
+      background: none;
+      color: inherit;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      height: var(--header-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 0 16px;
+      background: oklch(1 0 0 / 0.92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--accent);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .brand-mark svg { width: 18px; height: 18px; fill: #fff; }
+
+    .brand-text {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-text small {
+      display: block;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .status-pill {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--surface-2);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .status-pill i {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #3ddc84;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+
+    .shell {
+      width: min(480px, 100%);
+      margin: 0 auto;
+      padding: 22px 16px calc(36px + var(--safe-bottom));
+    }
+
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 28px 20px 24px;
+      box-shadow: 0 8px 24px oklch(0 0 0 / 0.08);
+      animation: stepIn 0.35s var(--ease-out);
+      text-align: center;
+    }
+
+    @keyframes stepIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: oklch(0.58 0.24 25 / 0.12);
+      color: oklch(0.78 0.12 25);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      margin-bottom: 16px;
+    }
+
+    .title {
+      font-size: clamp(1.4rem, 5vw, 1.75rem);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      text-wrap: balance;
+      margin-bottom: 12px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 15px;
+      margin: 0 auto 22px;
+      max-width: 32ch;
+      text-wrap: pretty;
+    }
+
+    .instruction {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin: 0 auto 16px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: oklch(0.58 0.24 25 / 0.1);
+      border: 1px solid oklch(0.58 0.24 25 / 0.18);
+      max-width: 100%;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .instruction .arrow {
+      color: var(--accent);
+      font-size: 16px;
+      animation: bounceY 1.1s var(--ease-out) infinite;
+    }
+
+    @keyframes bounceY {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(3px); }
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      min-height: 58px;
+      padding: 16px 18px;
+      border-radius: var(--radius);
+      font-weight: 900;
+      font-size: 16px;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      transition: transform 0.15s var(--ease-out), background 0.15s ease;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    .btn:active { transform: scale(0.98); }
+    .btn:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 3px;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 8px 28px oklch(0.58 0.24 25 / 0.38);
+    }
+
+    .btn-primary:hover { background: var(--accent-press); }
+
+    .btn-primary.is-pulse {
+      animation: ctaPulse 1.55s var(--ease-out) infinite;
+    }
+
+    @keyframes ctaPulse {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 8px 28px oklch(0.58 0.24 25 / 0.38);
+      }
+      50% {
+        transform: scale(1.025);
+        box-shadow: 0 12px 34px oklch(0.58 0.24 25 / 0.52);
+      }
+    }
+
+    .cta-hint {
+      margin-top: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .cta-hint strong {
+      color: var(--ink);
+      font-weight: 800;
+    }
+
+    .decline-wrap {
+      margin-top: 20px;
+    }
+
+    .btn-ghost {
+      font-size: 12px;
+      font-weight: 500;
+      color: oklch(0.45 0.01 260);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      opacity: 0.7;
+    }
+
+    .btn-ghost:hover { opacity: 1; }
+
+    .decline-msg {
+      display: none;
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: var(--surface-2);
+      font-size: 13px;
+      color: var(--muted);
+      text-align: left;
+      line-height: 1.45;
+    }
+
+    .decline-msg.is-on { display: block; }
+
+    .decline-msg button {
+      margin-top: 8px;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--ink);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .footer {
+      margin-top: 22px;
+      font-size: 12px;
+      color: oklch(0.45 0.01 260);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      .btn-primary.is-pulse,
+      .instruction .arrow { animation: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.5 31.5 0 0 0 24 12a31.5 31.5 0 0 0-.5-5.8zM9.8 15.5v-7l6.2 3.5-6.2 3.5z"/></svg>
+      </div>
+      <div class="brand-text">
+        Continue
+        <small>Secure session</small>
+      </div>
+    </div>
+    <div class="status-pill" aria-label="Connection status">
+      <i aria-hidden="true"></i>Ready
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="card" aria-label="Continue">
+      <div class="badge">You’re in the right place</div>
+      <h1 class="title">Continue to the next step</h1>
+      <p class="subtitle">
+        Your session is ready. Tap the button below to keep going.
+      </p>
+
+      <div class="instruction" role="note">
+        <span class="arrow" aria-hidden="true">↓</span>
+        Tap CONTINUE to proceed
+      </div>
+
+      <a class="btn btn-primary is-pulse" id="continueBtn" href="../index.html">
+        CONTINUE →
+      </a>
+      <p class="cta-hint">Please press <strong>CONTINUE</strong> to move forward</p>
+
+      <div class="decline-wrap">
+        <button type="button" class="btn-ghost" id="declineBtn">
+          Leave this page
+        </button>
+        <div class="decline-msg" id="declineMsg" role="status">
+          If you want to keep going, press the red <strong>CONTINUE</strong> button above.
+          <br>
+          <button type="button" id="retryBtn">Continue →</button>
+        </div>
+      </div>
+
+      <div class="footer">All rights reserved.</div>
+    </section>
+  </main>
+
+  <script src="../../js/funnel-analytics.js"></script>
+  <script>
+    (function () {
+      var continueBtn = document.getElementById("continueBtn");
+      var declineBtn = document.getElementById("declineBtn");
+      var declineMsg = document.getElementById("declineMsg");
+      var retryBtn = document.getElementById("retryBtn");
+      var F = window.GrowFunnel;
+
+      var q = window.location.search || "";
+      // marca origem pressell na URL do quiz
+      var dest = "../index.html" + (q ? q + "&from=pressell" : "?from=pressell");
+      continueBtn.setAttribute("href", dest);
+
+      function trackGF(name, props) {
+        try {
+          if (F) F.track(name, props || {});
+        } catch (e) {}
+      }
+
+      function goNext(e) {
+        if (e) e.preventDefault();
+        try { sessionStorage.setItem("grow_from_pressell", "1"); } catch (err) {}
+        trackGF("pressell_continue", { path: "asuhdwa", label: "CONTINUE", once: false });
+        continueBtn.textContent = "LOADING…";
+        continueBtn.style.pointerEvents = "none";
+        window.location.href = continueBtn.getAttribute("href") || dest;
+      }
+
+      continueBtn.addEventListener("click", goNext);
+
+      declineBtn.addEventListener("click", function () {
+        trackGF("pressell_decline", { path: "asuhdwa", label: "Leave" });
+        declineMsg.classList.add("is-on");
+        continueBtn.scrollIntoView({ behavior: "smooth", block: "center" });
+      });
+
+      retryBtn.addEventListener("click", goNext);
+
+      // 1x por sessão
+      trackGF("pressell_view", { path: "asuhdwa", step: -1, once: true });
+    })();
+  </script>
+</body>
+</html>
