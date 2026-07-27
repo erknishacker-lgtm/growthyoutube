@@ -237,7 +237,7 @@
       <div class="top-actions">
         <button type="button" class="btn btn-ghost btn-sm" id="btnRefresh">Atualizar</button>
         <button type="button" class="btn btn-ghost btn-sm" id="btnExport">Exportar JSON</button>
-        <button type="button" class="btn btn-ghost btn-sm" id="btnClearLocal">Limpar log local</button>
+        <button type="button" class="btn btn-ghost btn-sm" id="btnClearLocal">Limpar cache local</button>
         <button type="button" class="btn btn-ghost btn-sm" id="btnLogout">Sair</button>
       </div>
     </header>
@@ -364,6 +364,9 @@
       var PASS = 'Dados@2026';
       var AUTH_KEY = 'grow_dadosquizz_auth';
       var filterState = { type: '24h', hours: 24, day: null };
+      var SUPABASE_URL = 'https://apjsidwqtzjautdwahao.supabase.co';
+      var SUPABASE_ANON_KEY = 'sb_publishable_4WWLvCwfSBzQo4acrZGOMA_gu0-DBXa';
+      var lastRemoteEvents = [];
 
       var gate = document.getElementById('gate');
       var app = document.getElementById('app');
@@ -407,19 +410,18 @@
       });
       document.getElementById('btnRefresh').addEventListener('click', loadDashboard);
       document.getElementById('btnClearLocal').addEventListener('click', function () {
-        if (!confirm('Limpar log local deste navegador?')) return;
+        if (!confirm('Limpar o cache local deste navegador? (Não afeta os dados reais gravados no Supabase, só o backup deste dispositivo.)')) return;
         GrowFunnel.clearLocalEvents();
         loadDashboard();
       });
       document.getElementById('btnExport').addEventListener('click', function () {
-        var events = getFilteredEvents();
+        var events = lastRemoteEvents;
         var analysis = GrowFunnel.analyzeDropoff(events);
         var blob = new Blob([JSON.stringify({
           exportedAt: new Date().toISOString(),
           filter: filterState,
           events: events,
-          analysis: analysis,
-          visitors: GrowFunnel.getVisitors ? GrowFunnel.getVisitors() : []
+          analysis: analysis
         }, null, 2)], { type: 'application/json' });
         var a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
@@ -466,17 +468,67 @@
       }
 
       function filterLabel() {
-        if (filterState.type === 'all') return 'Filtro: todos os dados locais';
-        if (filterState.day) return 'Filtro: dia ' + filterState.day + ' (UTC)';
-        if (filterState.hours) return 'Filtro: últimas ' + filterState.hours + ' hora(s)';
+        if (filterState.type === 'all') return 'Filtro: todos os dados (Supabase)';
+        if (filterState.day) return 'Filtro: dia ' + filterState.day + ' (UTC) — Supabase';
+        if (filterState.hours) return 'Filtro: últimas ' + filterState.hours + ' hora(s) — Supabase';
         return 'Filtro ativo';
       }
 
-      function getFilteredEvents() {
-        if (filterState.type === 'all') return GrowFunnel.getLocalEvents();
-        if (filterState.day) return GrowFunnel.filterEvents({ day: filterState.day });
-        if (filterState.hours) return GrowFunnel.filterEvents({ hours: filterState.hours });
-        return GrowFunnel.getLocalEvents();
+      /** Mapeia uma linha do Supabase (snake_case) pro formato que GrowFunnel.analyzeDropoff espera */
+      function mapRow(r) {
+        return {
+          event: r.event,
+          ts: Number(r.ts),
+          iso: r.created_at,
+          sessionId: r.session_id,
+          page: r.page,
+          step: r.step,
+          label: r.label,
+          answer: r.answer,
+          earn: r.earn,
+          balance: r.balance,
+          path: r.path,
+          utm: r.utm,
+          screen: r.screen,
+          referrer: r.referrer,
+          userAgent: r.user_agent,
+          language: r.language,
+          ip: r.ip,
+          city: r.city,
+          region: r.region,
+          country: r.country,
+          country_code: r.country_code
+        };
+      }
+
+      /** Busca os eventos reais (todos os visitantes, qualquer dispositivo) direto do Supabase */
+      function fetchFilteredEvents() {
+        var since = null;
+        if (filterState.day) since = filterState.day + 'T00:00:00.000Z';
+        else if (filterState.hours) since = new Date(Date.now() - filterState.hours * 3600 * 1000).toISOString();
+
+        return fetch(SUPABASE_URL + '/rest/v1/rpc/funnel_dashboard_read', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            apikey: SUPABASE_ANON_KEY,
+            Authorization: 'Bearer ' + SUPABASE_ANON_KEY
+          },
+          body: JSON.stringify({ p_password: PASS, p_since: since })
+        })
+          .then(function (r) {
+            if (!r.ok) throw new Error('Falha ao ler Supabase: HTTP ' + r.status);
+            return r.json();
+          })
+          .then(function (rows) {
+            var events = (rows || []).map(mapRow);
+            if (filterState.day) {
+              var dayEnd = Date.parse(filterState.day + 'T23:59:59.999Z');
+              events = events.filter(function (e) { return e.ts <= dayEnd; });
+            }
+            lastRemoteEvents = events;
+            return events;
+          });
       }
 
       function countEvent(events, name) {
@@ -504,13 +556,11 @@
         container.innerHTML = html;
       }
 
-      function loadDashboard() {
-        document.getElementById('filterLabel').textContent = filterLabel();
-        var events = getFilteredEvents();
+      function renderDashboard(events) {
         var analysis = GrowFunnel.analyzeDropoff(events);
         var status = document.getElementById('funnelStatus');
 
-        // KPIs do período (local sessions)
+        // KPIs do período (Supabase — todos os visitantes, qualquer dispositivo)
         document.getElementById('kpiSessions').textContent = analysis.sessions;
         var pView = countEvent(events, 'pressell_view');
         var pCont = countEvent(events, 'pressell_continue');
@@ -633,7 +683,10 @@
           }).join('');
         }
 
-        // Online multi-user counters (all-time or selected day)
+      }
+
+      // Contadores multi-usuário redundantes (CounterAPI) — independentes do Supabase
+      function loadOnlineCounters() {
         var day = filterState.day || (filterState.type === 'today' ? (GrowFunnel.dayKey && GrowFunnel.dayKey(Date.now())) : null);
         var suffix = day ? '_' + day : '';
         var onlineKeys = [
@@ -673,11 +726,26 @@
           el.className = 'val ' + (orate != null && orate < 35 ? 'bad' : orate != null && orate >= 55 ? 'good' : 'warn');
           onlineStatus.textContent = day
             ? 'Online filtrado pelo dia UTC ' + day + ' (quando houver contadores diários). Totais sem sufixo = acumulado geral.'
-            : 'Online = acumulado de todos os visitantes (CounterAPI). Para filtrar dia online, use "Hoje" ou um dia no calendário.';
+            : 'Online = acumulado de todos os visitantes (CounterAPI, redundante ao Supabase). Para filtrar dia online, use "Hoje" ou um dia no calendário.';
         }).catch(function () {
           onlineStatus.textContent = 'Falha ao carregar contadores online.';
           onlineStatus.className = 'status error';
         });
+      }
+
+      function loadDashboard() {
+        document.getElementById('filterLabel').textContent = filterLabel();
+        var status = document.getElementById('funnelStatus');
+        status.textContent = 'Carregando dados reais do Supabase…';
+        fetchFilteredEvents()
+          .then(renderDashboard)
+          .catch(function (err) {
+            status.textContent = 'Erro ao carregar dados do Supabase.';
+            var alert = document.getElementById('bottleneckAlert');
+            alert.className = 'alert';
+            alert.innerHTML = '<strong>Falha ao conectar no Supabase.</strong> ' + esc(err.message || String(err));
+          });
+        loadOnlineCounters();
       }
 
       if (isAuthed()) showApp();

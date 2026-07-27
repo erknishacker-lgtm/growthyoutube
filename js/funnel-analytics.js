@@ -10,6 +10,8 @@
 
   var NS = 'growthyoutube_funnel';
   var COUNTER_BASE = 'https://api.counterapi.dev/v1';
+  var SUPABASE_URL = 'https://apjsidwqtzjautdwahao.supabase.co';
+  var SUPABASE_ANON_KEY = 'sb_publishable_4WWLvCwfSBzQo4acrZGOMA_gu0-DBXa';
   var LOCAL_KEY = 'grow_funnel_events_v1';
   var SESSION_KEY = 'grow_funnel_session_v1';
   var GEO_KEY = 'grow_funnel_geo_v1';
@@ -222,6 +224,67 @@
     return y + '-' + m + '-' + day + 'T' + h;
   }
 
+  /** Envia o evento (já com geo, quando disponível) para a tabela real no Supabase */
+  function sendToSupabase(payload) {
+    try {
+      fetch(SUPABASE_URL + '/rest/v1/rpc/funnel_track_insert', {
+        method: 'POST',
+        mode: 'cors',
+        keepalive: true,
+        credentials: 'omit',
+        headers: {
+          'Content-Type': 'application/json',
+          apikey: SUPABASE_ANON_KEY,
+          Authorization: 'Bearer ' + SUPABASE_ANON_KEY
+        },
+        body: JSON.stringify({
+          p_event: payload.event,
+          p_ts: payload.ts,
+          p_session_id: payload.sessionId,
+          p_page: payload.page,
+          p_step: payload.step,
+          p_label: payload.label,
+          p_answer: payload.answer,
+          p_earn: payload.earn,
+          p_balance: payload.balance,
+          p_path: payload.path,
+          p_utm: payload.utm,
+          p_screen: payload.screen,
+          p_referrer: payload.referrer,
+          p_user_agent: payload.userAgent,
+          p_language: payload.language,
+          p_ip: payload.ip,
+          p_city: payload.city,
+          p_region: payload.region,
+          p_country: payload.country,
+          p_country_code: payload.country_code
+        })
+      }).catch(function () {});
+    } catch (e) {}
+  }
+
+  /** Espera o geo (se ainda não resolvido) e manda uma única linha por evento pro Supabase */
+  function trackRemote(payload) {
+    if (geoCache) {
+      sendToSupabase(mergeGeo(payload, geoCache));
+      return;
+    }
+    fetchGeo().then(function (g) {
+      sendToSupabase(g ? mergeGeo(payload, g) : payload);
+    });
+  }
+
+  function mergeGeo(payload, g) {
+    var out = {};
+    for (var k in payload) out[k] = payload[k];
+    out.ip = g.ip;
+    out.city = g.city;
+    out.region = g.region;
+    out.country = g.country;
+    out.country_code = g.country_code;
+    return out;
+  }
+
   /**
    * track(eventName, props)
    * props.once === true → só 1x por sessão (ideal para pageviews)
@@ -327,11 +390,13 @@
       base.region = geoCache.region;
       base.country = geoCache.country;
       base.country_code = geoCache.country_code;
+      sendToSupabase(base);
       return commit(base);
     }
 
     // Grava rápido sem geo, depois atualiza o último evento + visitor
     commit(base);
+    trackRemote(base);
 
     fetchGeo().then(function (g) {
       if (!g) return;
