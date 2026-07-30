@@ -193,5 +193,19 @@ document.addEventListener('click', function(e) {
     }
 });
 </script>
+
+<script src="analytics.js"></script>
+<script>
+(function () {
+  var F = window.ToolsCashFunnel;
+  if (!F) return;
+  F.track('pressell_view', { step: -1, path: 'pressell', once: true });
+  document.querySelectorAll('a[href^="pre/step01"]').forEach(function (link) {
+    link.addEventListener('click', function () {
+      F.track('pressell_continue', { step: -1, path: 'pressell', label: 'Start now' });
+    });
+  });
+})();
+</script>
 </body>
 </html>

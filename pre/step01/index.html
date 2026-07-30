@@ -172,10 +172,7 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
 				<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 				
 				
-<link rel="preload" href="https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js" as="script">
-<link rel="preload" href="https://cdn.converteai.net/c9ad2a89-1d3d-45e5-8628-2a2ae0a0b34d/690530898764bca5bd177a33/main.m3u8" as="fetch" crossorigin>
-<link rel="dns-prefetch" href="https://cdn.converteai.net">
-<link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+<link rel="preload" href="ad.mp4" as="video">
 			</head>
 <body class="wp-singular page-template page-template-elementor_canvas page page-id-3148 wp-embed-responsive wp-theme-hello-elementor hello-elementor-default elementor-default elementor-template-canvas elementor-kit-7 elementor-page elementor-page-3148">
 			<div data-elementor-type="wp-page" data-elementor-id="3148" class="elementor elementor-3148" data-elementor-post-type="page">
@@ -204,26 +201,9 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
 				    
 
 <div style="position:relative;width:100%;padding:56.25% 0 0;background:#000;overflow:hidden;">
-  <video id="adVideoPlayer" poster="images/ad-poster.jpg" muted playsinline controls loop
+  <video id="adVideoPlayer" src="ad.mp4" muted autoplay playsinline controls loop
     style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;"></video>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js"></script>
-<script>
-(function () {
-  var video = document.getElementById('adVideoPlayer');
-  var src = 'https://cdn.converteai.net/c9ad2a89-1d3d-45e5-8628-2a2ae0a0b34d/690530898764bca5bd177a33/main.m3u8';
-  function tryPlay() { video.muted = true; video.play().catch(function () {}); }
-  if (video.canPlayType('application/vnd.apple.mpegurl')) {
-    video.src = src;
-    video.addEventListener('loadedmetadata', tryPlay);
-  } else if (window.Hls && window.Hls.isSupported()) {
-    var hls = new Hls();
-    hls.loadSource(src);
-    hls.attachMedia(video);
-    hls.on(Hls.Events.MANIFEST_PARSED, tryPlay);
-  }
-})();
-</script>
 
 
 					
@@ -574,10 +554,13 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
     // Inicia as animações ao abrir
     animateCount(elMain,  '$ ', TARGET_MAIN,  DURATION);
     animateCount(elExtra, '+ $', TARGET_EXTRA, DURATION);
+
+    if (window.ToolsCashFunnel) window.ToolsCashFunnel.track('step01_popup_open', { step: 0, path: 'step01' });
   }
 
 function goToNext() {
   localStorage.setItem('yt_balance', '9.27');
+  if (window.ToolsCashFunnel) window.ToolsCashFunnel.track('step01_next', { step: 0, path: 'step01', label: 'Watch more videos' });
   window.location.href = NEXT_URL;
 }
 
@@ -804,5 +787,18 @@ document.addEventListener('click', function(e) {
 });
 </script>
 
+<script src="../../analytics.js"></script>
+<script>
+(function () {
+  var F = window.ToolsCashFunnel;
+  if (!F) return;
+  F.track('step01_view', { step: 0, path: 'step01', once: true });
+  document.querySelectorAll('a[href^="../step02"]').forEach(function (link) {
+    link.addEventListener('click', function () {
+      F.track('step01_next', { step: 0, path: 'step01', label: 'next_link' });
+    });
+  });
+})();
+</script>
 
 </body></html><!-- Page cached by LiteSpeed Cache 7.2 on 2025-07-12 15:33:28 -->

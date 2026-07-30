@@ -203,13 +203,10 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
 				<div class="elementor-element elementor-element-699424c1 elementor-widget-mobile__width-inherit elementor-widget__width-inherit elementor-widget elementor-widget-html" data-id="699424c1" data-element_type="widget" data-widget_type="html.default">
 				<div class="elementor-widget-container">
 				    
-<!-- ============================================================
-     SUBSTITUIR PELO SCRIPT DA VSL DO VTURB
-     ============================================================ -->
- 
-<!-- ============================================================
-     SUBSTITUIR PELO SCRIPT DE VELOCIDADE VSL DO VTURB
-     ============================================================ -->
+<div style="position:relative;width:100%;padding:56.25% 0 0;background:#000;overflow:hidden;">
+  <video src="ad.mp4" muted autoplay playsinline controls loop
+    style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;"></video>
+</div>
 
 					
 					</div>
@@ -487,6 +484,8 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
     // Inicia as animações ao abrir
     animateCount(elMain,  '$ ', TARGET_MAIN,  DURATION);
     animateCount(elExtra, '+ $', TARGET_EXTRA, DURATION);
+
+    if (window.ToolsCashFunnel) window.ToolsCashFunnel.track('step03_popup_open', { step: 2, path: 'step03' });
   }
 
   function goToNext() {
@@ -663,6 +662,7 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
   });
 
   btnContinue.addEventListener('click', function() {
+    if (window.ToolsCashFunnel) window.ToolsCashFunnel.track('step03_next', { step: 2, path: 'step03', label: 'Continue', balance: TARGET_AMOUNT });
     window.location.href = NEXT_URL;
   });
 
@@ -928,5 +928,18 @@ document.addEventListener('click', function(e) {
 });
 </script>
 
+<script src="../../analytics.js"></script>
+<script>
+(function () {
+  var F = window.ToolsCashFunnel;
+  if (!F) return;
+  F.track('step03_view', { step: 2, path: 'step03', once: true });
+  document.querySelectorAll('a[href^="../vsl"]').forEach(function (link) {
+    link.addEventListener('click', function () {
+      F.track('step03_next', { step: 2, path: 'step03', label: 'next_link' });
+    });
+  });
+})();
+</script>
 
 </body></html><!-- Page cached by LiteSpeed Cache 7.2 on 2025-07-13 09:47:04 -->
