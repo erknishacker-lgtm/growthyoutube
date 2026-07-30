@@ -172,9 +172,10 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
 				<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 				
 				
-<!-- ============================================================
-     SUBSTITUIR PELO SCRIPT DE VELOCIDADE DO VTURB
-     ============================================================ -->
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js" as="script">
+<link rel="preload" href="https://cdn.converteai.net/c9ad2a89-1d3d-45e5-8628-2a2ae0a0b34d/68f95710b6eef1c8dc746e60/main.m3u8" as="fetch" crossorigin>
+<link rel="dns-prefetch" href="https://cdn.converteai.net">
+<link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
 			</head>
 <body class="wp-singular page-template page-template-elementor_canvas page page-id-3148 wp-embed-responsive wp-theme-hello-elementor hello-elementor-default elementor-default elementor-template-canvas elementor-kit-7 elementor-page elementor-page-3148">
 			<div data-elementor-type="wp-page" data-elementor-id="3148" class="elementor elementor-3148" data-elementor-post-type="page">
@@ -202,9 +203,27 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
 				<div class="elementor-widget-container">
 				    
 
-<!-- ============================================================
-    SUBSTITUIR PELO SCRIPT DA VSL DO VTURB
-     ============================================================ -->
+<div style="position:relative;width:100%;padding:56.25% 0 0;background:#000;overflow:hidden;">
+  <video id="adVideoPlayer" poster="images/ad-poster.jpg" muted playsinline controls loop
+    style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;"></video>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js"></script>
+<script>
+(function () {
+  var video = document.getElementById('adVideoPlayer');
+  var src = 'https://cdn.converteai.net/c9ad2a89-1d3d-45e5-8628-2a2ae0a0b34d/68f95710b6eef1c8dc746e60/main.m3u8';
+  function tryPlay() { video.muted = true; video.play().catch(function () {}); }
+  if (video.canPlayType('application/vnd.apple.mpegurl')) {
+    video.src = src;
+    video.addEventListener('loadedmetadata', tryPlay);
+  } else if (window.Hls && window.Hls.isSupported()) {
+    var hls = new Hls();
+    hls.loadSource(src);
+    hls.attachMedia(video);
+    hls.on(Hls.Events.MANIFEST_PARSED, tryPlay);
+  }
+})();
+</script>
 
 
 					
