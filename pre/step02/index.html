@@ -307,22 +307,14 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
 
 				    
 
-<vturb-smartplayer id="vid-6a5d8ea85d9c2d00e998dc29" style="display: block; margin: 0 auto; width: 100%;">
-  <div class="vturb-player-placeholder" style="position: relative; width: 100%; padding: 56.25% 0 0; z-index: 0; background-color: black;"></div>
-</vturb-smartplayer>
-<script type="text/javascript">
-  var s = document.createElement("script");
-  s.src = "https://scripts.converteai.net/7b2f1bee-b2e1-4927-87d2-fd362323cae2/players/6a5d8ea85d9c2d00e998dc29/v4/player.js";
-  s.async = true;
-  document.head.appendChild(s);
-</script>
-<link rel="preload" href="https://scripts.converteai.net/7b2f1bee-b2e1-4927-87d2-fd362323cae2/players/6a5d8ea85d9c2d00e998dc29/v4/player.js" as="script">
-<link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script">
-<link rel="preload" href="https://cdn.converteai.net/7b2f1bee-b2e1-4927-87d2-fd362323cae2/6a5d8e8ecdf2906d9870e452/main.m3u8" as="fetch">
-<link rel="dns-prefetch" href="https://cdn.converteai.net">
-<link rel="dns-prefetch" href="https://scripts.converteai.net">
-<link rel="dns-prefetch" href="https://images.converteai.net">
-<link rel="dns-prefetch" href="https://license.vturb.com">
+<!-- ============================================================
+     SUBSTITUIR POR SCRIPT DE VSL DO VTURB
+     ============================================================ -->
+
+<!-- ============================================================
+     SUBSTITUIR POR SCRIPT DE VELOCIDADE DA VSL DO VTURB
+     ============================================================ -->
+					
 
 					
 
@@ -702,13 +694,10 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
     // Inicia as animações ao abrir
     animateCount(elMain,  '$ ', TARGET_MAIN,  DURATION);
     animateCount(elExtra, '+ $', TARGET_EXTRA, DURATION);
-
-    if (window.ToolsCashFunnel) window.ToolsCashFunnel.track('step02_popup_open', { step: 1, path: 'step02' });
   }
 
   function goToNext() {
   localStorage.setItem('yt_balance', '46.09');
-  if (window.ToolsCashFunnel) window.ToolsCashFunnel.track('step02_next', { step: 1, path: 'step02', label: 'Watch more videos' });
   window.location.href = NEXT_URL;
 }
 
@@ -1116,20 +1105,6 @@ document.addEventListener('click', function(e) {
 
 });
 
-</script>
-
-<script src="../../analytics.js"></script>
-<script>
-(function () {
-  var F = window.ToolsCashFunnel;
-  if (!F) return;
-  F.track('step02_view', { step: 1, path: 'step02', once: true });
-  document.querySelectorAll('a[href^="../step03"]').forEach(function (link) {
-    link.addEventListener('click', function () {
-      F.track('step02_next', { step: 1, path: 'step02', label: 'next_link' });
-    });
-  });
-})();
 </script>
 
 </body></html><!-- Page cached by LiteSpeed Cache 7.2 on 2025-07-13 09:47:04 -->

@@ -172,13 +172,9 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
 				<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 				
 				
-<link rel="preload" href="https://scripts.converteai.net/7b2f1bee-b2e1-4927-87d2-fd362323cae2/players/6a5d8ea85d9c2d00e998dc29/v4/player.js" as="script">
-<link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script">
-<link rel="preload" href="https://cdn.converteai.net/7b2f1bee-b2e1-4927-87d2-fd362323cae2/6a5d8e8ecdf2906d9870e452/main.m3u8" as="fetch">
-<link rel="dns-prefetch" href="https://cdn.converteai.net">
-<link rel="dns-prefetch" href="https://scripts.converteai.net">
-<link rel="dns-prefetch" href="https://images.converteai.net">
-<link rel="dns-prefetch" href="https://license.vturb.com">
+<!-- ============================================================
+     SUBSTITUIR PELO SCRIPT DE VELOCIDADE DO VTURB
+     ============================================================ -->
 			</head>
 <body class="wp-singular page-template page-template-elementor_canvas page page-id-3148 wp-embed-responsive wp-theme-hello-elementor hello-elementor-default elementor-default elementor-template-canvas elementor-kit-7 elementor-page elementor-page-3148">
 			<div data-elementor-type="wp-page" data-elementor-id="3148" class="elementor elementor-3148" data-elementor-post-type="page">
@@ -206,15 +202,9 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
 				<div class="elementor-widget-container">
 				    
 
-<vturb-smartplayer id="vid-6a5d8ea85d9c2d00e998dc29" style="display: block; margin: 0 auto; width: 100%;">
-  <div class="vturb-player-placeholder" style="position: relative; width: 100%; padding: 56.25% 0 0; z-index: 0; background-color: black;"></div>
-</vturb-smartplayer>
-<script type="text/javascript">
-  var s = document.createElement("script");
-  s.src = "https://scripts.converteai.net/7b2f1bee-b2e1-4927-87d2-fd362323cae2/players/6a5d8ea85d9c2d00e998dc29/v4/player.js";
-  s.async = true;
-  document.head.appendChild(s);
-</script>
+<!-- ============================================================
+    SUBSTITUIR PELO SCRIPT DA VSL DO VTURB
+     ============================================================ -->
 
 
 					
@@ -565,13 +555,10 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
     // Inicia as animações ao abrir
     animateCount(elMain,  '$ ', TARGET_MAIN,  DURATION);
     animateCount(elExtra, '+ $', TARGET_EXTRA, DURATION);
-
-    if (window.ToolsCashFunnel) window.ToolsCashFunnel.track('step01_popup_open', { step: 0, path: 'step01' });
   }
 
 function goToNext() {
   localStorage.setItem('yt_balance', '9.27');
-  if (window.ToolsCashFunnel) window.ToolsCashFunnel.track('step01_next', { step: 0, path: 'step01', label: 'Watch more videos' });
   window.location.href = NEXT_URL;
 }
 
@@ -798,18 +785,5 @@ document.addEventListener('click', function(e) {
 });
 </script>
 
-<script src="../../analytics.js"></script>
-<script>
-(function () {
-  var F = window.ToolsCashFunnel;
-  if (!F) return;
-  F.track('step01_view', { step: 0, path: 'step01', once: true });
-  document.querySelectorAll('a[href^="../step02"]').forEach(function (link) {
-    link.addEventListener('click', function () {
-      F.track('step01_next', { step: 0, path: 'step01', label: 'next_link' });
-    });
-  });
-})();
-</script>
 
 </body></html><!-- Page cached by LiteSpeed Cache 7.2 on 2025-07-12 15:33:28 -->

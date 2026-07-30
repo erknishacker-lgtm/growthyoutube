@@ -141,6 +141,7 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
 <link rel="dns-prefetch" href="https://scripts.converteai.net">
 <link rel="dns-prefetch" href="https://images.converteai.net">
 <link rel="dns-prefetch" href="https://license.vturb.com">
+
 <script src="js/jquery.min.js" id="jquery-core-js"></script>
 <script src="js/jquery-migrate.min.js" id="jquery-migrate-js"></script>
 <link rel="https://api.w.org/" href="https://newtooldiscovered.site/wp-json/index.json"><link rel="alternate" title="JSON" type="application/json" href="https://newtooldiscovered.site/wp-json/wp/v2/pages/3151"><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://newtooldiscovered.site/xmlrpc.php?rsd">
@@ -209,7 +210,6 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
   s.async = true;
   document.head.appendChild(s);
 </script>
-
 				</div>
 				</div>
 				</div>
@@ -808,24 +808,17 @@ var ElementorProFrontendConfig = {"ajaxurl":"https:\/\/newtooldiscovered.site\/w
 <script src="js/frontend.min_1.js" id="elementor-pro-frontend-js"></script>
 <script src="js/elements-handlers.min.js" id="pro-elements-handlers-js"></script>
 
-<script src="../../analytics.js"></script>
 <script>
   (function () {
-    var F = window.ToolsCashFunnel;
     var ctaBox = document.getElementById('delayedCtaBox');
     var accessBtn = document.getElementById('accessNowBtn');
 
-    if (F) F.track('vsl_pageview', { step: 3, path: 'vsl', once: true });
-
-    // Mantém UTMs / query params no link de checkout
     if (accessBtn && window.location.search) {
       try {
         var baseUrl = new URL(accessBtn.getAttribute('href'));
         var pageParams = new URLSearchParams(window.location.search);
         pageParams.forEach(function (value, key) {
-          if (!baseUrl.searchParams.has(key)) {
-            baseUrl.searchParams.set(key, value);
-          }
+          if (!baseUrl.searchParams.has(key)) baseUrl.searchParams.set(key, value);
         });
         accessBtn.setAttribute('href', baseUrl.toString());
       } catch (e) {}
@@ -834,14 +827,12 @@ var ElementorProFrontendConfig = {"ajaxurl":"https:\/\/newtooldiscovered.site\/w
     function revealAccessCta() {
       if (!ctaBox) return;
       ctaBox.hidden = false;
-      if (F) F.track('cta_access_reveal', { step: 3, path: 'vsl', label: 'ACCESS NOW' });
       if (typeof fbq === 'function') {
         try { fbq('trackCustom', 'CTA_Revealed', { delay_sec: 736 }); } catch (e) {}
       }
       try { ctaBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (e) {}
     }
 
-    // ACCESS NOW aparece após 12 min 16 s (ou ?cta=now pra testar)
     var CTA_DELAY_MS = (12 * 60 + 16) * 1000;
     var params = new URLSearchParams(window.location.search);
     if (params.get('cta') === 'now' || params.get('cta') === '1') {
@@ -852,7 +843,6 @@ var ElementorProFrontendConfig = {"ajaxurl":"https:\/\/newtooldiscovered.site\/w
 
     if (accessBtn) {
       accessBtn.addEventListener('click', function () {
-        if (F) F.track('cta_access_click', { step: 3, path: 'vsl', label: 'ACCESS NOW' });
         if (typeof fbq === 'function') {
           try { fbq('track', 'InitiateCheckout'); } catch (e) {}
         }
