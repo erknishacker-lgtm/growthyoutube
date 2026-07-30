@@ -4,300 +4,537 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="robots" content="noindex, nofollow">
-  <meta name="theme-color" content="#0f0f12">
-  <title>Tools Cash — Painel</title>
+  <meta name="theme-color" content="#0a0c0f">
+  <title>Tools Cash — Painel do Funil</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0f0f12;
-      --surface: #18181c;
-      --surface-2: #222228;
-      --border: #32323a;
-      --ink: #f2f2f4;
-      --muted: #a8a8b0;
-      --accent: #e10600;
-      --gain: #3ddc84;
-      --warn: #f5a524;
+      --bg: #0a0c0f;
+      --surface: #10141a;
+      --surface-2: #161b23;
+      --surface-3: #1d232e;
+      --border: #232a36;
+      --border-strong: #303949;
+      --ink: #eceff4;
+      --muted: #9aa4b3;
+      --faint: #7b8494;
+      --accent: #4d8dff;
+      --accent-press: #3b78e8;
+      --accent-soft: rgba(77, 141, 255, 0.13);
+      --gain: #3fd68f;
+      --gain-soft: rgba(63, 214, 143, 0.12);
+      --warn: #f2b544;
+      --warn-soft: rgba(242, 181, 68, 0.12);
       --danger: #ff6b6b;
-      --line: #3987e5;
-      --radius: 14px;
-      --font: "Roboto", system-ui, sans-serif;
+      --danger-soft: rgba(255, 107, 107, 0.11);
+      --violet: #b493f8;
+      --radius: 12px;
+      --radius-sm: 9px;
+      --font: "Inter", system-ui, -apple-system, sans-serif;
+      --z-sticky: 40;
+      --z-tooltip: 60;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { color-scheme: dark; }
     body {
       font-family: var(--font);
       background: var(--bg);
       color: var(--ink);
       min-height: 100dvh;
-      line-height: 1.45;
+      line-height: 1.5;
+      font-size: 14px;
       -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
     }
     button, input, select { font: inherit; color: inherit; }
-    a { color: var(--gain); }
-    code { font-size: 0.9em; color: var(--warn); }
+    button { cursor: pointer; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+    .mono { font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
 
+    /* ============ GATE (login) ============ */
     .gate {
       min-height: 100dvh;
       display: grid;
       place-items: center;
       padding: 24px;
-      background: radial-gradient(80% 50% at 50% 0%, rgba(57,135,229,.18), transparent 55%), var(--bg);
+      background:
+        radial-gradient(70% 45% at 50% -5%, rgba(77, 141, 255, 0.09), transparent 60%),
+        var(--bg);
     }
     .gate-card {
-      width: min(400px, 100%);
+      width: min(380px, 100%);
       background: var(--surface);
-      border-radius: var(--radius);
-      padding: 28px 22px;
-      box-shadow: 0 12px 40px rgba(0,0,0,.4);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px 28px 28px;
     }
-    .gate-card h1 { font-size: 1.35rem; font-weight: 900; letter-spacing: -0.02em; margin-bottom: 6px; }
-    .gate-card p { color: var(--muted); font-size: 14px; margin-bottom: 18px; }
-    .gate-card label {
-      display: block; font-size: 12px; font-weight: 700; color: var(--muted);
-      margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.04em;
+    .gate-mark {
+      width: 44px; height: 44px; border-radius: 11px;
+      background: var(--accent-soft); border: 1px solid rgba(77, 141, 255, 0.3);
+      display: grid; place-items: center; margin-bottom: 18px;
     }
-    .gate-card input {
-      width: 100%; height: 48px; border-radius: 12px; border: 1px solid var(--border);
-      background: var(--surface-2); padding: 0 14px; margin-bottom: 12px;
+    .gate-mark svg { width: 22px; height: 22px; stroke: var(--accent); }
+    .gate-card h1 { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 4px; }
+    .gate-card > p { color: var(--muted); font-size: 13px; margin-bottom: 22px; }
+    .field label {
+      display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 6px;
     }
-    .gate-card input:focus { outline: 2px solid var(--line); outline-offset: 1px; }
-    .gate-error { color: var(--danger); font-size: 13px; font-weight: 600; margin-bottom: 10px; min-height: 1.2em; }
+    .field input {
+      width: 100%; height: 44px; border-radius: var(--radius-sm);
+      border: 1px solid var(--border); background: var(--surface-2);
+      padding: 0 13px; transition: border-color 0.15s ease, background 0.15s ease;
+    }
+    .field input::placeholder { color: var(--faint); }
+    .field input:hover { border-color: var(--border-strong); }
+    .field input:focus { outline: none; border-color: var(--accent); background: var(--surface); }
+    .gate-error {
+      color: var(--danger); font-size: 12.5px; font-weight: 500;
+      margin: 10px 0 2px; min-height: 1.2em;
+    }
 
+    /* ============ BUTTONS ============ */
     .btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      width: 100%; height: 48px; border: 0; border-radius: 12px;
-      background: var(--line); color: #fff; font-weight: 800; cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+      height: 40px; padding: 0 16px; border: 0; border-radius: var(--radius-sm);
+      background: var(--accent); color: #fff; font-weight: 600; font-size: 13px;
+      transition: background 0.15s ease, transform 0.1s ease;
+      width: 100%;
     }
-    .btn:hover { filter: brightness(1.08); }
+    .btn:hover { background: var(--accent-press); }
+    .btn:active { transform: scale(0.98); }
+    .btn svg { width: 15px; height: 15px; stroke: currentColor; flex: none; }
     .btn-ghost {
-      background: var(--surface-2); color: var(--ink); border: 1px solid var(--border);
+      background: transparent; color: var(--muted);
+      border: 1px solid var(--border);
     }
-    .btn-sm { width: auto; height: 36px; padding: 0 12px; font-size: 12px; }
+    .btn-ghost:hover { background: var(--surface-2); color: var(--ink); border-color: var(--border-strong); }
+    .btn-danger {
+      background: transparent; color: var(--danger);
+      border: 1px solid rgba(255, 107, 107, 0.35);
+    }
+    .btn-danger:hover { background: var(--danger-soft); color: var(--danger); border-color: rgba(255, 107, 107, 0.55); }
+    .btn-sm { width: auto; height: 34px; padding: 0 12px; font-size: 12.5px; }
+    .btn.is-busy { opacity: 0.6; pointer-events: none; }
+    .btn.is-busy svg { animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
+    /* ============ APP SHELL ============ */
     .app { display: none; }
     .app.is-on { display: block; }
 
     .top {
-      position: sticky; top: 0; z-index: 20;
-      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
-      gap: 12px; padding: 14px 18px;
-      background: rgba(15,15,18,.94); backdrop-filter: blur(12px);
+      position: sticky; top: 0; z-index: var(--z-sticky);
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      min-height: 58px; padding: 10px 20px;
+      background: rgba(10, 12, 15, 0.88);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--border);
     }
-    .top h1 { font-size: 1.05rem; font-weight: 900; letter-spacing: -0.02em; }
-    .top h1 span { display: block; font-size: 12px; font-weight: 500; color: var(--muted); }
-    .top-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .top-brand { display: flex; align-items: center; gap: 11px; min-width: 0; }
+    .brand-mark {
+      width: 32px; height: 32px; border-radius: 8px; flex: none;
+      background: var(--accent-soft); border: 1px solid rgba(77, 141, 255, 0.3);
+      display: grid; place-items: center;
+    }
+    .brand-mark svg { width: 16px; height: 16px; stroke: var(--accent); }
+    .top-title { font-size: 13.5px; font-weight: 700; letter-spacing: -0.01em; white-space: nowrap; }
+    .top-title span {
+      display: block; font-size: 11.5px; font-weight: 500; color: var(--muted);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 46vw;
+    }
+    .top-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
 
-    .shell { width: min(1180px, 100%); margin: 0 auto; padding: 16px 16px 48px; }
-
-    .filters {
-      display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
-      margin-bottom: 16px; padding: 12px; background: var(--surface);
-      border-radius: var(--radius);
+    .live-pill {
+      display: inline-flex; align-items: center; gap: 7px;
+      height: 34px; padding: 0 12px; border-radius: 999px;
+      border: 1px solid var(--border); background: var(--surface);
+      font-size: 12px; font-weight: 500; color: var(--muted); white-space: nowrap;
     }
-    .filters label { font-size: 12px; font-weight: 700; color: var(--muted); margin-right: 4px; }
-    .chip {
-      border: 1px solid var(--border); background: var(--surface-2);
-      color: var(--ink); border-radius: 999px; padding: 7px 12px;
-      font-size: 12px; font-weight: 700; cursor: pointer;
-    }
-    .chip.is-on {
-      background: rgba(57,135,229,.18); border-color: rgba(57,135,229,.5); color: #8fc0f5;
-    }
-    .filters input[type="date"] {
-      height: 34px; border-radius: 10px; border: 1px solid var(--border);
-      background: var(--surface-2); padding: 0 10px; font-size: 12px;
-    }
+    .live-pill.error { color: var(--danger); border-color: rgba(255, 107, 107, 0.3); }
     .live-dot {
-      width: 8px; height: 8px; border-radius: 50%; background: var(--gain);
-      display: inline-block; margin-right: 6px; box-shadow: 0 0 0 0 rgba(61,220,132,.6);
-      animation: pulse 1.8s infinite;
+      width: 7px; height: 7px; border-radius: 50%; background: var(--gain); flex: none;
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
     }
+    .live-pill.error .live-dot { background: var(--danger); animation: none; }
     @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(61,220,132,.55); }
-      70% { box-shadow: 0 0 0 7px rgba(61,220,132,0); }
-      100% { box-shadow: 0 0 0 0 rgba(61,220,132,0); }
+      0% { box-shadow: 0 0 0 0 rgba(63, 214, 143, 0.5); }
+      70% { box-shadow: 0 0 0 6px rgba(63, 214, 143, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(63, 214, 143, 0); }
     }
 
+    .shell { width: min(1240px, 100%); margin: 0 auto; padding: 20px 20px 56px; }
+
+    /* ============ FILTER BAR ============ */
+    .filterbar {
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+      padding: 10px 12px; margin-bottom: 16px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    }
+    .filterbar .fb-label { font-size: 12px; font-weight: 600; color: var(--faint); margin-right: 2px; }
+    .seg {
+      display: inline-flex; gap: 2px; padding: 3px;
+      background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px;
+    }
+    .seg button {
+      height: 30px; padding: 0 13px; border: 1px solid transparent; border-radius: 7px;
+      background: transparent; color: var(--muted);
+      font-size: 12.5px; font-weight: 600; white-space: nowrap;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+    .seg button:hover { color: var(--ink); }
+    .seg button.is-on {
+      background: var(--surface-3); color: var(--ink); border-color: var(--border-strong);
+    }
+    .fb-sep { width: 1px; height: 22px; background: var(--border); flex: none; }
+    .fb-day { display: inline-flex; align-items: center; gap: 8px; }
+    .fb-day input[type="date"] {
+      height: 34px; border-radius: var(--radius-sm); border: 1px solid var(--border);
+      background: var(--surface-2); padding: 0 10px; font-size: 12.5px; color: var(--muted);
+      transition: border-color 0.15s ease;
+    }
+    .fb-day input[type="date"]:hover { border-color: var(--border-strong); }
+    .fb-day input[type="date"]:focus { outline: none; border-color: var(--accent); color: var(--ink); }
+
+    /* ============ ALERT ============ */
+    .alert {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 12px 14px; border-radius: var(--radius); margin-bottom: 16px;
+      background: var(--danger-soft); border: 1px solid rgba(255, 107, 107, 0.25);
+      font-size: 13px; line-height: 1.5; color: var(--ink);
+    }
+    .alert > div { min-width: 0; overflow-wrap: break-word; }
+    .alert svg { width: 16px; height: 16px; flex: none; margin-top: 2px; stroke: var(--danger); }
+    .alert strong { color: var(--danger); font-weight: 700; }
+    .alert.ok { background: var(--gain-soft); border-color: rgba(63, 214, 143, 0.25); }
+    .alert.ok svg { stroke: var(--gain); }
+    .alert.ok strong { color: var(--gain); }
+    .alert.info { background: var(--accent-soft); border-color: rgba(77, 141, 255, 0.25); }
+    .alert.info svg { stroke: var(--accent); }
+    .alert.info strong { color: var(--accent); }
+    .alert[hidden] { display: none; }
+
+    /* ============ KPI CARDS ============ */
     .kpis {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 10px; margin-bottom: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px; margin-bottom: 16px;
     }
     .kpi {
-      background: var(--surface); border-radius: 12px; padding: 14px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 15px 16px 13px;
+      transition: border-color 0.15s ease;
     }
-    .kpi .lbl {
-      font-size: 11px; font-weight: 700; color: var(--muted);
-      text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px;
-    }
+    .kpi:hover { border-color: var(--border-strong); }
+    .kpi .lbl { font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 8px; }
     .kpi .val {
-      font-size: 1.5rem; font-weight: 900; font-variant-numeric: tabular-nums;
-      letter-spacing: -0.03em;
+      font-size: 1.7rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1;
+      font-variant-numeric: tabular-nums; font-feature-settings: "tnum";
     }
     .kpi .val.good { color: var(--gain); }
-    .kpi .val.warn { color: var(--warn); }
-    .kpi .val.bad { color: var(--danger); }
-    .kpi .sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+    .kpi .sub { font-size: 11.5px; color: var(--faint); margin-top: 6px; }
+    .kpi .sub strong { color: var(--muted); font-weight: 600; }
 
+    /* ============ PANELS ============ */
     .panel {
-      background: var(--surface); border-radius: var(--radius);
-      padding: 16px; margin-bottom: 14px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 18px; margin-bottom: 16px;
+      min-width: 0;
     }
-    .panel h2 { font-size: 15px; font-weight: 800; margin-bottom: 4px; }
-    .panel .sub { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
+    .panel-head {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: 12px; margin-bottom: 14px; flex-wrap: wrap;
+    }
+    .panel-head h2 { font-size: 14px; font-weight: 700; letter-spacing: -0.01em; }
+    .panel-head .sub { font-size: 12.5px; color: var(--muted); margin-top: 3px; max-width: 62ch; }
+    .panel-head .meta { font-size: 11.5px; color: var(--faint); white-space: nowrap; padding-top: 3px; }
 
-    .grid-2 {
-      display: grid; grid-template-columns: 1fr; gap: 14px;
-    }
-    @media (min-width: 900px) {
-      .grid-2 { grid-template-columns: 1.2fr 0.8fr; }
-    }
+    .grid-2 { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    @media (min-width: 960px) { .grid-2 { grid-template-columns: 1.15fr 0.85fr; } }
+    .grid-2 .panel { margin-bottom: 0; }
+    .grid-2 + .grid-2, .grid-2 + .panel { margin-top: 16px; }
 
+    /* ============ SKELETON ============ */
+    .skl {
+      border-radius: 6px;
+      background: linear-gradient(90deg, var(--surface-2) 25%, var(--surface-3) 50%, var(--surface-2) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s ease infinite;
+    }
+    @keyframes shimmer { to { background-position: -200% 0; } }
+    .skl-row { height: 14px; margin-bottom: 10px; }
+    .skl-row:last-child { margin-bottom: 0; }
+
+    /* ============ FUNNEL ============ */
     .funnel-row {
-      display: grid; grid-template-columns: minmax(0,1fr) 56px 70px 64px;
-      gap: 8px; align-items: center; margin-bottom: 10px;
+      display: grid; grid-template-columns: minmax(0, 1fr) 52px 62px 58px;
+      gap: 10px; align-items: center; padding: 5px 0;
     }
     .funnel-meta .name {
-      font-size: 12.5px; font-weight: 700; margin-bottom: 4px;
+      font-size: 12.5px; font-weight: 500; margin-bottom: 5px; color: var(--ink);
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
-    .bar-track {
-      height: 10px; border-radius: 999px; background: var(--surface-2); overflow: hidden;
-    }
+    .bar-track { height: 6px; border-radius: 999px; background: var(--surface-2); overflow: hidden; }
     .bar-fill {
-      height: 100%; border-radius: inherit;
-      background: linear-gradient(90deg, #184f95, var(--line));
-      width: 0%; transition: width .4s cubic-bezier(.16,1,.3,1);
+      height: 100%; border-radius: inherit; background: var(--accent);
+      width: 0%; transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .bar-fill.drop { background: linear-gradient(90deg, #d03b3b, #ec835a); }
-    .bar-fill.worst { background: linear-gradient(90deg, #d03b3b, #ff6b6b); box-shadow: 0 0 12px rgba(208,59,59,.4); }
+    .bar-fill.drop { background: var(--warn); }
+    .bar-fill.worst { background: var(--danger); }
     .funnel-count, .funnel-rate, .funnel-stop {
-      text-align: right; font-weight: 800; font-variant-numeric: tabular-nums; font-size: 12px;
+      text-align: right; font-weight: 600; font-size: 12px;
+      font-variant-numeric: tabular-nums; font-feature-settings: "tnum";
     }
+    .funnel-rate { color: var(--muted); }
     .funnel-rate.bad { color: var(--danger); }
     .funnel-rate.good { color: var(--gain); }
-    .funnel-stop { color: var(--warn); font-size: 11px; }
-
-    .alert {
-      padding: 12px 14px; border-radius: 12px; margin-bottom: 14px;
-      background: rgba(255,107,107,.1); border: 1px solid rgba(255,107,107,.25);
-      font-size: 13px; font-weight: 600; line-height: 1.45;
+    .funnel-stop { color: var(--faint); font-weight: 500; }
+    .funnel-legend {
+      display: grid; grid-template-columns: minmax(0, 1fr) 52px 62px 58px;
+      gap: 10px; padding-bottom: 8px; margin-bottom: 4px;
+      border-bottom: 1px solid var(--border);
+      font-size: 11px; font-weight: 600; color: var(--faint);
     }
-    .alert strong { color: var(--danger); }
-    .alert.ok {
-      background: rgba(61,220,132,.08); border-color: rgba(61,220,132,.22);
-    }
-    .alert.ok strong { color: var(--gain); }
+    .funnel-legend span:not(:first-child) { text-align: right; }
 
-    .drop-list { list-style: none; display: grid; gap: 8px; }
+    /* ============ DROP LIST ============ */
+    .drop-list { list-style: none; display: grid; gap: 6px; }
     .drop-list li {
-      display: flex; justify-content: space-between; gap: 12px;
-      padding: 10px 12px; border-radius: 10px; background: var(--surface-2); font-size: 12.5px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 9px 12px; border-radius: var(--radius-sm);
+      background: var(--surface-2); border: 1px solid transparent;
+      font-size: 12.5px; transition: border-color 0.15s ease;
     }
-    .drop-list .loss { font-weight: 900; color: var(--danger); white-space: nowrap; }
+    .drop-list li:hover { border-color: var(--border-strong); }
+    .drop-list .rank {
+      width: 20px; height: 20px; border-radius: 6px; flex: none;
+      display: inline-grid; place-items: center;
+      background: var(--surface-3); color: var(--faint);
+      font-size: 10.5px; font-weight: 700; margin-right: 9px;
+    }
+    .drop-list .name { display: flex; align-items: center; min-width: 0; color: var(--ink); }
+    .drop-list .name span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .drop-list .loss {
+      font-weight: 700; color: var(--danger); white-space: nowrap;
+      font-variant-numeric: tabular-nums; font-feature-settings: "tnum";
+    }
+    .empty-note { color: var(--muted); font-size: 13px; padding: 18px 4px; text-align: center; }
 
-    table { width: 100%; border-collapse: collapse; font-size: 12px; }
-    th, td {
-      text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--border); vertical-align: top;
-    }
-    th {
-      color: var(--muted); font-weight: 700; font-size: 11px;
-      text-transform: uppercase; letter-spacing: 0.04em;
-    }
-    .mono { font-variant-numeric: tabular-nums; }
-    .tag {
-      display: inline-block; padding: 2px 8px; border-radius: 999px;
-      background: rgba(57,135,229,.14); color: #8fc0f5; font-weight: 700; font-size: 11px;
-    }
-    .tag.warn { background: rgba(245,165,36,.12); color: var(--warn); }
-    .tag.bad { background: rgba(255,107,107,.12); color: var(--danger); }
-    .status { font-size: 12px; color: var(--muted); margin-top: 8px; }
-    .status.error { color: var(--danger); }
-    .note {
-      font-size: 12px; color: var(--muted); padding: 10px 12px; border-radius: 10px;
-      background: var(--surface-2); margin-top: 10px; line-height: 1.5;
-    }
+    /* ============ REGIONS ============ */
+    .region-group + .region-group { margin-top: 18px; }
+    .region-title { font-size: 12px; font-weight: 600; color: var(--faint); margin-bottom: 9px; }
     .region-row {
-      display: grid; grid-template-columns: 1fr 48px 1fr; gap: 8px; align-items: center;
-      margin-bottom: 8px; font-size: 12.5px;
+      display: grid; grid-template-columns: minmax(0, 1.1fr) 44px minmax(0, 1fr);
+      gap: 10px; align-items: center; padding: 4px 0; font-size: 12.5px;
     }
-    .region-row .name { font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .region-row .name { font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .region-row .n {
+      text-align: right; font-weight: 600; color: var(--muted);
+      font-variant-numeric: tabular-nums; font-feature-settings: "tnum";
+    }
+    .region-row .bar-fill { background: var(--surface-3); background: #3a6db4; }
 
-    /* --- chart --- */
+    /* ============ TABLES ============ */
+    .table-tools { display: flex; align-items: center; gap: 8px; }
+    .search {
+      display: inline-flex; align-items: center; gap: 7px;
+      height: 32px; padding: 0 10px; min-width: 180px;
+      background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-sm);
+      transition: border-color 0.15s ease;
+    }
+    .search:focus-within { border-color: var(--accent); }
+    .search svg { width: 13px; height: 13px; stroke: var(--faint); flex: none; }
+    .search input {
+      border: 0; background: transparent; width: 100%; font-size: 12.5px; color: var(--ink);
+    }
+    .search input::placeholder { color: var(--faint); }
+    .search input:focus { outline: none; }
+
+    .table-scroll {
+      max-height: 400px; overflow: auto; border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+    thead th {
+      position: sticky; top: 0; z-index: 1;
+      background: var(--surface-3); color: var(--muted);
+      font-weight: 600; font-size: 11.5px; text-align: left;
+      padding: 9px 12px; border-bottom: 1px solid var(--border-strong);
+      white-space: nowrap;
+    }
+    tbody td {
+      padding: 9px 12px; border-bottom: 1px solid var(--border);
+      vertical-align: middle; color: var(--ink);
+      max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    tbody tr:last-child td { border-bottom: 0; }
+    tbody tr { transition: background 0.1s ease; }
+    tbody tr:hover { background: rgba(255, 255, 255, 0.025); }
+    td .dim { color: var(--muted); }
+
+    .tag {
+      display: inline-block; padding: 2.5px 9px; border-radius: 999px;
+      font-weight: 600; font-size: 11px; white-space: nowrap;
+      background: var(--surface-3); color: var(--muted);
+      border: 1px solid var(--border-strong);
+    }
+    .tag.blue { background: var(--accent-soft); color: #8fb8ff; border-color: rgba(77, 141, 255, 0.3); }
+    .tag.warn { background: var(--warn-soft); color: var(--warn); border-color: rgba(242, 181, 68, 0.28); }
+    .tag.gain { background: var(--gain-soft); color: var(--gain); border-color: rgba(63, 214, 143, 0.28); }
+    .tag.violet { background: rgba(180, 147, 248, 0.12); color: var(--violet); border-color: rgba(180, 147, 248, 0.28); }
+    .tag.bad { background: var(--danger-soft); color: var(--danger); border-color: rgba(255, 107, 107, 0.28); }
+
+    .note {
+      font-size: 12px; color: var(--muted); padding: 11px 13px; border-radius: var(--radius-sm);
+      background: var(--surface-2); border: 1px solid var(--border);
+      margin-top: 12px; line-height: 1.6;
+    }
+    .note strong { color: var(--ink); font-weight: 600; }
+    .note em { color: var(--muted); font-style: normal; font-weight: 600; }
+    code { font-size: 0.9em; color: var(--warn); font-family: ui-monospace, monospace; }
+
+    .foot-status { font-size: 12px; color: var(--faint); margin-top: 10px; }
+    .foot-status.error { color: var(--danger); }
+
+    /* ============ CHART ============ */
     .chart-wrap { position: relative; }
-    .chart-svg { width: 100%; height: 220px; display: block; overflow: visible; }
+    .chart-svg { width: 100%; height: 240px; display: block; overflow: visible; }
     .chart-grid line { stroke: var(--border); stroke-width: 1; }
-    .chart-axis text { fill: var(--muted); font-size: 10px; }
-    .chart-line { fill: none; stroke: var(--line); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-    .chart-area { fill: url(#chartAreaFill); opacity: 0.5; }
+    .chart-axis text { fill: var(--faint); font-size: 10.5px; font-family: var(--font); }
+    .chart-ylab text { fill: var(--faint); font-size: 10px; font-family: var(--font); }
+    .chart-line { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .chart-area { fill: url(#chartAreaFill); }
     .chart-hit { fill: transparent; cursor: crosshair; }
-    .chart-crosshair { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3; opacity: 0; pointer-events: none; }
-    .chart-dot { fill: var(--line); stroke: var(--bg); stroke-width: 2; opacity: 0; pointer-events: none; }
+    .chart-crosshair { stroke: var(--border-strong); stroke-width: 1; stroke-dasharray: 3 3; opacity: 0; pointer-events: none; }
+    .chart-dot { fill: var(--accent); stroke: var(--bg); stroke-width: 2; opacity: 0; pointer-events: none; }
     .chart-tooltip {
       position: absolute; pointer-events: none; opacity: 0; transform: translate(-50%, -100%);
-      background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px;
-      padding: 6px 10px; font-size: 11.5px; white-space: nowrap; top: 0; left: 0;
-      box-shadow: 0 6px 18px rgba(0,0,0,.4); z-index: 5;
+      background: var(--surface-3); border: 1px solid var(--border-strong); border-radius: 8px;
+      padding: 7px 11px; font-size: 11.5px; white-space: nowrap; top: 0; left: 0;
+      z-index: var(--z-tooltip); transition: opacity 0.12s ease;
     }
-    .chart-tooltip .v { font-weight: 900; font-variant-numeric: tabular-nums; color: var(--line); }
-    .chart-tooltip .l { color: var(--muted); margin-top: 2px; }
-    .chart-empty { color: var(--muted); font-size: 13px; padding: 40px 0; text-align: center; }
+    .chart-tooltip .v {
+      font-weight: 700; color: var(--ink);
+      font-variant-numeric: tabular-nums; font-feature-settings: "tnum";
+    }
+    .chart-tooltip .l { color: var(--muted); margin-top: 1px; }
+    .chart-empty { color: var(--muted); font-size: 13px; padding: 48px 0; text-align: center; }
+
+    /* ============ RESPONSIVE ============ */
+    @media (max-width: 720px) {
+      .shell { padding: 14px 12px 44px; }
+      .top { padding: 10px 12px; }
+      .top-title span { max-width: 34vw; }
+      .live-pill .live-time { display: none; }
+      .funnel-row, .funnel-legend { grid-template-columns: minmax(0, 1fr) 44px 54px; }
+      .funnel-stop, .funnel-legend span:nth-child(4) { display: none; }
+      .seg { overflow-x: auto; max-width: 100%; }
+      .search { min-width: 140px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
   </style>
 </head>
 <body>
+  <!-- ============ GATE ============ -->
   <div class="gate" id="gate">
     <form class="gate-card" id="loginForm" autocomplete="off">
-      <h1>Tools Cash — Painel</h1>
-      <p>Funil, gargalos, região, tendência e filtros por tempo.</p>
-      <label for="password">Senha</label>
-      <input id="password" name="password" type="password" placeholder="Digite a senha" required autofocus>
+      <div class="gate-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/>
+        </svg>
+      </div>
+      <h1>Painel do Funil</h1>
+      <p>Tools Cash — funil, gargalos, regiões e tendência em tempo real.</p>
+      <div class="field">
+        <label for="password">Senha de acesso</label>
+        <input id="password" name="password" type="password" placeholder="Digite a senha" required autofocus>
+      </div>
       <div class="gate-error" id="gateError" aria-live="polite"></div>
-      <button class="btn" type="submit">Entrar</button>
+      <button class="btn" type="submit" style="margin-top:10px">Entrar no painel</button>
     </form>
   </div>
 
+  <!-- ============ APP ============ -->
   <div class="app" id="app">
     <header class="top">
-      <h1>
-        Painel do funil — Tools Cash
-        <span id="filterLabel">Filtro: últimas 24 horas</span>
-      </h1>
+      <div class="top-brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/>
+          </svg>
+        </div>
+        <h1 class="top-title">
+          Tools Cash · Painel do Funil
+          <span id="filterLabel">Filtro: últimas 24 horas</span>
+        </h1>
+      </div>
       <div class="top-actions">
-        <span class="status" id="liveStatus"><span class="live-dot"></span>Ao vivo</span>
-        <button type="button" class="btn btn-ghost btn-sm" id="btnRefresh">Atualizar</button>
-        <button type="button" class="btn btn-ghost btn-sm" id="btnExport">Exportar JSON</button>
-        <button type="button" class="btn btn-ghost btn-sm" id="btnLogout">Sair</button>
+        <span class="live-pill" id="liveStatus">
+          <span class="live-dot"></span><span class="live-time" id="liveTime">Ao vivo</span>
+        </span>
+        <button type="button" class="btn btn-ghost btn-sm" id="btnRefresh">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+          Atualizar
+        </button>
+        <button type="button" class="btn btn-ghost btn-sm" id="btnExport">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
+          Exportar
+        </button>
+        <button type="button" class="btn btn-danger btn-sm" id="btnReset">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          Resetar
+        </button>
+        <button type="button" class="btn btn-ghost btn-sm" id="btnLogout">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+          Sair
+        </button>
       </div>
     </header>
 
     <main class="shell">
-      <section class="filters">
-        <label>Período</label>
-        <button class="chip" data-filter="1h">1h</button>
-        <button class="chip" data-filter="6h">6h</button>
-        <button class="chip is-on" data-filter="24h">24h</button>
-        <button class="chip" data-filter="7d">7 dias</button>
-        <button class="chip" data-filter="today">Hoje (UTC)</button>
-        <button class="chip" data-filter="all">Tudo</button>
-        <input type="date" id="dayPick">
-        <button class="btn btn-ghost btn-sm" id="btnDay">Aplicar dia</button>
+      <!-- Filtros -->
+      <section class="filterbar" aria-label="Filtros de período">
+        <span class="fb-label">Período</span>
+        <div class="seg" role="group" aria-label="Períodos rápidos">
+          <button type="button" data-filter="1h">1h</button>
+          <button type="button" data-filter="6h">6h</button>
+          <button type="button" data-filter="24h" class="is-on">24h</button>
+          <button type="button" data-filter="7d">7 dias</button>
+          <button type="button" data-filter="today">Hoje</button>
+          <button type="button" data-filter="all">Tudo</button>
+        </div>
+        <span class="fb-sep" aria-hidden="true"></span>
+        <div class="fb-day">
+          <input type="date" id="dayPick" aria-label="Escolher dia específico">
+          <button type="button" class="btn btn-ghost btn-sm" id="btnDay">Aplicar dia</button>
+        </div>
       </section>
 
-      <div class="alert" id="bottleneckAlert">Carregando diagnóstico…</div>
+      <!-- Diagnóstico -->
+      <div class="alert info" id="bottleneckAlert">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+        <div>Carregando diagnóstico…</div>
+      </div>
 
-      <section class="kpis">
+      <!-- KPIs -->
+      <section class="kpis" id="kpiGrid" aria-label="Indicadores do período">
         <div class="kpi">
           <div class="lbl">Sessões no período</div>
           <div class="val" id="kpiSessions">—</div>
-          <div class="sub">filtrado</div>
+          <div class="sub">visitantes únicos filtrados</div>
         </div>
         <div class="kpi">
           <div class="lbl">Pressell</div>
           <div class="val" id="kpiPressell">—</div>
-          <div class="sub">visitas</div>
+          <div class="sub">visitas na página inicial</div>
         </div>
         <div class="kpi">
           <div class="lbl">Chegou no Step 1</div>
@@ -311,78 +548,123 @@
         </div>
         <div class="kpi">
           <div class="lbl">Clicou ACCESS NOW</div>
-          <div class="val" id="kpiCheckout">—</div>
+          <div class="val good" id="kpiCheckout">—</div>
           <div class="sub" id="kpiCheckoutRate">—</div>
         </div>
       </section>
 
+      <!-- Gráfico -->
       <section class="panel">
-        <h2>Volume ao longo do tempo</h2>
-        <p class="sub" id="chartSub">Eventos totais por período no intervalo filtrado.</p>
+        <div class="panel-head">
+          <div>
+            <h2>Volume ao longo do tempo</h2>
+            <p class="sub" id="chartSub">Eventos totais por período no intervalo filtrado.</p>
+          </div>
+          <span class="meta" id="chartMeta"></span>
+        </div>
         <div class="chart-wrap" id="chartWrap">
-          <svg class="chart-svg" id="chartSvg" viewBox="0 0 600 220" preserveAspectRatio="none">
+          <svg class="chart-svg" id="chartSvg" viewBox="0 0 600 240" preserveAspectRatio="none" role="img" aria-label="Gráfico de volume de eventos">
             <defs>
               <linearGradient id="chartAreaFill" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#3987e5" stop-opacity="0.35"></stop>
-                <stop offset="100%" stop-color="#3987e5" stop-opacity="0"></stop>
+                <stop offset="0%" stop-color="#4d8dff" stop-opacity="0.28"></stop>
+                <stop offset="100%" stop-color="#4d8dff" stop-opacity="0"></stop>
               </linearGradient>
             </defs>
             <g class="chart-grid" id="chartGrid"></g>
+            <g class="chart-ylab" id="chartYlab"></g>
             <path class="chart-area" id="chartArea" d=""></path>
             <path class="chart-line" id="chartLine" d=""></path>
-            <line class="chart-crosshair" id="chartCrosshair" x1="0" y1="0" x2="0" y2="220"></line>
+            <line class="chart-crosshair" id="chartCrosshair" x1="0" y1="0" x2="0" y2="240"></line>
             <circle class="chart-dot" id="chartDot" r="4"></circle>
             <g class="chart-axis" id="chartAxis"></g>
-            <rect class="chart-hit" id="chartHit" x="0" y="0" width="600" height="220"></rect>
+            <rect class="chart-hit" id="chartHit" x="0" y="0" width="600" height="240"></rect>
           </svg>
           <div class="chart-tooltip" id="chartTooltip">
             <div class="v" id="chartTooltipVal">—</div>
             <div class="l" id="chartTooltipLabel">—</div>
           </div>
-          <div class="chart-empty" id="chartEmpty" style="display:none">Sem eventos no período.</div>
+          <div class="chart-empty" id="chartEmpty" style="display:none">Sem eventos no período selecionado.</div>
         </div>
       </section>
 
+      <!-- Funil + Gargalos -->
       <div class="grid-2">
         <section class="panel">
-          <h2>Onde o lead para</h2>
-          <p class="sub">Contagem por sessão em cada etapa do funil, no período filtrado. <strong>Parou aqui</strong> = última etapa que a pessoa alcançou.</p>
+          <div class="panel-head">
+            <div>
+              <h2>Onde o lead para</h2>
+              <p class="sub">Sessões que alcançaram cada etapa no período. <strong>Parou aqui</strong> = última etapa alcançada.</p>
+            </div>
+          </div>
+          <div class="funnel-legend" aria-hidden="true">
+            <span>Etapa</span><span>Sessões</span><span>Queda</span><span>Parou</span>
+          </div>
           <div id="funnelBars"></div>
-          <div class="status" id="funnelStatus"></div>
+          <div class="foot-status" id="funnelStatus"></div>
         </section>
 
         <section class="panel">
-          <h2>Maiores gargalos</h2>
-          <p class="sub">Maiores perdas entre etapas no período.</p>
-          <ul class="drop-list" id="dropList"><li>Carregando…</li></ul>
+          <div class="panel-head">
+            <div>
+              <h2>Maiores gargalos</h2>
+              <p class="sub">Maiores perdas entre etapas consecutivas no período.</p>
+            </div>
+          </div>
+          <ul class="drop-list" id="dropList"></ul>
         </section>
       </div>
 
+      <!-- Regiões + Visitantes -->
       <div class="grid-2">
         <section class="panel">
-          <h2>Região de quem acessa</h2>
-          <p class="sub">Por sessão (estado/região e país) no período filtrado.</p>
+          <div class="panel-head">
+            <div>
+              <h2>Região de quem acessa</h2>
+              <p class="sub">Sessões por estado/região e país no período filtrado.</p>
+            </div>
+          </div>
           <div id="regionBars"></div>
-          <div id="countryBars" style="margin-top:14px"></div>
+          <div id="countryBars"></div>
         </section>
 
         <section class="panel">
-          <h2>Visitantes no período</h2>
-          <p class="sub">IP, região e até onde cada sessão chegou.</p>
-          <table>
-            <thead><tr><th>Sessão</th><th>IP</th><th>Cidade / Região / País</th><th>Parou em</th></tr></thead>
-            <tbody id="visitorsBody"><tr><td colspan="4">Carregando…</td></tr></tbody>
-          </table>
+          <div class="panel-head">
+            <div>
+              <h2>Visitantes no período</h2>
+              <p class="sub">IP, região e até onde cada sessão chegou.</p>
+            </div>
+            <span class="meta" id="visitorsMeta"></span>
+          </div>
+          <div class="table-scroll">
+            <table>
+              <thead><tr><th>Sessão</th><th>IP</th><th>Local</th><th>Parou em</th></tr></thead>
+              <tbody id="visitorsBody"></tbody>
+            </table>
+          </div>
         </section>
       </div>
 
+      <!-- Log de eventos -->
       <section class="panel">
-        <h2>Log de eventos</h2>
-        <p class="sub">Eventos brutos no período (com IP/local quando capturado).</p>
-        <table>
-          <thead><tr><th>Quando</th><th>Evento</th><th>IP</th><th>Local</th></tr></thead>
-          <tbody id="localBody"><tr><td colspan="4">Carregando…</td></tr></tbody>
-        </table>
+        <div class="panel-head">
+          <div>
+            <h2>Log de eventos</h2>
+            <p class="sub">Eventos brutos no período, mais recentes primeiro.</p>
+          </div>
+          <div class="table-tools">
+            <label class="search">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+              <input type="search" id="logSearch" placeholder="Filtrar por evento, IP ou cidade…" aria-label="Filtrar log de eventos">
+            </label>
+            <span class="meta" id="logMeta"></span>
+          </div>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>Quando (UTC)</th><th>Evento</th><th>IP</th><th>Local</th></tr></thead>
+            <tbody id="localBody"></tbody>
+          </table>
+        </div>
         <p class="note">
           <strong>Como ler:</strong> se a maior queda é <em>pressell_view → pressell_continue</em>, o botão Start now não está convertendo.
           Se é <em>stepN_view → stepN_next</em>, o vídeo/anúncio daquele step trava o lead. Se é <em>vsl_pageview → cta_access_click</em>,
@@ -395,14 +677,21 @@
   <script src="../analytics.js"></script>
   <script>
     (function () {
+      'use strict';
+
       var PASS = 'Dados@2026';
       var AUTH_KEY = 'toolscash_dadosquizz_auth';
+      var RESET_KEY = 'toolscash_dadosquizz_reset_after';
       var FUNNEL = 'toolscash';
-      var filterState = { type: '24h', hours: 24, day: null };
       var SUPABASE_URL = 'https://jcojgbuqjhakpqvesesy.supabase.co';
       var SUPABASE_ANON_KEY = 'sb_publishable_fAEOmXtXvFzMwBRY2nqzmw_5JSoemtW';
+
+      var filterState = { type: '24h', hours: 24, day: null };
       var lastEvents = [];
+      var lastAnalysis = null;
+      var logQuery = '';
       var autoRefreshTimer = null;
+      var firstLoadDone = false;
 
       var STEP_ORDER = (window.ToolsCashFunnel && window.ToolsCashFunnel.STEPS) || [];
 
@@ -411,7 +700,9 @@
       var form = document.getElementById('loginForm');
       var gateError = document.getElementById('gateError');
       var passwordInput = document.getElementById('password');
+      var btnRefresh = document.getElementById('btnRefresh');
 
+      /* ---------------- auth ---------------- */
       function isAuthed() {
         try { return sessionStorage.getItem(AUTH_KEY) === '1'; } catch (e) { return false; }
       }
@@ -441,7 +732,7 @@
           gateError.textContent = '';
           showApp();
         } else {
-          gateError.textContent = 'Senha incorreta.';
+          gateError.textContent = 'Senha incorreta. Tente novamente.';
           passwordInput.select();
         }
       });
@@ -449,15 +740,33 @@
       document.getElementById('btnLogout').addEventListener('click', function () {
         setAuthed(false); showGate();
       });
-      document.getElementById('btnRefresh').addEventListener('click', loadDashboard);
+
+      /* ---------------- reset (corte local) ---------------- */
+      function getResetAfter() {
+        try { return Number(localStorage.getItem(RESET_KEY)) || 0; } catch (e) { return 0; }
+      }
+      document.getElementById('btnReset').addEventListener('click', function () {
+        var ra = getResetAfter();
+        try {
+          if (ra) {
+            if (confirm('O painel foi zerado às ' + new Date(ra).toLocaleTimeString('pt-BR') + '.\n\nRestaurar os dados anteriores ao reset?')) {
+              localStorage.removeItem(RESET_KEY);
+              loadDashboard();
+            }
+          } else if (confirm('Zerar o painel agora?\n\nOs dados NÃO são apagados do Supabase — a partir deste momento só eventos novos vão aparecer neste navegador.')) {
+            localStorage.setItem(RESET_KEY, String(Date.now()));
+            loadDashboard();
+          }
+        } catch (e) {}
+      });
+      btnRefresh.addEventListener('click', loadDashboard);
       document.getElementById('btnExport').addEventListener('click', function () {
-        var analysis = analyzeDropoff(lastEvents);
         var blob = new Blob([JSON.stringify({
           exportedAt: new Date().toISOString(),
           filter: filterState,
           funnel: FUNNEL,
           events: lastEvents,
-          analysis: analysis
+          analysis: lastAnalysis
         }, null, 2)], { type: 'application/json' });
         var a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
@@ -466,9 +775,11 @@
         URL.revokeObjectURL(a.href);
       });
 
-      document.querySelectorAll('.chip[data-filter]').forEach(function (chip) {
+      /* ---------------- filtros ---------------- */
+      var segButtons = document.querySelectorAll('.seg button[data-filter]');
+      segButtons.forEach(function (chip) {
         chip.addEventListener('click', function () {
-          document.querySelectorAll('.chip[data-filter]').forEach(function (c) { c.classList.remove('is-on'); });
+          segButtons.forEach(function (c) { c.classList.remove('is-on'); });
           chip.classList.add('is-on');
           var f = chip.getAttribute('data-filter');
           if (f === '1h') filterState = { type: '1h', hours: 1, day: null };
@@ -484,23 +795,26 @@
       document.getElementById('btnDay').addEventListener('click', function () {
         var v = document.getElementById('dayPick').value;
         if (!v) return;
-        document.querySelectorAll('.chip[data-filter]').forEach(function (c) { c.classList.remove('is-on'); });
+        segButtons.forEach(function (c) { c.classList.remove('is-on'); });
         filterState = { type: 'day', hours: null, day: v };
         loadDashboard();
       });
 
+      document.getElementById('logSearch').addEventListener('input', function (e) {
+        logQuery = (e.target.value || '').trim().toLowerCase();
+        renderLog(lastEvents);
+      });
+
+      /* ---------------- helpers ---------------- */
       function dayKeyUTC(ts) {
         var d = new Date(ts);
-        var y = d.getUTCFullYear();
         var m = String(d.getUTCMonth() + 1).padStart(2, '0');
         var day = String(d.getUTCDate()).padStart(2, '0');
-        return y + '-' + m + '-' + day;
+        return d.getUTCFullYear() + '-' + m + '-' + day;
       }
       function hourKeyUTC(ts) {
-        var d = new Date(ts);
-        return dayKeyUTC(ts) + 'T' + String(d.getUTCHours()).padStart(2, '0');
+        return dayKeyUTC(ts) + 'T' + String(new Date(ts).getUTCHours()).padStart(2, '0');
       }
-
       function pct(part, whole) {
         if (!whole) return null;
         return Math.round((part / whole) * 1000) / 10;
@@ -510,13 +824,36 @@
           .replace(/&/g, '&amp;').replace(/</g, '&lt;')
           .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
       }
+      function fmtInt(n) {
+        return Number(n || 0).toLocaleString('pt-BR');
+      }
       function filterLabel() {
-        if (filterState.type === 'all') return 'Filtro: todos os dados (Supabase)';
-        if (filterState.day) return 'Filtro: dia ' + filterState.day + ' (UTC) — Supabase';
-        if (filterState.hours) return 'Filtro: últimas ' + filterState.hours + ' hora(s) — Supabase';
-        return 'Filtro ativo';
+        var base;
+        if (filterState.type === 'all') base = 'Todos os dados · Supabase';
+        else if (filterState.day) base = 'Dia ' + filterState.day + ' (UTC) · Supabase';
+        else if (filterState.hours) base = 'Últimas ' + filterState.hours + 'h · Supabase';
+        else base = 'Filtro ativo';
+        var ra = getResetAfter();
+        if (ra) base += ' · zerado ' + new Date(ra).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        return base;
+      }
+      function eventTagClass(name) {
+        if (!name) return '';
+        if (name === 'cta_access_click') return 'gain';
+        if (name === 'cta_access_reveal') return 'violet';
+        if (name.indexOf('vsl') === 0) return 'violet';
+        if (name.indexOf('popup') !== -1) return 'warn';
+        if (name.indexOf('_next') !== -1 || name === 'pressell_continue') return 'blue';
+        return '';
+      }
+      function stoppedTagClass(label) {
+        var l = (label || '').toLowerCase();
+        if (l.indexOf('access now') !== -1 || l.indexOf('checkout') !== -1) return 'gain';
+        if (l.indexOf('vsl') !== -1) return 'violet';
+        return 'warn';
       }
 
+      /* ---------------- data ---------------- */
       function mapRow(r) {
         return {
           event: r.event,
@@ -554,16 +891,23 @@
           })
           .then(function (rows) {
             var events = (rows || []).map(mapRow);
+            /* corte client-side: garante o filtro mesmo se o RPC mudar */
+            var sinceMs = null;
+            if (filterState.day) sinceMs = Date.parse(filterState.day + 'T00:00:00.000Z');
+            else if (filterState.hours) sinceMs = Date.now() - filterState.hours * 3600 * 1000;
+            if (sinceMs) events = events.filter(function (e) { return e.ts >= sinceMs; });
             if (filterState.day) {
               var dayEnd = Date.parse(filterState.day + 'T23:59:59.999Z');
               events = events.filter(function (e) { return e.ts <= dayEnd; });
             }
+            /* corte do reset: esconde tudo que é anterior ao reset */
+            var resetAfter = getResetAfter();
+            if (resetAfter) events = events.filter(function (e) { return e.ts > resetAfter; });
             lastEvents = events;
             return events;
           });
       }
 
-      /** Análise de funil (por sessão -> etapa máxima), igual em espírito ao painel original */
       function analyzeDropoff(events) {
         var order = STEP_ORDER.map(function (s) { return s.key; });
         var labels = {};
@@ -635,28 +979,45 @@
         };
       }
 
-      function countEvent(events, name) {
-        return events.filter(function (e) { return e.event === name; }).length;
+      /* ---------------- skeletons ---------------- */
+      function sklRows(n, widths) {
+        var html = '';
+        for (var i = 0; i < n; i++) {
+          var w = widths ? widths[i % widths.length] : (70 + (i * 13) % 30);
+          html += '<div class="skl skl-row" style="width:' + w + '%"></div>';
+        }
+        return html;
+      }
+      function showSkeletons() {
+        document.getElementById('funnelBars').innerHTML = sklRows(10);
+        document.getElementById('dropList').innerHTML = '<li style="background:none;border:0;padding:0">' + sklRows(5) + '</li>';
+        document.getElementById('regionBars').innerHTML = sklRows(6);
+        document.getElementById('countryBars').innerHTML = '';
+        document.getElementById('visitorsBody').innerHTML =
+          '<tr><td colspan="4">' + sklRows(6) + '</td></tr>';
+        document.getElementById('localBody').innerHTML =
+          '<tr><td colspan="4">' + sklRows(8) + '</td></tr>';
       }
 
+      /* ---------------- regions ---------------- */
       function renderRegionBars(map, title, container) {
         var entries = Object.keys(map).map(function (k) { return { name: k, count: map[k] }; })
-          .sort(function (a, b) { return b.count - a.count; }).slice(0, 12);
+          .sort(function (a, b) { return b.count - a.count; }).slice(0, 10);
+        var html = '<div class="region-group"><div class="region-title">' + esc(title) + '</div>';
         if (!entries.length) {
-          container.innerHTML = '<div style="font-size:12px;font-weight:800;margin-bottom:8px;color:var(--muted)">' + esc(title) + '</div><p style="color:var(--muted);font-size:13px">Sem dados no período.</p>';
+          container.innerHTML = html + '<p class="empty-note" style="padding:8px 4px;text-align:left">Sem dados no período.</p></div>';
           return;
         }
         var max = entries[0].count || 1;
-        var html = '<div style="font-size:12px;font-weight:800;margin-bottom:8px;color:var(--muted)">' + esc(title) + '</div>';
         entries.forEach(function (e) {
           var w = Math.max(4, Math.round((e.count / max) * 100));
           html += '<div class="region-row">' +
-            '<div class="name">' + esc(e.name) + '</div>' +
-            '<div class="mono" style="text-align:right;font-weight:800">' + e.count + '</div>' +
+            '<div class="name" title="' + esc(e.name) + '">' + esc(e.name) + '</div>' +
+            '<div class="n">' + fmtInt(e.count) + '</div>' +
             '<div class="bar-track"><div class="bar-fill" style="width:' + w + '%"></div></div>' +
           '</div>';
         });
-        container.innerHTML = html;
+        container.innerHTML = html + '</div>';
       }
 
       /* ---------------- chart ---------------- */
@@ -680,11 +1041,12 @@
 
       function renderChart(events) {
         var svg = document.getElementById('chartSvg');
-        var W = 600, H = 220, padL = 8, padR = 8, padT = 10, padB = 24;
+        var W = 600, H = 240, padL = 34, padR = 10, padT = 12, padB = 26;
         var empty = document.getElementById('chartEmpty');
         var lineEl = document.getElementById('chartLine');
         var areaEl = document.getElementById('chartArea');
         var gridEl = document.getElementById('chartGrid');
+        var ylabEl = document.getElementById('chartYlab');
         var axisEl = document.getElementById('chartAxis');
         var hitEl = document.getElementById('chartHit');
         var crosshair = document.getElementById('chartCrosshair');
@@ -695,12 +1057,16 @@
         document.getElementById('chartSub').textContent = bucket.useHours
           ? 'Eventos totais por hora (UTC) no intervalo filtrado.'
           : 'Eventos totais por dia (UTC) no intervalo filtrado.';
+        document.getElementById('chartMeta').textContent = points.length
+          ? points.length + ' ponto(s) · ' + fmtInt(events.length) + ' evento(s)'
+          : '';
 
         if (!points.length) {
           empty.style.display = 'block';
           lineEl.setAttribute('d', '');
           areaEl.setAttribute('d', '');
           gridEl.innerHTML = '';
+          ylabEl.innerHTML = '';
           axisEl.innerHTML = '';
           return;
         }
@@ -719,21 +1085,22 @@
         lineEl.setAttribute('d', dLine);
         areaEl.setAttribute('d', dArea);
 
-        // gridlines (4 horizontais, recessivas)
-        var gridHtml = '';
+        var gridHtml = '', ylabHtml = '';
         for (var g = 0; g <= 3; g++) {
           var gy = padT + (innerH * g) / 3;
           gridHtml += '<line x1="' + padL + '" y1="' + gy.toFixed(1) + '" x2="' + (W - padR) + '" y2="' + gy.toFixed(1) + '"></line>';
+          var val = Math.round(maxCount * (1 - g / 3));
+          ylabHtml += '<text x="' + (padL - 8) + '" y="' + (gy + 3.5).toFixed(1) + '" text-anchor="end">' + fmtInt(val) + '</text>';
         }
         gridEl.innerHTML = gridHtml;
+        ylabEl.innerHTML = ylabHtml;
 
-        // eixo X: rótulos no primeiro, meio e último ponto
         var axisHtml = '';
         [0, Math.floor((n - 1) / 2), n - 1].forEach(function (i, idx) {
           if (idx > 0 && i === 0) return;
           var label = bucket.useHours ? points[i].key.slice(-2) + 'h' : points[i].key.slice(5);
           var anchor = i === 0 ? 'start' : (i === n - 1 ? 'end' : 'middle');
-          axisHtml += '<text x="' + xAt(i).toFixed(1) + '" y="' + (H - 6) + '" text-anchor="' + anchor + '">' + esc(label) + '</text>';
+          axisHtml += '<text x="' + xAt(i).toFixed(1) + '" y="' + (H - 7) + '" text-anchor="' + anchor + '">' + esc(label) + '</text>';
         });
         axisEl.innerHTML = axisHtml;
 
@@ -763,8 +1130,10 @@
           chartTip.style.left = realX + 'px';
           chartTip.style.top = (realY - 10) + 'px';
           chartTip.style.opacity = 1;
-          document.getElementById('chartTooltipVal').textContent = points[idx].count + ' evento(s)';
-          var lbl = bucket.useHours ? ('Hora ' + points[idx].key.slice(-2) + 'h UTC — ' + points[idx].key.slice(0, 10)) : ('Dia ' + points[idx].key);
+          document.getElementById('chartTooltipVal').textContent = fmtInt(points[idx].count) + ' evento(s)';
+          var lbl = bucket.useHours
+            ? ('Hora ' + points[idx].key.slice(-2) + 'h UTC — ' + points[idx].key.slice(0, 10))
+            : ('Dia ' + points[idx].key);
           document.getElementById('chartTooltipLabel').textContent = lbl;
         };
         hitEl.onmouseleave = function () {
@@ -774,11 +1143,45 @@
         };
       }
 
+      /* ---------------- log ---------------- */
+      function renderLog(events) {
+        var rows = events.slice().reverse();
+        if (logQuery) {
+          rows = rows.filter(function (r) {
+            var hay = [r.event, r.ip, r.city, r.region, r.country, r.country_code]
+              .filter(Boolean).join(' ').toLowerCase();
+            return hay.indexOf(logQuery) !== -1;
+          });
+        }
+        var total = rows.length;
+        rows = rows.slice(0, 200);
+        var body = document.getElementById('localBody');
+        body.innerHTML = rows.length
+          ? rows.map(function (r) {
+              var when = r.iso ? r.iso.replace('T', ' ').slice(0, 19) : '—';
+              var loc = [r.city, r.region, r.country_code || r.country].filter(Boolean).join(', ') || '—';
+              return '<tr>' +
+                '<td class="mono dim">' + esc(when) + '</td>' +
+                '<td><span class="tag ' + eventTagClass(r.event) + '">' + esc(r.event || '') + '</span></td>' +
+                '<td class="mono dim">' + esc(r.ip || '…') + '</td>' +
+                '<td class="dim">' + esc(loc) + '</td>' +
+              '</tr>';
+            }).join('')
+          : '<tr><td colspan="4"><div class="empty-note">' +
+            (logQuery ? 'Nenhum evento corresponde ao filtro "' + esc(logQuery) + '".' : 'Sem eventos no período.') +
+            '</div></td></tr>';
+        document.getElementById('logMeta').textContent =
+          fmtInt(total) + ' evento(s)' + (logQuery ? ' filtrados' : '') + (total > 200 ? ' · mostrando 200' : '');
+      }
+
+      /* ---------------- render ---------------- */
       function renderDashboard(events) {
         var analysis = analyzeDropoff(events);
+        lastAnalysis = analysis;
         var status = document.getElementById('funnelStatus');
 
-        document.getElementById('kpiSessions').textContent = analysis.sessions;
+        /* KPIs */
+        document.getElementById('kpiSessions').textContent = fmtInt(analysis.sessions);
 
         var stepMap = {};
         analysis.steps.forEach(function (s) { stepMap[s.key] = s.count; });
@@ -787,109 +1190,124 @@
         var vsl = stepMap.vsl_pageview || 0;
         var checkout = stepMap.cta_access_click || 0;
 
-        document.getElementById('kpiPressell').textContent = pView;
-        document.getElementById('kpiStep1').textContent = s1;
-        document.getElementById('kpiVsl').textContent = vsl;
-        document.getElementById('kpiCheckout').textContent = checkout;
+        document.getElementById('kpiPressell').textContent = fmtInt(pView);
+        document.getElementById('kpiStep1').textContent = fmtInt(s1);
+        document.getElementById('kpiVsl').textContent = fmtInt(vsl);
+        document.getElementById('kpiCheckout').textContent = fmtInt(checkout);
 
         var rStep1 = pct(s1, pView);
         var rVsl = pct(vsl, pView);
         var rCheckout = pct(checkout, vsl);
-        document.getElementById('kpiStep1Rate').textContent = rStep1 != null ? rStep1 + '% da pressell' : '—';
-        document.getElementById('kpiVslRate').textContent = rVsl != null ? rVsl + '% da pressell' : '—';
-        document.getElementById('kpiCheckoutRate').textContent = rCheckout != null ? rCheckout + '% de quem viu a VSL' : '—';
+        document.getElementById('kpiStep1Rate').innerHTML = rStep1 != null ? '<strong>' + rStep1 + '%</strong> da pressell' : '—';
+        document.getElementById('kpiVslRate').innerHTML = rVsl != null ? '<strong>' + rVsl + '%</strong> da pressell' : '—';
+        document.getElementById('kpiCheckoutRate').innerHTML = rCheckout != null ? '<strong>' + rCheckout + '%</strong> de quem viu a VSL' : '—';
 
+        /* diagnóstico */
         var alert = document.getElementById('bottleneckAlert');
+        var iconInfo = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>';
+        var iconOk = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>';
+        var iconWarn = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>';
+
         if (analysis.worstDrop && analysis.worstDrop.drop > 0) {
           alert.className = 'alert';
-          alert.innerHTML = '<strong>Maior freio no funil:</strong> ' + esc(analysis.worstDrop.label) +
-            ' — perda de <strong>' + analysis.worstDrop.drop + '</strong> sessões (' + analysis.worstDrop.dropPct + '%).';
+          alert.innerHTML = iconWarn + '<div><strong>Maior freio no funil:</strong> ' + esc(analysis.worstDrop.label) +
+            ' — perda de <strong>' + fmtInt(analysis.worstDrop.drop) + '</strong> sessão(ões) (' + analysis.worstDrop.dropPct + '%).</div>';
         } else if (analysis.sessions === 0) {
-          alert.className = 'alert';
-          alert.innerHTML = '<strong>Sem sessões no período.</strong> Abra a página principal e percorra o funil pra gerar dados. Depois clique Atualizar.';
+          alert.className = 'alert info';
+          alert.innerHTML = iconInfo + '<div><strong>Sem sessões no período.</strong> Abra a página principal e percorra o funil para gerar dados. Depois clique em Atualizar.</div>';
         } else {
           alert.className = 'alert ok';
-          alert.innerHTML = '<strong>Sem queda crítica</strong> no período — o funil está fluindo nas sessões capturadas.';
+          alert.innerHTML = iconOk + '<div><strong>Sem queda crítica</strong> no período — o funil está fluindo nas sessões capturadas.</div>';
         }
 
+        /* funil */
         var max = 1;
         analysis.steps.forEach(function (s) { if (s.count > max) max = s.count; });
         var worstKey = analysis.worstDrop ? analysis.worstDrop.key : null;
         var html = '';
         analysis.steps.forEach(function (s, i) {
-          var w = Math.max(2, Math.round((s.count / max) * 100));
-          var rateClass = s.dropPct >= 40 ? 'bad' : s.dropPct <= 15 ? 'good' : '';
-          var barClass = s.key === worstKey ? 'worst' : (s.dropPct >= 40 ? 'drop' : '');
+          var w = s.count > 0 ? Math.max(2, Math.round((s.count / max) * 100)) : 0;
+          var rateClass = s.dropPct >= 40 && s.drop > 0 ? 'bad' : (i > 0 && s.drop > 0 && s.dropPct <= 15 ? 'good' : '');
+          var barClass = (s.key === worstKey && s.drop > 0) ? 'worst' : (s.dropPct >= 40 && s.drop > 0 ? 'drop' : '');
           html += '<div class="funnel-row">' +
-            '<div class="funnel-meta"><div class="name">' + esc(s.label) + '</div>' +
+            '<div class="funnel-meta"><div class="name" title="' + esc(s.label) + '">' + esc(s.label) + '</div>' +
             '<div class="bar-track"><div class="bar-fill ' + barClass + '" style="width:' + w + '%"></div></div></div>' +
-            '<div class="funnel-count">' + s.count + '</div>' +
-            '<div class="funnel-rate ' + rateClass + '">' + (i === 0 ? 'base' : ('-' + s.dropPct + '%')) + '</div>' +
-            '<div class="funnel-stop">' + (s.stoppedHere ? s.stoppedHere : '—') + '</div>' +
+            '<div class="funnel-count">' + fmtInt(s.count) + '</div>' +
+            '<div class="funnel-rate ' + rateClass + '">' + (i === 0 ? 'base' : (s.drop > 0 ? '-' + s.dropPct + '%' : '—')) + '</div>' +
+            '<div class="funnel-stop">' + (s.stoppedHere ? fmtInt(s.stoppedHere) : '—') + '</div>' +
           '</div>';
         });
-        document.getElementById('funnelBars').innerHTML = html || '<p style="color:var(--muted)">Sem dados.</p>';
-        status.textContent = analysis.sessions + ' sessão(ões) · ' + events.length + ' evento(s) no período';
+        document.getElementById('funnelBars').innerHTML = html || '<p class="empty-note">Sem dados no período.</p>';
+        status.textContent = fmtInt(analysis.sessions) + ' sessão(ões) · ' + fmtInt(events.length) + ' evento(s) no período';
 
+        /* gargalos */
         var drops = analysis.steps.filter(function (s, i) { return i > 0 && s.drop > 0; })
           .sort(function (a, b) { return b.dropPct - a.dropPct; }).slice(0, 8);
         document.getElementById('dropList').innerHTML = drops.length
-          ? drops.map(function (d) { return '<li><span>' + esc(d.label) + '</span><span class="loss">-' + d.drop + ' (' + d.dropPct + '%)</span></li>'; }).join('')
-          : '<li>Sem quedas no período.</li>';
+          ? drops.map(function (d, i) {
+              return '<li><span class="name"><span class="rank">' + (i + 1) + '</span><span>' + esc(d.label) + '</span></span>' +
+                '<span class="loss">-' + fmtInt(d.drop) + ' (' + d.dropPct + '%)</span></li>';
+            }).join('')
+          : '<li style="background:none;border:0;justify-content:center;color:var(--muted)">Sem quedas no período.</li>';
 
+        /* regiões */
         renderRegionBars(analysis.byRegion, 'Por estado / região', document.getElementById('regionBars'));
         renderRegionBars(analysis.byCountry, 'Por país', document.getElementById('countryBars'));
 
+        /* visitantes */
         var vBody = document.getElementById('visitorsBody');
-        var details = (analysis.sessionDetails || []).slice().reverse().slice(0, 100);
-        vBody.innerHTML = details.length
-          ? details.map(function (v) {
+        var details = (analysis.sessionDetails || []).slice().reverse();
+        var shown = details.slice(0, 100);
+        vBody.innerHTML = shown.length
+          ? shown.map(function (v) {
               var g = v.geo || {};
               var loc = [g.city, g.region, g.country_code || g.country].filter(Boolean).join(', ') || '—';
               return '<tr>' +
-                '<td class="mono">' + esc((v.sessionId || '').slice(-12)) + '</td>' +
-                '<td class="mono">' + esc(g.ip || '…') + '</td>' +
-                '<td>' + esc(loc) + '</td>' +
-                '<td><span class="tag warn">' + esc(v.maxLabel || '—') + '</span></td>' +
+                '<td class="mono dim">' + esc((v.sessionId || '').slice(-10)) + '</td>' +
+                '<td class="mono dim">' + esc(g.ip || '…') + '</td>' +
+                '<td class="dim">' + esc(loc) + '</td>' +
+                '<td><span class="tag ' + stoppedTagClass(v.maxLabel) + '">' + esc(v.maxLabel || '—') + '</span></td>' +
               '</tr>';
             }).join('')
-          : '<tr><td colspan="4" style="color:var(--muted)">Nenhuma sessão no período.</td></tr>';
+          : '<tr><td colspan="4"><div class="empty-note">Nenhuma sessão no período.</div></td></tr>';
+        document.getElementById('visitorsMeta').textContent =
+          fmtInt(details.length) + ' sessão(ões)' + (details.length > 100 ? ' · mostrando 100' : '');
 
-        var rows = events.slice().reverse().slice(0, 150);
-        var body = document.getElementById('localBody');
-        body.innerHTML = rows.length
-          ? rows.map(function (r) {
-              var when = r.iso ? r.iso.replace('T', ' ').slice(0, 19) : '—';
-              var loc = [r.city, r.region, r.country_code || r.country].filter(Boolean).join(', ') || '—';
-              return '<tr>' +
-                '<td class="mono">' + esc(when) + '</td>' +
-                '<td><span class="tag">' + esc(r.event || '') + '</span></td>' +
-                '<td class="mono">' + esc(r.ip || '…') + '</td>' +
-                '<td>' + esc(loc) + '</td>' +
-              '</tr>';
-            }).join('')
-          : '<tr><td colspan="4" style="color:var(--muted)">Sem eventos no período.</td></tr>';
-
+        renderLog(events);
         renderChart(events);
       }
 
+      /* ---------------- load ---------------- */
       function loadDashboard() {
         document.getElementById('filterLabel').textContent = filterLabel();
         var status = document.getElementById('funnelStatus');
         var liveStatus = document.getElementById('liveStatus');
-        status.textContent = 'Carregando dados reais do Supabase…';
+        var liveTime = document.getElementById('liveTime');
+
+        btnRefresh.classList.add('is-busy');
+        if (!firstLoadDone) {
+          showSkeletons();
+          status.textContent = 'Carregando dados do Supabase…';
+        }
+
         fetchFilteredEvents()
           .then(function (events) {
             renderDashboard(events);
-            liveStatus.innerHTML = '<span class="live-dot"></span>Ao vivo — atualizado ' + new Date().toLocaleTimeString('pt-BR');
+            firstLoadDone = true;
+            liveStatus.className = 'live-pill';
+            liveTime.textContent = 'Ao vivo · ' + new Date().toLocaleTimeString('pt-BR');
           })
           .catch(function (err) {
             status.textContent = 'Erro ao carregar dados do Supabase.';
             var alert = document.getElementById('bottleneckAlert');
             alert.className = 'alert';
-            alert.innerHTML = '<strong>Falha ao conectar no Supabase.</strong> ' + esc(err.message || String(err));
-            liveStatus.textContent = 'Offline';
-            liveStatus.className = 'status error';
+            alert.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>' +
+              '<div><strong>Falha ao conectar no Supabase.</strong> ' + esc(err.message || String(err)) + '</div>';
+            liveStatus.className = 'live-pill error';
+            liveTime.textContent = 'Offline';
+          })
+          .then(function () {
+            btnRefresh.classList.remove('is-busy');
           });
       }
 
