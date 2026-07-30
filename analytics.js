@@ -7,8 +7,8 @@
   'use strict';
 
   var FUNNEL = 'toolscash';
-  var SUPABASE_URL = 'https://apjsidwqtzjautdwahao.supabase.co';
-  var SUPABASE_ANON_KEY = 'sb_publishable_4WWLvCwfSBzQo4acrZGOMA_gu0-DBXa';
+  var SUPABASE_URL = 'https://jcojgbuqjhakpqvesesy.supabase.co';
+  var SUPABASE_ANON_KEY = 'sb_publishable_fAEOmXtXvFzMwBRY2nqzmw_5JSoemtW';
   var SESSION_KEY = 'toolscash_session_v1';
   var GEO_KEY = 'toolscash_geo_v1';
 
