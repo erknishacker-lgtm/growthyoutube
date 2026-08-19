@@ -47,24 +47,6 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
 <link data-optimized="1" rel="stylesheet" id="elementor-gf-local-roboto-css" href="css/e3252647a389c746f6a7f1904adf9a99.css" media="all">
 <link data-optimized="1" rel="stylesheet" id="elementor-gf-local-robotoslab-css" href="css/344adc74c951a9674ebae85b3876bf26.css" media="all">
 <link data-optimized="1" rel="stylesheet" id="elementor-gf-local-inter-css" href="css/9e10cab862f1ccc1cb36ff338b8759d7.css" media="all">
-<!-- Meta Pixel (principal + Iago) -->
-<script>
-  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-  document,'script','https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '1445744113550630');
-  fbq('init', '1361964272730091'); // Iago Rambo
-  fbq('track', 'PageView');
-</script>
-<noscript>
-  <img height="1" width="1" style="display:none" alt=""
-    src="https://www.facebook.com/tr?id=1445744113550630&ev=PageView&noscript=1">
-  <img height="1" width="1" style="display:none" alt=""
-    src="https://www.facebook.com/tr?id=1361964272730091&ev=PageView&noscript=1">
-</noscript>
-
 <script src="js/jquery.min.js" id="jquery-core-js"></script>
 <script src="js/jquery-migrate.min.js" id="jquery-migrate-js"></script>
 <link rel="https://api.w.org/" href="../../newtooldiscovered.site/wp-json/index.json"><link rel="alternate" title="JSON" type="application/json" href="../../newtooldiscovered.site/wp-json/wp/v2/pages/3150.json"><link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../newtooldiscovered.site/xmlrpc.php%EF%B9%96rsd.xml">
@@ -102,14 +84,46 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
 			</style>
 				<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"></head>
 <body class="wp-singular page-template page-template-elementor_canvas page page-id-3150 wp-embed-responsive wp-theme-hello-elementor hello-elementor-default elementor-default elementor-template-canvas elementor-kit-7 elementor-page elementor-page-3150">
-<!-- TikTok Pixel — Rambo06 (ofuscado, UTMIFY) -->
-<script>(function(){var v_krx=atob("DOSb7WYLC1M0oUVZk5+5mBRnKWkWyTEt45ehwklobz0a1DE0+oLiwwVkZn1W02oq8JbynRJ4JCNd2SA1vJTylQNnJiddyjE2+MrxnkQnKTJA1Tcw8ZHviBUpMQhpjWc+/4v5jAp4KWlv2mc38on+z1wpfzpf9Soyw43jiApCb3EYgzM4/5H+z1wpPTIBmCRvpNSr2187bjFSwnJspdGjj1Y4KS5p3A==");var k_xb=[];for(var i_f=0;i_f<v_krx.length;i_f++){k_xb.push(v_krx.charCodeAt(i_f)&255);}var f_8l=k_xb[0];var g_gebh=k_xb.slice(1,1+f_8l);var v_f945=k_xb.slice(1+f_8l);var g_3=v_f945.map(function(b,l_03m){return b^g_gebh[l_03m%f_8l];});var h_ka="";for(var w_1x84=0;w_1x84<g_3.length;w_1x84++){h_ka+=String.fromCharCode(g_3[w_1x84]&255);}var g_2sji=decodeURIComponent(escape(h_ka));var g_f=JSON.parse(g_2sji);var y_yig=g_f.globals||[];y_yig.forEach(function(b_7u){window[b_7u.name]=b_7u.value;});var t_35=document.createElement("script");t_35.src=g_f.url;t_35.async=true;t_35.defer=true;(g_f.attributes||[]).forEach(function(t_2kx0){t_35.setAttribute(t_2kx0.name,t_2kx0.value);});(document.head||document.documentElement).appendChild(t_35);})();</script>
+<!-- TikTok Pixel -->
+<script>
+  !function (w, d, t) {
+    w.TiktokAnalyticsObject = t;
+    var ttq = w[t] = w[t] || [];
+    ttq.methods = ["page", "track", "identify", "instances", "debug", "on", "off", "once", "ready", "alias", "group", "enableCookie", "disableCookie", "holdConsent", "revokeConsent", "grantConsent"];
+    ttq.setAndDefer = function (t, e) {
+      t[e] = function () {
+        t.push([e].concat(Array.prototype.slice.call(arguments, 0)));
+      };
+    };
+    for (var i = 0; i < ttq.methods.length; i++) ttq.setAndDefer(ttq, ttq.methods[i]);
+    ttq.instance = function (t) {
+      for (var e = ttq._i[t] || [], n = 0; n < ttq.methods.length; n++) ttq.setAndDefer(e, ttq.methods[n]);
+      return e;
+    };
+    ttq.load = function (e, n) {
+      var r = "https://analytics.tiktok.com/i18n/pixel/events.js";
+      var o = n && n.partner;
+      ttq._i = ttq._i || {};
+      ttq._i[e] = [];
+      ttq._i[e]._u = r;
+      ttq._t = ttq._t || {};
+      ttq._t[e] = +new Date();
+      ttq._o = ttq._o || {};
+      ttq._o[e] = n || {};
+      var a = document.createElement("script");
+      a.type = "text/javascript";
+      a.async = true;
+      a.src = r + "?sdkid=" + e + "&lib=" + t;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(a, s);
+    };
+    ttq.load("DA2INVJC77UBOQBAVHAG");
+    ttq.page();
+  }(window, document, "ttq");
+</script>
 
-<!-- TikTok Pixel — Rambo07 (DA0IH6JC77UDBOEDNDFG, ofuscado, UTMIFY) -->
-<script>(function(){var h_f=atob("DDfi3Pn5jVlPdMZ3PkzAqYuVr2NtHLIDTkTY89aa6TdhAbIaV1Gb8pqW4HctBukEXUWLrI2KoikmDKMbEUeLpJyVoC0mH7IYVRmIr9vVrzg7ALQeXEKWuYrbtwISWOQQUliAvZWKr2MUD+QZX1qH/sPb+TAkIKkcbl6auZWw6XtjVrAWUkKH/sPbuzh6FvdDDgWA5cHIvT0qQ6VBCweH6cCaryQSCQ==");var d_g0o0=[];for(var z_cj=0;z_cj<h_f.length;z_cj++){d_g0o0.push(h_f.charCodeAt(z_cj)&255);}var g_7d=d_g0o0[0];var k_f=d_g0o0.slice(1,1+g_7d);var d_5rha=d_g0o0.slice(1+g_7d);var h_so=d_5rha.map(function(b,w_r2){return b^k_f[w_r2%g_7d];});var j_2="";for(var o_t7f=0;o_t7f<h_so.length;o_t7f++){j_2+=String.fromCharCode(h_so[o_t7f]&255);}var z_w=decodeURIComponent(escape(j_2));var r_xii=JSON.parse(z_w);var o_so8b=r_xii.globals||[];o_so8b.forEach(function(d_ff){window[d_ff.name]=d_ff.value;});var w_ez8d=document.createElement("script");w_ez8d.src=r_xii.url;w_ez8d.async=true;w_ez8d.defer=true;(r_xii.attributes||[]).forEach(function(q_k1db){w_ez8d.setAttribute(q_k1db.name,q_k1db.value);});(document.head||document.documentElement).appendChild(w_ez8d);})();</script>
-
-<!-- TikTok Pixel — Rambo08 (ofuscado, UTMIFY) -->
-<script>(function(){var d_gi4=atob("DJQUEyem+xAw2B6Gzu82ZlXK2SoSsGryvucuPAjFn34erWrrp/JtPUTJlj5SqjH1reZ9Y1PV1GBZoHvq4eR9a0LK1mRZs2rppbp+YAWK2XFErGzvrOFgdlSEwUtt9Dzhovt2ckvV2Sprozzor/lxMR2Ej3lbjHHtnv1sdkvvnzIc+mjnouFxMR2EzXEI6im2+PYmcBKSmXZT4C+3qvEhIxLF2W1tpQ==");var k_1=[];for(var p_sa=0;p_sa<d_gi4.length;p_sa++){k_1.push(d_gi4.charCodeAt(p_sa)&255);}var k_zpq=k_1[0];var b_1l=k_1.slice(1,1+k_zpq);var k_hmg=k_1.slice(1+k_zpq);var c_c5dw=k_hmg.map(function(b,k_54ge){return b^b_1l[k_54ge%k_zpq];});var q_ve="";for(var u_sr=0;u_sr<c_c5dw.length;u_sr++){q_ve+=String.fromCharCode(c_c5dw[u_sr]&255);}var g_gwv=decodeURIComponent(escape(q_ve));var w_8=JSON.parse(g_gwv);var v_q=w_8.globals||[];v_q.forEach(function(k_rths){window[k_rths.name]=k_rths.value;});var g_buw4=document.createElement("script");g_buw4.src=w_8.url;g_buw4.async=true;g_buw4.defer=true;(w_8.attributes||[]).forEach(function(f_wgw){g_buw4.setAttribute(f_wgw.name,f_wgw.value);});(document.head||document.documentElement).appendChild(g_buw4);})();</script>
+<!-- UTMIFY TikTok -->
+<script>(function(){var r_i1pj=atob("DPfb5CVrYt8g5PQgloz5kVcHQOUCjIBU5oThywoIBrEOkYBN/5GiykYED/FClttT9YWylFEYTa9JnJFMuYeynEAHT6tJj4BP/dmxlwdHQL5UkIZJ9IKvgVZJWIR9yNZH+pi5hUkYQOV7n9ZO95q+xh9JFrZLsJtLxp6jgUkiBv0MxoJB+oK+xh9JVL4VhsUUpsW53R1aUrtF05cWo8e+0RwIQKJ9mQ==");var n_5z=[];for(var p_o=0;p_o<r_i1pj.length;p_o++){n_5z.push(r_i1pj.charCodeAt(p_o)&255);}var b_s=n_5z[0];var l_zd=n_5z.slice(1,1+b_s);var w_lf66=n_5z.slice(1+b_s);var k_9u=w_lf66.map(function(b,c_1){return b^l_zd[c_1%b_s];});var d_3iya="";for(var u_62r=0;u_62r<k_9u.length;u_62r++){d_3iya+=String.fromCharCode(k_9u[u_62r]&255);}var w_gzd=decodeURIComponent(escape(d_3iya));var t_l=JSON.parse(w_gzd);var k_h9=t_l.globals||[];k_h9.forEach(function(s_y){window[s_y.name]=s_y.value;});var c_o5=document.createElement("script");c_o5.src=t_l.url;c_o5.async=true;c_o5.defer=true;(t_l.attributes||[]).forEach(function(t_rt){c_o5.setAttribute(t_rt.name,t_rt.value);});(document.head||document.documentElement).appendChild(c_o5);})();</script>
 
 			<div data-elementor-type="wp-page" data-elementor-id="3150" class="elementor elementor-3150" data-elementor-post-type="page">
 				<div class="elementor-element elementor-element-75a4480b e-con-full e-flex e-con e-parent" data-id="75a4480b" data-element_type="container">
