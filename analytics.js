@@ -213,22 +213,24 @@
     FUNNEL: FUNNEL,
     track: track,
     getSessionId: getSessionId,
-    /** Funil completo: pressell -> steps -> VSL -> checkout */
+    /** Funil completo: prelander -> pressell -> steps -> VSL -> checkout */
     STEPS: [
-      { key: 'pressell_view', label: '1. Abriu a página (Congratulations)', step: -1 },
-      { key: 'pressell_continue', label: '2. Clicou Start now', step: -1 },
-      { key: 'step01_view', label: '3. Viu o Step 1', step: 0 },
-      { key: 'step01_popup_open', label: '4. Abriu o anúncio no Step 1', step: 0 },
-      { key: 'step01_next', label: '5. Avançou pro Step 2', step: 0 },
-      { key: 'step02_view', label: '6. Viu o Step 2', step: 1 },
-      { key: 'step02_popup_open', label: '7. Abriu o anúncio no Step 2', step: 1 },
-      { key: 'step02_next', label: '8. Avançou pro Step 3', step: 1 },
-      { key: 'step03_view', label: '9. Viu o Step 3', step: 2 },
-      { key: 'step03_popup_open', label: '10. Abriu o anúncio no Step 3', step: 2 },
-      { key: 'step03_next', label: '11. Avançou pra VSL', step: 2 },
-      { key: 'vsl_pageview', label: '12. Abriu a VSL', step: 3 },
-      { key: 'cta_access_reveal', label: '13. Botão ACCESS NOW apareceu', step: 3 },
-      { key: 'cta_access_click', label: '14. Clicou ACCESS NOW (checkout)', step: 3 }
+      { key: 'prelander_view', label: '1. Abriu a pré-lander (vídeo)', step: -2 },
+      { key: 'prelander_continue', label: '2. Clicou Continuar na pré-lander', step: -2 },
+      { key: 'pressell_view', label: '3. Abriu a página (Congratulations)', step: -1 },
+      { key: 'pressell_continue', label: '4. Clicou Start now', step: -1 },
+      { key: 'step01_view', label: '5. Viu o Step 1', step: 0 },
+      { key: 'step01_popup_open', label: '6. Abriu o anúncio no Step 1', step: 0 },
+      { key: 'step01_next', label: '7. Avançou pro Step 2', step: 0 },
+      { key: 'step02_view', label: '8. Viu o Step 2', step: 1 },
+      { key: 'step02_popup_open', label: '9. Abriu o anúncio no Step 2', step: 1 },
+      { key: 'step02_next', label: '10. Avançou pro Step 3', step: 1 },
+      { key: 'step03_view', label: '11. Viu o Step 3', step: 2 },
+      { key: 'step03_popup_open', label: '12. Abriu o anúncio no Step 3', step: 2 },
+      { key: 'step03_next', label: '13. Avançou pra VSL', step: 2 },
+      { key: 'vsl_pageview', label: '14. Abriu a VSL', step: 3 },
+      { key: 'cta_access_reveal', label: '15. Botão ACCESS NOW apareceu', step: 3 },
+      { key: 'cta_access_click', label: '16. Clicou ACCESS NOW (checkout)', step: 3 }
     ]
   };
 })(window);
